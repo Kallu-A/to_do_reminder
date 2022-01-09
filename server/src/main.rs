@@ -4,8 +4,9 @@ extern crate rocket;
 extern crate diesel;
 
 mod db;
+mod schema;
 
-use rocket::{Build, Rocket, routes};
+use rocket::{routes, Build, Rocket};
 
 #[get("/")]
 fn index() -> String {
@@ -18,6 +19,3 @@ fn rocket() -> Rocket<Build> {
         //.attach(Template::fairing())
         .mount("/", routes![index])
 }
-
-
-

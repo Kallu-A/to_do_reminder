@@ -1,0 +1,6 @@
+CREATE TABLE user (
+    username VARCHAR NOT NULL PRIMARY KEY,
+    password VARCHAR NOT NULL,
+    perm BOOLEAN NOT NULL DEFAULT 0,
+    picture BOOLEAN NOT NULL DEFAULT 0
+)
