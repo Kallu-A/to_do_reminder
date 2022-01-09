@@ -1,0 +1,13 @@
+#child_div {
+    font-size: 30px;
+    text-align: center;
+}
+
+h1 {
+    color: crimson;
+    margin-top: 15%;
+}
+
+b {
+    color: var(--orange);
+}

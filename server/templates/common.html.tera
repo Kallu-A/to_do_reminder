@@ -8,6 +8,7 @@
 
     <link rel="icon" href="/static/image/favicon.ico">
     <link rel="stylesheet" href="/static/css/nav_bar.css">
+    <link rel="stylesheet" href="/static/css/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
           integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -17,28 +18,28 @@
 <body>
 <header>
     <nav>
-        <a href="/" class="logo" style="float: right">
-            <img src="{{path}}" width="50px" height="50px" alt="Logo of the website" style="border-radius: 10px; margin-right: 30px"/>
+        <a href="/account/" class="logo" style="float: right">
+            <img src="{{path}}" width="50px" height="50px" alt="Profil picture of the user" style="border-radius: 10px; margin-right: 30px;"/>
         </a>
         <input type="checkbox" id="check">
         <label for="check" class="checkbox">
             <i class="fas fa-bars"></i>
         </label>
         <a href="/" class="logo">
-            <img src="/static/image/index.svg" width="50px" height="50px" alt="Logo of the website" style="border-radius: 10px; margin-top: 15px"/>
+            <img src="/static/image/index.svg" width="70px" height="70px" alt="Logo of the website" style="margin-top: 5px"/>
         </a>
         <ul>
-            <li><a href="#">Index1</a></li>
-            <li><a href="#">Index2</a></li>
+            <li><a id="nav-member" href="/account/users">Members</a></li>
+            <li><a id="unimplemented" href="#">Index2</a></li>
         </ul>
-
-
     </nav>
 </header>
-
 <!-- Here will be the child -->
-{% block content %}
-{% endblock content %}
+<div id="child_div" style="margin-top: 30px">
+    {% block content %}
+    {% endblock content %}
+</div>
+
 
 </body>
 

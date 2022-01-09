@@ -7,6 +7,12 @@
     font-family: "Inter", Arial, Helvetica, sans-serif, "Noto Color Emoji";
 }
 
+#child_div {
+    font-family: "Inter", Arial, Helvetica, sans-serif, "Noto Color Emoji";
+    color: var(--text-color);
+    font-size: 17px;
+}
+
 body {
     background: var(--bg-light);
 }
@@ -16,12 +22,12 @@ body {
     --bg-light: #333533;
     --fg-green: #04AA6D;
     --text-color: #fff;
+    --orange: #d26839;
 }
 nav {
     background-color: var(--bg-dark);
     height: 80px;
     width: 100%;
-    position: fixed;
     border-bottom: 2px solid var(--fg-green);
     box-shadow: 0 0 10px var(--bg-dark);
 }
@@ -30,6 +36,7 @@ nav .logo {
     margin-left: 30px;
     margin-top: 15px;
 }
+
 
 nav ul {
     float: right;

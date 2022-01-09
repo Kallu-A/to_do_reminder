@@ -1,0 +1,8 @@
+{% extends "common" %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/errors.css">
+
+<h1>Error 404: Not Found</h1>
+<h3> The link: <b>{{uri}}</b> doesn't exist</h3>
+
+{% endblock content %}

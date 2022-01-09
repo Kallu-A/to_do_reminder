@@ -1,0 +1,5 @@
+{% extends "common" %}
+
+{% block content %}
+Home of website
+{% endblock content %}

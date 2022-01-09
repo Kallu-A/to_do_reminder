@@ -1,0 +1,9 @@
+table {
+    border-collapse: collapse;
+    box-shadow: 0 0 20px var(--bg-dark);
+    margin: 0px auto;
+}
+
+td {
+    padding: 12px 15px;
+}

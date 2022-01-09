@@ -7,9 +7,9 @@ Then download the repository go to the root where the
 
 In the terminal where you launch the docker-compose you should see 
 something like that if all work : 
-```
+`
 Rocket has launched from http://0.0.0.0:8000
-```
+`
 Just go in the direction given on the terminal or go [Here](http://0.0.0.0:8000)
 If it's not working then try :
 - `localhost:8000`

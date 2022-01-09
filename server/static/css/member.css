@@ -1,0 +1,10 @@
+#nav-member {
+    border-bottom: 2px solid var(--orange);
+}
+
+@media (max-width: 700px) {
+    #nav-member {
+        border-bottom: none;
+        color: var(--orange);
+    }
+}

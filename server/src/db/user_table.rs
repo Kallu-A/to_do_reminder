@@ -8,7 +8,7 @@ use crate::db::handler;
 use crate::schema::user;
 use crate::schema::user::dsl::*;
 
-pub const DEFAULT_PATH: &str = "../static/image/profil/default.png";
+pub const DEFAULT_PATH: &str = "/static/image/profil/default.png";
 
 /// Struct get by all the getter of the database with 4 fields of the table
 #[derive(Queryable, Serialize)]
@@ -45,15 +45,15 @@ pub struct NewUserEntity<'a> {
 /// Struct used to create a new User by form with 2 password to make user confirm is password
 #[derive(Debug, FromForm, Serialize)]
 pub struct UsersForm<'a> {
-    pub(crate) username_f: &'a str,
-    pub(crate) password_f: Password<'a>,
+    pub(crate) username_x: &'a str,
+    pub(crate) password_x: Password<'a>,
 }
 
 /// Struct to let the user try to login
 #[derive(FromForm, Deserialize)]
 pub struct UsersLogin<'a> {
-    pub(crate) username_l: &'a str,
-    pub(crate) password_l: &'a str,
+    pub(crate) username_x: &'a str,
+    pub(crate) password_x: &'a str,
 }
 
 /// Needed at the creation to ensure their is no typo in the password
