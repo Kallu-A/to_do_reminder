@@ -23,6 +23,7 @@ body {
     --fg-green: #04AA6D;
     --text-color: #fff;
     --orange: #d26839;
+    --red: crimson;
 }
 nav {
     background-color: var(--bg-dark);

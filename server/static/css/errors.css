@@ -1,10 +1,5 @@
-#child_div {
-    font-size: 30px;
-    text-align: center;
-}
-
 h1 {
-    color: crimson;
+    color: var(--red);
     margin-top: 15%;
 }
 

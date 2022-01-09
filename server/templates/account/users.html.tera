@@ -2,19 +2,13 @@
 {% block content %}
 
 <link rel="stylesheet" href="/static/css/member.css">
-<style>
-    #child_div {
-        text-align: center;
-        horiz-align: center;
-    }
-</style>
 
 <h1> Members on the website : </h1>
 
 <table style="margin-top: 30px">
     {% for user in users %}
     <tr>
-        <td> <h2> {{ user.username }} </h2> </td>
+        <td> {{ user.username }} </td>
         <td>
             {% if user.picture == true %}
             <img src="/static/image/profil/{{user.username}}" width="50px" height="50px" alt="Logo of {{ user.username }}"/>

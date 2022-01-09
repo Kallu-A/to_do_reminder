@@ -35,7 +35,7 @@
     </nav>
 </header>
 <!-- Here will be the child -->
-<div id="child_div" style="margin-top: 30px">
+<div id="child_div" style="margin-top: 30px; font-size: 30px; text-align: center;">
     {% block content %}
     {% endblock content %}
 </div>

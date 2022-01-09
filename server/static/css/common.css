@@ -1,9 +1,50 @@
 table {
     border-collapse: collapse;
     box-shadow: 0 0 20px var(--bg-dark);
-    margin: 0px auto;
+    margin: 0 auto;
+    border-radius: 7px;
 }
 
 td {
     padding: 12px 15px;
+}
+
+.message {
+    margin-top: 20px;
+    box-shadow: 0 0 20px var(--bg-dark);
+}
+
+#display_red {
+    color: var(--red);
+}
+
+#display_green {
+    color: var(--fg-green);
+}
+
+input {
+    font-size: 25px;
+    box-shadow: 0 0 20px var(--bg-dark);
+    background: var(--bg-light);
+    color: var(--text-color);
+    border-radius: 7px;
+
+}
+
+form {
+    margin-top: 20px;
+}
+
+input:hover {
+    color: var(--fg-green);
+    border-color: var(--fg-green);
+}
+
+#submit {
+    padding: 10px;
+    align-self: center;
+}
+
+#submit:hover {
+    cursor: pointer;
 }

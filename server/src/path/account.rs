@@ -11,7 +11,7 @@ use crate::utils::token::get_token;
 
 #[get("/")]
 pub fn home() -> Redirect {
-    Redirect::to("login")
+    Redirect::to("register")
 }
 
 #[get("/register")]
@@ -27,6 +27,12 @@ pub fn register(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Temp
                 "account/register",
                 context!(
                     title: "Register",
+                    path: DEFAULT_PATH,
+                    username_x,
+                    password_first,
+                    password_second,
+                    color,
+                    message
                 ),
             ))
         }
@@ -93,27 +99,6 @@ pub fn register_post(
             Result::Ok(Redirect::to("register"))
         }
     }
-}
-
-#[get("/login")]
-pub fn login() -> Template {
-    Template::render("account/home", context!(
-        title: "Home",
-        path: DEFAULT_PATH
-    ))
-}
-
-
-#[put("/login", data = "<form>")]
-pub fn login_put(form: Form<UsersLogin<'_>>) -> Flash<Redirect> {
-    if let Some(s) = get_by_username(form.username_x) {
-        return if s.password == form.password_x {
-            Flash::success(Redirect::to("/account"), "")
-        } else {
-            Flash::error(Redirect::to("/account"), "rWrong password")
-        };
-    }
-    Flash::error(Redirect::to("/account"), "rUsername doesn't exist ")
 }
 
 #[get("/users")]
