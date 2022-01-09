@@ -4,11 +4,9 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT"
 authors = ["Kallu-A"]
-homepage = ""
-repository = ""
+homepage = "https://github.com/Kallu-A/to_do_reminder"
+repository = "https://github.com/Kallu-A/to_do_reminder"
 readme = "README.md"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 rocket = { version = "0.5.0-rc.1", features = ["secrets"] }
