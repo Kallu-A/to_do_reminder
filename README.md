@@ -10,8 +10,15 @@ something like that if all work :
 ```
 Rocket has launched from http://0.0.0.0:8000
 ```
-Just go in the direction given
-or `localhost:8000` 
+Just go in the direction given on the terminal or go [Here](http://0.0.0.0:8000)
+If it's not working then try :
+- `localhost:8000`
+- `{docker ip}:8000`
+- `http://0.0.0.0:8000`
+
+# Closing
+When the server is running to close properly,
+you just need to `ctrl c` and run `sudo docker-compose down`
 
 ---
 
@@ -21,3 +28,4 @@ Commande use :
 sudo docker system prune
 sudo docker-compose up
 sudo docker-compose up --build
+

@@ -5,9 +5,10 @@ use std::fs;
 use std::path::Path;
 
 use crate::db::handler;
-use crate::db::notebook_table::delete_owner;
 use crate::schema::user;
 use crate::schema::user::dsl::*;
+
+pub const DEFAULT_PATH: &str = "../static/image/profil/default.png";
 
 /// Struct get by all the getter of the database with 4 fields of the table
 #[derive(Queryable, Serialize)]
@@ -101,7 +102,6 @@ pub fn delete(username_delete: String) -> bool {
         if fs::remove_file(pa).is_ok() {
             println!("picture of {} deleted", username_delete);
         }
-        delete_owner(username_delete.as_str());
         true
     } else {
         false
@@ -119,7 +119,7 @@ pub fn create_user_perm(username_x: &str, password_x: &str, admin_x: bool) -> us
     let conn = &handler::establish_connection();
 
     let regex = Regex::new("^test*").unwrap();
-    if username_a == "default.png" || regex.is_match(username_x) && !admin_x {
+    if username_x == "default.png" || regex.is_match(username_x) && !admin_x {
         return 0;
     }
 
