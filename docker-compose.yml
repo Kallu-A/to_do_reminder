@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/usr/src/app
+    command: bash -c "cargo run src/main.rs"

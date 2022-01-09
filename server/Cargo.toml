@@ -1,0 +1,16 @@
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["Kallu-A"]
+homepage = ""
+repository = ""
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = { version = "0.5.0-rc.1", features = ["secrets"] }
+dotenv = "0.15.0"
+diesel={version="1.4.2", features=["sqlite"]}
