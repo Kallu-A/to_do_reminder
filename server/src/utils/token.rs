@@ -1,13 +1,14 @@
 use crate::db::user_table::UserEntity;
+use crate::get_by_username;
 use rocket::http::{Cookie, CookieJar, Status};
 use time::{Duration, OffsetDateTime};
-use crate::get_by_username;
+use time::internals::Date;
 
 pub const TOKEN: &str = "token";
 
 /// Create the encrypted token with a Duration of 2 hours
 /// With name token
-/// Token is created like that : value#-#expiredate
+/// Token is created like that : value#-#date#-#hour#-#minute
 /// value is the username
 /// #-# is the regex expression to separate
 /// expiredate is the date when the token is expired
@@ -18,10 +19,11 @@ pub fn create_token(jar: &CookieJar<'_>, value: &str) {
         Cookie::build(
             TOKEN,
             format!(
-                "{}#-#{}{}",
+                "{}#-#{}#-#{}#-#{}",
                 value.to_owned(),
+                duration.date().to_string(),
                 duration.hour(),
-                duration.minute()
+                duration.minute(),
             ),
         )
         .finish(),
@@ -45,18 +47,16 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
     .map(|c| c.value().to_string())
     {
         let val: Vec<&str> = username.split("#-#").collect();
-        if val.len() != 2 {
+        if val.len() != 4 {
             println!("invalid len");
             remove_token(jar);
             return Err(Status::ExpectationFailed);
         }
         let duration = OffsetDateTime::now_utc();
-        if format!("{}{}", duration.hour(), duration.minute()).as_str() > val[1] {
-            println!(
-                "expired token date : '{}' current is : '{}'",
-                val[1],
-                OffsetDateTime::now_utc().to_string()
-            );
+        if val[3].to_string() < duration.minute().to_string() &&
+            val[2].to_string() < duration.hour().to_string() &&
+            val[1].to_string() <= duration.date().to_string() {
+            println!("expired token");
             remove_token(jar);
             return Err(Status::ImATeapot);
         }
@@ -84,7 +84,7 @@ pub fn get_token(jar: &CookieJar<'_>) -> Result<UserEntity, Status> {
 
 #[cfg(test)]
 mod tests {
-    use crate::get;
+    use crate::get_by_username;
     use crate::utils::token::{create_token, get_token_spec, remove_token, TOKEN};
     use rocket::http::Status;
 
@@ -97,7 +97,7 @@ mod tests {
         let client = Client::tracked(rocket()).unwrap();
         let jar = &client.cookies();
 
-        assert!(get("admin").is_some(), "Should have an admin account !");
+        assert!(get_by_username("admin").is_some(), "Should have an admin account !");
         create_token(jar, "admin");
 
         assert!(
@@ -122,8 +122,8 @@ mod tests {
         let token: Vec<&str> = cookie_token.split("#-#").collect();
         assert_eq!(
             token.len(),
-            2,
-            "token split with pattern refex should always be len 2"
+            4,
+            "token split with pattern refex should always be len 4"
         );
         assert_eq!(
             token[0], "test/token",
