@@ -1,0 +1,8 @@
+{% extends "common" %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/errors.css">
+
+<h1>Unsupported Status Code</h1>
+<h3> The code: <b>{{code}}</b> is not working </h3>
+
+{% endblock content %}

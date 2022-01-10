@@ -30,7 +30,8 @@ pub fn create_token(jar: &CookieJar<'_>, value: &str) {
                 duration.hour(),
                 duration.minute(),
             ),
-        ).max_age(Duration::hours(2))
+        )
+        .max_age(Duration::hours(12))
         .finish(),
     )
 }

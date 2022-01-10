@@ -13,7 +13,6 @@ td {
     margin: 20px auto 0;
     border-radius: 7px;
     box-shadow: 0 0 20px var(--bg-dark);
-    border: 1px solid var(--red);
     padding: 10px;
     width: fit-content;
     text-align: center;
@@ -21,10 +20,12 @@ td {
 
 #display_red {
     color: var(--red);
+    border: 1px solid var(--red);
 }
 
 #display_green {
     color: var(--fg-green);
+    border: 1px solid var(--fg-green);
 }
 
 #close_button {

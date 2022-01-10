@@ -1,6 +1,4 @@
-use crate::db::user_table::{
-    create_user, get_all, UsersForm, UsersLogin, DEFAULT_PATH,
-};
+use crate::db::user_table::{create_user, get_all, UsersForm, UsersLogin, DEFAULT_PATH};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
@@ -16,7 +14,7 @@ use rocket_dyn_templates::Template;
 /// else if the user is login send him to the template `user_display` with all possible options for him
 /// else send him to the `login section`
 #[get("/home")]
-pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
+pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Flash<Redirect>> {
     let (color, message) = handler_flash(flash);
 
     match get_token(jar) {
@@ -29,7 +27,10 @@ pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
             message
             ),
         )),
-        Err(e) => Err(e),
+        Err(_) => Err(Flash::success(
+            Redirect::to("login"),
+            format!("{}{}", color, message),
+        )),
     }
 }
 
