@@ -13,10 +13,10 @@ pub const TOKEN: &str = "token";
 /// expiredate is the date when the token is expired
 pub fn create_token(jar: &CookieJar<'_>, value: &str) {
     println!("Creation token ");
-    let duration = OffsetDateTime::now_utc() + Duration::hours(2);
+    let duration = OffsetDateTime::now_utc() + Duration::minutes(1)/*Duration::hours(2)*/;
     println!(
         "{} | {} | {} ",
-        duration.date().to_string(),
+        duration.date(),
         duration.hour(),
         duration.minute()
     );
@@ -26,7 +26,7 @@ pub fn create_token(jar: &CookieJar<'_>, value: &str) {
             format!(
                 "{}#-#{}#-#{}#-#{}",
                 value.to_owned(),
-                duration.date().to_string(),
+                duration.date(),
                 duration.hour(),
                 duration.minute(),
             ),
@@ -65,9 +65,9 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
         // if date token  < current date token expired or
         // date token == current date then see hours if token hours < current hours = token expired
         // else if date and hours ==, see min
-        if val[1].to_string() < date
-            || val[1].to_string() == date && val[2].to_string() < hours
-            || val[1].to_string() == date && val[2].to_string() == hours && val[3].to_string() < min
+        if *val[1] < *date
+            || *val[1] == *date && *val[2] < *hours
+            || *val[1] == *date && *val[2] == *hours && *val[3] < *min
         {
             println!("expired token");
             remove_token(jar);
@@ -128,7 +128,7 @@ mod tests {
         );
 
         assert!(
-            get("test/token").is_none(),
+            get_by_username("test/token").is_none(),
             "Should never exist reserved key"
         );
         create_token(jar, "test/token");

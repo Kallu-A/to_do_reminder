@@ -14,7 +14,7 @@ use rocket_dyn_templates::Template;
 /// else if the user is login send him to the template `user_display` with all possible options for him
 /// else send him to the `login section`
 #[get("/home")]
-pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Flash<Redirect>> {
+pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Result<Flash<Redirect>, Status>> {
     let (color, message) = handler_flash(flash);
 
     match get_token(jar) {
@@ -27,10 +27,16 @@ pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
             message
             ),
         )),
-        Err(_) => Err(Flash::success(
-            Redirect::to("login"),
-            format!("{}{}", color, message),
-        )),
+        Err(status) => {
+            if status == Status::Forbidden {
+                Err(Ok(Flash::success(
+                    Redirect::to("login"),
+                    format!("{}{}", color, message),
+                )))
+            } else {
+                Err(Err(status))
+            }
+        },
     }
 }
 

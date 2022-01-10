@@ -158,7 +158,7 @@ pub fn set_picture(user_x: &UserEntity, pic: bool) -> bool {
 #[cfg(test)]
 mod tests {
     use crate::db::user_table::{delete, set_picture};
-    use crate::{create_user_perm, get};
+    use crate::{create_user_perm, get_by_username};
     use std::panic;
 
     #[test]
@@ -169,20 +169,20 @@ mod tests {
             println!("{}", err.location().unwrap().to_string());
         }));
 
-        assert!(get("test/user_table").is_none(), "reserved username");
+        assert!(get_by_username("test/user_table").is_none(), "reserved username");
         assert_eq!(create_user_perm("test/user_table", "1", true), 1);
-        let userx = get("test/user_table");
+        let userx = get_by_username("test/user_table");
         assert!(userx.is_some(), "just create");
         let userx = userx.unwrap();
         assert_eq!(userx.picture, false, "default value");
         set_picture(&userx, true);
-        let userx = get("test/user_table").unwrap();
+        let userx = get_by_username("test/user_table").unwrap();
         assert!(userx.picture, "value change by set_picture");
         assert_eq!(
             delete("test/user_table".to_string()),
             true,
             "must be true, test/user_table user is create"
         );
-        assert!(get("test/user_table").is_none());
+        assert!(get_by_username("test/user_table").is_none());
     }
 }
