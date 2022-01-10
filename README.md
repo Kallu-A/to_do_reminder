@@ -23,7 +23,7 @@ you just need to `ctrl c` and run `sudo docker-compose down`
 
 # implemented
 ## Status code
-** You can try every status code by going to [{server}/status/\<code>](http://0.0.0.0:8000/status/404)
+**You can try every status code by going to [{server}/status/\<code>](http://0.0.0.0:8000/status/404)
 - `403` not login but action needs to
 - `404` not found
 - `405` try to do something only accessible for visitors
