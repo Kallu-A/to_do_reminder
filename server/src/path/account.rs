@@ -1,6 +1,8 @@
-use crate::db::user_table::{create_user, get_all, UsersForm, UsersLogin, DEFAULT_PATH};
+use crate::db::user_table::{
+    create_user, get_all, UsersForm, UsersLogin, DEFAULT_PATH,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
-use crate::utils::token::{create_token, get_token};
+use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use regex::Regex;
 use rocket::form::Form;
@@ -9,9 +11,26 @@ use rocket::request::FlashMessage;
 use rocket::response::{Flash, Redirect};
 use rocket_dyn_templates::Template;
 
+///The backbone of the account section
+/// handler the flash message if there is one,
+/// else if the user is login send him to the template `user_display` with all possible options for him
+/// else send him to the `login section`
 #[get("/home")]
-pub fn home() -> Redirect {
-    Redirect::to("register")
+pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
+    let (color, message) = handler_flash(flash);
+
+    match get_token(jar) {
+        Ok(user) => Ok(Template::render(
+            "account/user_display",
+            context!(
+            path: user.get_path(),
+            title: "user",
+            color,
+            message
+            ),
+        )),
+        Err(e) => Err(e),
+    }
 }
 
 #[get("/users")]
@@ -148,12 +167,15 @@ pub fn register_post(
         None => {
             create_user(form.username_x, form.password_x.first);
             create_token(jar, form.username_x);
-            Result::Ok(Flash::success(Redirect::to("home"), ""))
+            Result::Ok(Flash::success(
+                Redirect::to("home"),
+                "gAccount successfully created",
+            ))
         }
     }
 }
 
-/// get login with a form for the user to fill and login
+/// get login with a form for the user to fill and login also a <a> to the register
 /// if the user already login to send him a `code 405`
 /// else handle the `cookie to reset back the value`
 /// if the user was already trying to login and also `display the error message`
@@ -187,10 +209,7 @@ pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templat
 /// - `Password incorrect`
 /// if form is good login the user with a `token and send him to home`
 #[post("/login", data = "<form>")]
-pub fn login_put(
-    jar: &CookieJar<'_>,
-    form: Form<UsersLogin>,
-) -> Result<Flash<Redirect>, Status> {
+pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Redirect>, Status> {
     let create_cookie = || {
         create_field_cookie(jar, "password_x", form.password_x);
         create_field_cookie(jar, "username_x", form.username_x);
@@ -204,7 +223,7 @@ pub fn login_put(
         // and password match
         return if s.password == form.password_x {
             create_token(jar, form.username_x);
-            Result::Ok(Flash::success(Redirect::to("home"), ""))
+            Result::Ok(Flash::success(Redirect::to("home"), "gYou're logged"))
         } else {
             create_cookie();
             Result::Ok(Flash::error(Redirect::to("login"), "rWrong password"))
@@ -212,4 +231,17 @@ pub fn login_put(
     }
     create_cookie();
     Result::Ok(Flash::error(Redirect::to("login"), "rUser don't exist "))
+}
+
+/// PUT for trying to logout
+/// if you are login then token is remove and you will be send to the success logout
+/// else you have error `403`
+#[put("/logout")]
+pub fn home_logout(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
+    if jar.get_private(TOKEN).is_some() {
+        remove_token(jar);
+        Result::Ok(Flash::success(Redirect::to("home"), "gSuccessfully logout"))
+    } else {
+        Result::Err(Status::Forbidden)
+    }
 }

@@ -2,7 +2,6 @@ use crate::db::user_table::UserEntity;
 use crate::get_by_username;
 use rocket::http::{Cookie, CookieJar, Status};
 use time::{Duration, OffsetDateTime};
-use time::internals::Date;
 
 pub const TOKEN: &str = "token";
 
@@ -15,6 +14,12 @@ pub const TOKEN: &str = "token";
 pub fn create_token(jar: &CookieJar<'_>, value: &str) {
     println!("Creation token ");
     let duration = OffsetDateTime::now_utc() + Duration::hours(2);
+    println!(
+        "{} | {} | {} ",
+        duration.date().to_string(),
+        duration.hour(),
+        duration.minute()
+    );
     jar.add_private(
         Cookie::build(
             TOKEN,
@@ -25,7 +30,7 @@ pub fn create_token(jar: &CookieJar<'_>, value: &str) {
                 duration.hour(),
                 duration.minute(),
             ),
-        )
+        ).max_age(Duration::hours(2))
         .finish(),
     )
 }
@@ -53,9 +58,16 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
             return Err(Status::ExpectationFailed);
         }
         let duration = OffsetDateTime::now_utc();
-        if val[3].to_string() < duration.minute().to_string() &&
-            val[2].to_string() < duration.hour().to_string() &&
-            val[1].to_string() <= duration.date().to_string() {
+        let date = duration.date().to_string();
+        let hours = duration.hour().to_string();
+        let min = duration.minute().to_string();
+        // if date token  < current date token expired or
+        // date token == current date then see hours if token hours < current hours = token expired
+        // else if date and hours ==, see min
+        if val[1].to_string() < date
+            || val[1].to_string() == date && val[2].to_string() < hours
+            || val[1].to_string() == date && val[2].to_string() == hours && val[3].to_string() < min
+        {
             println!("expired token");
             remove_token(jar);
             return Err(Status::ImATeapot);
@@ -97,7 +109,10 @@ mod tests {
         let client = Client::tracked(rocket()).unwrap();
         let jar = &client.cookies();
 
-        assert!(get_by_username("admin").is_some(), "Should have an admin account !");
+        assert!(
+            get_by_username("admin").is_some(),
+            "Should have an admin account !"
+        );
         create_token(jar, "admin");
 
         assert!(

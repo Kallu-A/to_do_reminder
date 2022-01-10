@@ -31,6 +31,7 @@
         </button>
     </div>
 </div>
+<h5> Don't have an account ? <br> click here :  <a href="/account/register">Register</a> </h5>
 {% endif %}
 
 {% endblock content %}

@@ -1,8 +1,0 @@
-{% extends "common" %}
-{% block content %}
-
-
-<div style="text-align: center">
-    Home of account
-</div>
-{% endblock content %}

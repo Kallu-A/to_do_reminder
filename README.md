@@ -22,10 +22,11 @@ you just need to `ctrl c` and run `sudo docker-compose down`
 
 ---
 
-To complete
-
-Commande use :
-sudo docker system prune
-sudo docker-compose up
-sudo docker-compose up --build
-
+## To do
+- verif 403
+- token expiration
+- logout
+- login
+- user_display
+- home path in account
+- test section account

@@ -1,0 +1,26 @@
+{% extends "common" %}
+{% block content %}
+
+    Home of account
+    <form action="/account/logout" method="post">
+        <input type="hidden" name="_method" value="put" />
+        <input type="submit" id="submit_red" value="Logout"/>
+    </form>
+
+{% if message != "" %}
+<SCRIPT>
+    function hide() {
+        let x = document.getElementById('display_message');
+        x.style.display = 'none';
+    }
+</SCRIPT>
+<div id="display_message">
+    <div class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
+        {{ message }}
+        <button onclick="hide()" id="close_button">
+            <img src="/static/image/close.png" id="litle_close">
+        </button>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}

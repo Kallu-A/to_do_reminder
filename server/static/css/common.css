@@ -64,6 +64,20 @@ input:hover {
     padding: 10px;
 }
 
+#submit_red {
+    padding: 10px;
+    border-color: var(--red);
+}
+
 #submit:hover {
     cursor: pointer;
+}
+
+#submit_red:hover {
+    cursor: pointer;
+    color: var(--red);
+}
+
+a {
+    color: var(--blue);
 }

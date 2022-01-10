@@ -9,8 +9,8 @@ mod schema;
 mod utils;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
-use crate::path::account::{login, login_put, register, register_post};
-use crate::path::errors::{method_not_allowed, not_found};
+use crate::path::account::{home_logout, login, login_put, register, register_post};
+use crate::path::errors::{method_not_allowed, not_found, not_loggin};
 use path::account::{home, users};
 use rocket::fs::{relative, FileServer};
 use rocket::{routes, Build, Rocket};
@@ -38,8 +38,20 @@ fn rocket() -> Rocket<Build> {
     }
     rocket::build()
         .attach(Template::fairing())
-        .register("/", catchers![not_found, method_not_allowed])
+        .register("/", catchers![not_found, method_not_allowed, not_loggin])
         .mount("/", routes![index])
         .mount("/static", FileServer::from(relative!("static")))
-        .mount("/account/", routes![home, users, register, register_post, login, login_put])
+        .mount(
+            "/account/",
+            routes![
+                home,
+                users,
+                register,
+                register_post,
+                login,
+                login_put,
+                home_logout,
+
+            ],
+        )
 }

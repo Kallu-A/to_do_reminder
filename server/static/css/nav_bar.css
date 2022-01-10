@@ -24,6 +24,7 @@ body {
     --text-color: #fff;
     --orange: #d26839;
     --red: crimson;
+    --blue: #407899;
 }
 nav {
     background-color: var(--bg-dark);
