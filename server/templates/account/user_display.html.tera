@@ -10,17 +10,15 @@
 {% if message != "" %}
 <SCRIPT>
     function hide() {
-        let x = document.getElementById('display_message');
+        let x = document.getElementById('close_button');
         x.style.display = 'none';
     }
 </SCRIPT>
-<div id="display_message">
+<button onclick="hide()" id="close_button">
     <div class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
+        <img src="/static/image/close_{% if color == 'r' %}red{% elif color == 'g'%}green{% endif %}.png" id="litle_close" alt="close logo">
         {{ message }}
-        <button onclick="hide()" id="close_button">
-            <img src="/static/image/close.png" id="litle_close">
-        </button>
     </div>
-</div>
+</button>
 {% endif %}
 {% endblock content %}

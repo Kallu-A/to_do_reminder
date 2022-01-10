@@ -50,9 +50,7 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 --- 
 
 ## To do
-- token expiration
 - ask user confirmation javascript?
 - user_display
-- upgrade message display closing
 - home path in account
 - test section account

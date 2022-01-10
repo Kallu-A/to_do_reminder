@@ -13,7 +13,7 @@ pub const TOKEN: &str = "token";
 /// expiredate is the date when the token is expired
 pub fn create_token(jar: &CookieJar<'_>, value: &str) {
     println!("Creation token ");
-    let duration = OffsetDateTime::now_utc() + Duration::minutes(1)/*Duration::hours(2)*/;
+    let duration = OffsetDateTime::now_utc() + Duration::hours(2);
     println!(
         "{} | {} | {} ",
         duration.date(),
