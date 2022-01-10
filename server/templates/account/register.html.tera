@@ -35,4 +35,6 @@
 </button>
 {% endif %}
 
+<h5 style="margin-top: 20px"> Already have an account ? <br> Click here :  <a href="/account/login">Login</a> </h5>
+
 {% endblock content %}

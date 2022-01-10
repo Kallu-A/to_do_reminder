@@ -1,16 +1,16 @@
 {% extends "common" %}
 {% block content %}
 
-<h1>Log into your account</h1>
+<img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
+<h1>Change password</h1>
 <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="username_x" value="{{user.username}}">
     <table class = row>
         <tr>
-            <div class="space">
-                <td>Username</td><td><input class="fields" type="text" size="10" maxlength="40" name="username_x" value="{{username_x}}"/> </td>
-            </div>
+            <td>New Password</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> </td>
         </tr>
         <tr>
-            <td>Password</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x" value="{{password_x}}"/> </td>
+            <td>Confirm</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> </td>
         </tr>
         <td colspan="2"><input type="submit" id="submit" value="Submit"/></td>
     </table>
@@ -30,7 +30,6 @@
     </div>
 </button>
 {% endif %}
-
-<h5 style="margin-top: 20px"> Don't have an account ? <br> Click here :  <a href="/account/register">Register</a> </h5>
-
+<br>
+<a href="home">Go back</a>
 {% endblock content %}

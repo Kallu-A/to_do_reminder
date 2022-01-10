@@ -5,14 +5,17 @@ use std::fs;
 use std::path::Path;
 
 use crate::db::handler;
+use crate::db::handler::establish_connection;
 use crate::schema::user;
 use crate::schema::user::dsl::*;
 
 pub const DEFAULT_PATH: &str = "/static/image/profil/default.png";
 
 /// Struct get by all the getter of the database with 4 fields of the table
-#[derive(Queryable, Serialize)]
+#[derive(Queryable, Serialize, AsChangeset, Identifiable)]
+#[table_name = "user"]
 pub struct UserEntity {
+    pub id: i32,
     pub username: String,
     pub password: String,
     pub perm: bool,
@@ -20,7 +23,7 @@ pub struct UserEntity {
 }
 
 impl UserEntity {
-    /// Return path of the file of the profile picture if has it or else default.png
+    /// Return the path of the file of the profile picture if has it or else default.png
     pub fn get_path(&self) -> String {
         let mut path = "../static/image/profil/".to_string();
         // set picture to the user if is has one else default
@@ -44,7 +47,7 @@ pub struct NewUserEntity<'a> {
 
 /// Struct used to create a new User by form with 2 password to make user confirm is password
 #[derive(Debug, FromForm, Serialize)]
-pub struct UsersForm<'a> {
+pub struct UserRegister<'a> {
     pub(crate) username_x: &'a str,
     pub(crate) password_x: Password<'a>,
 }
@@ -56,7 +59,7 @@ pub struct UsersLogin<'a> {
     pub(crate) password_x: &'a str,
 }
 
-/// Needed at the creation to ensure their is no typo in the password
+/// Needed in the creation to ensure their is no typo in the password
 #[derive(Debug, FromForm, Serialize)]
 pub struct Password<'v> {
     pub(crate) first: &'v str,
@@ -89,7 +92,7 @@ pub fn get_all() -> Vec<UserEntity> {
 }
 
 /// Try to delete the username in args and return true if the delete was successful else false
-pub fn delete(username_delete: String) -> bool {
+pub fn delete_user(username_delete: String) -> bool {
     let connection = &mut handler::establish_connection();
     let num_deleted = diesel::delete(user.filter(username.eq(username_delete.clone())))
         .execute(connection)
@@ -155,16 +158,27 @@ pub fn set_picture(user_x: &UserEntity, pic: bool) -> bool {
     diesel::replace_into(user).values(new).execute(conn).is_ok()
 }
 
+/// Try to change the password of user_x
+pub fn new_password(user_x: &str, password_x: &str) -> bool {
+    if let Some(mut us) = get_by_username(user_x) {
+        let con = &mut establish_connection();
+        us.password = password_x.to_owned();
+        us.save_changes::<UserEntity>(con).is_ok()
+    } else {
+        false
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::db::user_table::{delete, set_picture};
+    use crate::db::user_table::{delete_user, new_password, set_picture};
     use crate::{create_user_perm, get_by_username};
     use std::panic;
 
     #[test]
     fn check() {
         panic::set_hook(Box::new(|err| {
-            delete("test/user_table".to_string());
+            delete_user("test/user_table".to_string());
             println!("\n{}", err.to_string());
             println!("{}", err.location().unwrap().to_string());
         }));
@@ -173,13 +187,15 @@ mod tests {
         assert_eq!(create_user_perm("test/user_table", "1", true), 1);
         let userx = get_by_username("test/user_table");
         assert!(userx.is_some(), "just create");
+        new_password("test/user_table", "2");
         let userx = userx.unwrap();
+        assert_eq!(userx.password, "2");
         assert_eq!(userx.picture, false, "default value");
         set_picture(&userx, true);
         let userx = get_by_username("test/user_table").unwrap();
         assert!(userx.picture, "value change by set_picture");
         assert_eq!(
-            delete("test/user_table".to_string()),
+            delete_user("test/user_table".to_string()),
             true,
             "must be true, test/user_table user is create"
         );

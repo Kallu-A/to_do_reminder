@@ -1,4 +1,4 @@
-use crate::db::user_table::{create_user, get_all, UsersForm, UsersLogin, DEFAULT_PATH};
+use crate::db::user_table::{create_user, get_all, UserRegister, UsersLogin, DEFAULT_PATH, delete_user, new_password};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
@@ -12,7 +12,7 @@ use rocket_dyn_templates::Template;
 ///The backbone of the account section
 /// handler the flash message if there is one,
 /// else if the user is login send him to the template `user_display` with all possible options for him
-/// else send him to the `login section`
+/// else if `get_token` return code 403 then redirect to `login` else display `status error from get_token`
 #[get("/home")]
 pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Result<Flash<Redirect>, Status>> {
     let (color, message) = handler_flash(flash);
@@ -21,10 +21,11 @@ pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
         Ok(user) => Ok(Template::render(
             "account/user_display",
             context!(
-            path: user.get_path(),
-            title: "user",
-            color,
-            message
+                path: user.get_path(),
+                title: "Account",
+                color,
+                message,
+                user
             ),
         )),
         Err(status) => {
@@ -96,7 +97,7 @@ pub fn register(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Temp
 #[post("/register", data = "<form>")]
 pub fn register_post(
     jar: &CookieJar<'_>,
-    form: Form<UsersForm>,
+    form: Form<UserRegister>,
 ) -> Result<Flash<Redirect>, Status> {
     if get_token(jar).is_ok() {
         return Result::Err(Status::MethodNotAllowed);
@@ -116,6 +117,15 @@ pub fn register_post(
         return Result::Ok(Flash::error(
             Redirect::to("register"),
             "rYou need a Username",
+        ));
+    }
+
+    // username too long
+    if form.username_x.len() > 15 {
+        create_cookie();
+        return Result::Ok(Flash::error(
+            Redirect::to("register"),
+            "rUsername too long",
         ));
     }
 
@@ -208,6 +218,7 @@ pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templat
         }
     }
 }
+
 /// Post method to login to your account
 /// if user already loggin send him `code 405`
 /// return the value in the form as a cookie for the get login
@@ -250,5 +261,95 @@ pub fn home_logout(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
         Result::Ok(Flash::success(Redirect::to("home"), "gSuccessfully logout"))
     } else {
         Result::Err(Status::Forbidden)
+    }
+}
+
+/// DELETE for a user
+/// if get_token exist,
+/// try to delete a user
+/// if successful redirect to `home with message` else `code 404`
+/// if get_token return an error display the code status
+#[delete("/delete")]
+pub fn delete(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            if delete_user(user.username) {
+                remove_token(jar);
+                Result::Ok(Flash::success(Redirect::to("/"), "gSuccessfully delete"))
+            } else {
+                Result::Err(Status::NotFound)
+            }
+        }
+        Err(statut) => Err(statut),
+    }
+}
+
+
+/// GET edit  for a user
+/// if get_token exist,
+/// show form to change value
+/// if get_token return an error display the code status
+#[get("/edit")]
+pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
+    let (color, message) = handler_flash(flash);
+    let password_first = cookie_handler(jar, "password_x.first".to_string());
+    let password_second = cookie_handler(jar, "password_x.second".to_string());
+    match get_token(jar) {
+        Ok(user) => {
+            Ok(Template::render(
+                "account/edit",
+                context!(
+                    path: DEFAULT_PATH,
+                    title: "Edit Profile",
+                    user,
+                    password_first,
+                    password_second,
+                    color,
+                    message
+                )
+            ))
+        }
+        Err(e) => Err(e)
+    }
+}
+
+/// A post method to create a new user on the server (database)
+/// need 2 inputs
+///  - password_x.first
+///  - password_x.second
+/// If `get_token` is err return the `code `
+/// else test for every form if is not empty and password match else redirect to `edit with message`
+/// else change the password
+#[post("/edit", data = "<form>")]
+pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<Redirect>, Status> {
+    let create_cookie = || {
+        create_field_cookie(jar, "password_x.first", form.password_x.first);
+        create_field_cookie(jar, "password_x.second", form.password_x.second);
+    };
+
+    match get_token(jar) {
+        Ok(user) => {
+            if form.password_x.first.is_empty() {
+                create_cookie();
+                return Ok(Flash::error(Redirect::to("edit"), "rYou must put a password"));
+            }
+
+            if form.password_x.second.is_empty() {
+                create_cookie();
+                return Ok(Flash::error(Redirect::to("edit"), "rYou must fill the second password"));
+            }
+
+            if form.password_x.first != form.password_x.second {
+                create_cookie();
+                return Ok(Flash::error(Redirect::to("edit"), "rYour password doesn't match"));
+            }
+
+            if new_password(user.username.as_str(), form.password_x.first) {
+                Ok(Flash::success(Redirect::to("edit"), "gPassword changed"))
+            } else {
+                Ok(Flash::error(Redirect::to("edit"), "gOops. Please try again"))
+            }
+        }
+        Err(e) => Err(e)
     }
 }

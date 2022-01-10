@@ -1,0 +1,34 @@
+#display_manager {
+    text-align: left;
+}
+
+#personal {
+    margin-left: 5%;
+    margin-top: 5%;
+    padding: 40px;
+}
+
+.edit {
+    color: var(--grey);
+}
+
+.submit_red {
+    padding: 10px;
+    border-color: var(--red);
+}
+
+.submit_red:hover {
+    cursor: pointer;
+    border-color: var(--red);
+    color: var(--red);
+}
+
+#username {
+    margin-top: 15px;
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+p {
+    text-align: left;
+}

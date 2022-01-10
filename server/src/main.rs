@@ -9,7 +9,7 @@ mod schema;
 mod utils;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
-use crate::path::account::{home_logout, login, login_put, register, register_post};
+use crate::path::account::{delete, edit, edit_post, home_logout, login, login_put, register, register_post};
 use crate::path::errors::{
     expired_token, method_not_allowed, not_found, not_login, token_match_none,
 };
@@ -17,15 +17,23 @@ use path::account::{home, users};
 use rocket::fs::{relative, FileServer};
 use rocket::http::Status;
 use rocket::{routes, Build, Rocket};
+use rocket::request::FlashMessage;
 use rocket_dyn_templates::Template;
+use crate::utils::cookie::handler_flash;
 
+/// Home of the website
+/// handle flash message
 #[get("/")]
-fn index() -> Template {
+fn index(flash: Option<FlashMessage>) -> Template {
+    let (color, message) = handler_flash(flash);
+
     Template::render(
         "home",
         context!(
             title: "Home",
-            path: DEFAULT_PATH
+            path: DEFAULT_PATH,
+            color,
+            message
         ),
     )
 }
@@ -80,6 +88,9 @@ fn rocket() -> Rocket<Build> {
                 login,
                 login_put,
                 home_logout,
+                delete,
+                edit,
+                edit_post
             ],
         )
 }
