@@ -10,8 +10,13 @@ td {
 }
 
 .message {
-    margin-top: 20px;
+    margin: 20px auto 0;
+    border-radius: 7px;
     box-shadow: 0 0 20px var(--bg-dark);
+    border: 1px solid var(--red);
+    padding: 10px;
+    width: fit-content;
+    text-align: center;
 }
 
 #display_red {
@@ -22,13 +27,28 @@ td {
     color: var(--fg-green);
 }
 
+#close_button {
+    border: none;
+    background: transparent;
+}
+
+#close_button:hover {
+    cursor: pointer;
+}
+
+#litle_close {
+    width: 24px;
+    height: 24px;
+    background: var(--bg-light);
+    border: none;
+}
+
 input {
     font-size: 25px;
     box-shadow: 0 0 20px var(--bg-dark);
     background: var(--bg-light);
     color: var(--text-color);
     border-radius: 7px;
-
 }
 
 form {
@@ -42,7 +62,6 @@ input:hover {
 
 #submit {
     padding: 10px;
-    align-self: center;
 }
 
 #submit:hover {

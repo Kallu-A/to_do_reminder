@@ -6,23 +6,34 @@
     <table class = row>
         <tr>
             <div class="space">
-                <td>Username </td><td><input class="fields" type="text" size="10" maxlength="40" name="username_x" value="{{username_x}}"/> </td>
+                <td>Username</td><td><input class="fields" type="text" size="10" maxlength="40" name="username_x" value="{{username_x}}"/> </td>
             </div>
         </tr>
 
         <tr>
-            <td>Password </td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> </td>
+            <td>Password</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> </td>
         </tr>
         <tr>
-            <td>Confirm </td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> </td>
+            <td>Confirm</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> </td>
         </tr>
-            <td><input type="submit" id="submit" value="Submit"/></td>
+        <td colspan="2"><input type="submit" id="submit" value="Submit"/></td>
     </table>
 </form>
 
 {% if message != "" %}
-<div class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
-    {{ message }}<br>
+<SCRIPT>
+    function hide() {
+        let x = document.getElementById('display_message');
+        x.style.display = 'none';
+    }
+</SCRIPT>
+<div id="display_message">
+    <div class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
+        {{ message }}
+        <button onclick="hide()" id="close_button">
+            <img src="/static/image/close.png" id="litle_close">
+        </button>
+    </div>
 </div>
 {% endif %}
 

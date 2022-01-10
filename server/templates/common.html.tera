@@ -18,7 +18,7 @@
 <body>
 <header>
     <nav>
-        <a href="/account/" class="logo" style="float: right">
+        <a href="/account/home" class="logo" style="float: right">
             <img src="{{path}}" width="50px" height="50px" alt="Profil picture of the user" style="border-radius: 10px; margin-right: 30px;"/>
         </a>
         <input type="checkbox" id="check">
