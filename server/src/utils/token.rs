@@ -6,7 +6,7 @@ use time::{Duration, OffsetDateTime};
 pub const TOKEN: &str = "token";
 
 /// Create the encrypted token with a Duration of 2 hours
-/// With name token
+/// With name tokento_do_reminder
 /// Token is created like that : value#-#date#-#hour#-#minute
 /// value is the username
 /// #-# is the regex expression to separate
@@ -14,12 +14,6 @@ pub const TOKEN: &str = "token";
 pub fn create_token(jar: &CookieJar<'_>, value: &str) {
     println!("Creation token ");
     let duration = OffsetDateTime::now_utc() + Duration::hours(2);
-    println!(
-        "{} | {} | {} ",
-        duration.date(),
-        duration.hour(),
-        duration.minute()
-    );
     jar.add_private(
         Cookie::build(
             TOKEN,
@@ -31,15 +25,8 @@ pub fn create_token(jar: &CookieJar<'_>, value: &str) {
                 duration.minute(),
             ),
         )
-        .max_age(Duration::hours(12))
         .finish(),
     )
-}
-
-/// Remove the current token
-pub fn remove_token(jar: &CookieJar<'_>) {
-    println!("token remove ! ");
-    jar.remove_private(Cookie::named(TOKEN));
 }
 
 /// Work as explain in function 'get_token' but with the test bool if is true will
@@ -60,14 +47,21 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
         }
         let duration = OffsetDateTime::now_utc();
         let date = duration.date().to_string();
-        let hours = duration.hour().to_string();
-        let min = duration.minute().to_string();
+        let hours = duration.hour().to_string().parse::<i8>().unwrap();
+        let min = duration.minute().to_string().parse::<i8>().unwrap();
+        let date_token = val[1];
+        let hours_token = val[2].parse::<i8>().unwrap();
+        let min_token = val[3].parse::<i8>().unwrap();
         // if date token  < current date token expired or
         // date token == current date then see hours if token hours < current hours = token expired
         // else if date and hours ==, see min
-        if *val[1] < *date
-            || *val[1] == *date && *val[2] < *hours
-            || *val[1] == *date && *val[2] == *hours && *val[3] < *min
+        println!(
+            "test token:  -------------------\ndate: {}  token: {} \n hour: {} token: {} \n min: {} token: {}\n ----------------------",
+            date, date_token, hours, hours_token, min, min_token
+        );
+        if *date_token < *date
+            || *date_token == *date && hours_token < hours
+            || *date_token == *date && hours_token == hours && min_token < min
         {
             println!("expired token");
             remove_token(jar);
@@ -84,6 +78,12 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
     } else {
         Err(Status::Forbidden)
     }
+}
+
+/// Remove the current token
+pub fn remove_token(jar: &CookieJar<'_>) {
+    println!("token remove ! ");
+    jar.remove_private(Cookie::named(TOKEN));
 }
 
 /// Do a lot of operation to try to get the token if all is good will return Ok(UserEntity)

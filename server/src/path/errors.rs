@@ -59,3 +59,14 @@ pub fn expired_token(_req: &Request<'_>) -> Template {
         ),
     )
 }
+
+#[catch(500)]
+pub fn internal_error(_req: &Request<'_>) -> Template {
+    Template::render(
+        "error/500",
+        context!(
+            title: "ERROR 500",
+            path: DEFAULT_PATH,
+        ),
+    )
+}

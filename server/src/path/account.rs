@@ -1,4 +1,6 @@
-use crate::db::user_table::{create_user, get_all, UserRegister, UsersLogin, DEFAULT_PATH, delete_user, new_password};
+use crate::db::user_table::{
+    create_user, delete_user, get_all, set_password, UserRegister, UsersLogin, DEFAULT_PATH,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
@@ -14,7 +16,10 @@ use rocket_dyn_templates::Template;
 /// else if the user is login send him to the template `user_display` with all possible options for him
 /// else if `get_token` return code 403 then redirect to `login` else display `status error from get_token`
 #[get("/home")]
-pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Result<Flash<Redirect>, Status>> {
+pub fn home(
+    jar: &CookieJar<'_>,
+    flash: Option<FlashMessage>,
+) -> Result<Template, Result<Flash<Redirect>, Status>> {
     let (color, message) = handler_flash(flash);
 
     match get_token(jar) {
@@ -37,7 +42,7 @@ pub fn home(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
             } else {
                 Err(Err(status))
             }
-        },
+        }
     }
 }
 
@@ -123,10 +128,7 @@ pub fn register_post(
     // username too long
     if form.username_x.len() > 15 {
         create_cookie();
-        return Result::Ok(Flash::error(
-            Redirect::to("register"),
-            "rUsername too long",
-        ));
+        return Result::Ok(Flash::error(Redirect::to("register"), "rUsername too long"));
     }
 
     // username_x don't match reserved username
@@ -284,7 +286,6 @@ pub fn delete(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
     }
 }
 
-
 /// GET edit  for a user
 /// if get_token exist,
 /// show form to change value
@@ -295,21 +296,19 @@ pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
     let password_first = cookie_handler(jar, "password_x.first".to_string());
     let password_second = cookie_handler(jar, "password_x.second".to_string());
     match get_token(jar) {
-        Ok(user) => {
-            Ok(Template::render(
-                "account/edit",
-                context!(
-                    path: DEFAULT_PATH,
-                    title: "Edit Profile",
-                    user,
-                    password_first,
-                    password_second,
-                    color,
-                    message
-                )
-            ))
-        }
-        Err(e) => Err(e)
+        Ok(user) => Ok(Template::render(
+            "account/edit",
+            context!(
+                path: DEFAULT_PATH,
+                title: "Edit Profile",
+                user,
+                password_first,
+                password_second,
+                color,
+                message
+            ),
+        )),
+        Err(e) => Err(e),
     }
 }
 
@@ -331,25 +330,37 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
         Ok(user) => {
             if form.password_x.first.is_empty() {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("edit"), "rYou must put a password"));
+                return Ok(Flash::error(
+                    Redirect::to("edit"),
+                    "rYou must put a password",
+                ));
             }
 
             if form.password_x.second.is_empty() {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("edit"), "rYou must fill the second password"));
+                return Ok(Flash::error(
+                    Redirect::to("edit"),
+                    "rYou must fill the second password",
+                ));
             }
 
             if form.password_x.first != form.password_x.second {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("edit"), "rYour password doesn't match"));
+                return Ok(Flash::error(
+                    Redirect::to("edit"),
+                    "rYour password doesn't match",
+                ));
             }
 
-            if new_password(user.username.as_str(), form.password_x.first) {
+            if set_password(user.username.as_str(), form.password_x.first) {
                 Ok(Flash::success(Redirect::to("edit"), "gPassword changed"))
             } else {
-                Ok(Flash::error(Redirect::to("edit"), "gOops. Please try again"))
+                Ok(Flash::error(
+                    Redirect::to("edit"),
+                    "gOops. Please try again",
+                ))
             }
         }
-        Err(e) => Err(e)
+        Err(e) => Err(e),
     }
 }

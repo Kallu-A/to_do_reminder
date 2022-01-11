@@ -11,8 +11,8 @@ use crate::schema::user::dsl::*;
 
 pub const DEFAULT_PATH: &str = "/static/image/profil/default.png";
 
-/// Struct get by all the getter of the database with 4 fields of the table
-#[derive(Queryable, Serialize, AsChangeset, Identifiable)]
+/// Struct get by all the getter of the database with 5 fields of the table
+#[derive(Queryable, Serialize, AsChangeset, Identifiable, Insertable)]
 #[table_name = "user"]
 pub struct UserEntity {
     pub id: i32,
@@ -147,19 +147,14 @@ pub fn create_user(username_a: &str, password_a: &str) -> usize {
 }
 
 /// Allow to change the value of a user picture book to change if he as a profile picture or not
-pub fn set_picture(user_x: &UserEntity, pic: bool) -> bool {
-    let conn = &mut handler::establish_connection();
-    let new = NewUserEntity {
-        username: user_x.username.as_str(),
-        password: user_x.password.as_str(),
-        perm: user_x.perm,
-        picture: pic,
-    };
-    diesel::replace_into(user).values(new).execute(conn).is_ok()
+pub fn set_picture(mut user_x: UserEntity, pic: bool) -> bool {
+    let con = &mut handler::establish_connection();
+    user_x.picture = pic;
+    user_x.save_changes::<UserEntity>(con).is_ok()
 }
 
 /// Try to change the password of user_x
-pub fn new_password(user_x: &str, password_x: &str) -> bool {
+pub fn set_password(user_x: &str, password_x: &str) -> bool {
     if let Some(mut us) = get_by_username(user_x) {
         let con = &mut establish_connection();
         us.password = password_x.to_owned();
@@ -171,7 +166,7 @@ pub fn new_password(user_x: &str, password_x: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::db::user_table::{delete_user, new_password, set_picture};
+    use crate::db::user_table::{delete_user, set_password, set_picture};
     use crate::{create_user_perm, get_by_username};
     use std::panic;
 
@@ -183,17 +178,22 @@ mod tests {
             println!("{}", err.location().unwrap().to_string());
         }));
 
-        assert!(get_by_username("test/user_table").is_none(), "reserved username");
+        assert!(
+            get_by_username("test/user_table").is_none(),
+            "reserved username"
+        );
         assert_eq!(create_user_perm("test/user_table", "1", true), 1);
         let userx = get_by_username("test/user_table");
         assert!(userx.is_some(), "just create");
-        new_password("test/user_table", "2");
         let userx = userx.unwrap();
-        assert_eq!(userx.password, "2");
+        assert_eq!(userx.password, "1");
         assert_eq!(userx.picture, false, "default value");
-        set_picture(&userx, true);
+        assert_eq!(set_password(userx.username.as_str(), "5"), true);
+        assert_eq!(set_password("test/user_table2", "2"), false);
+        set_picture(userx, true);
         let userx = get_by_username("test/user_table").unwrap();
         assert!(userx.picture, "value change by set_picture");
+        assert_eq!(userx.password, "5");
         assert_eq!(
             delete_user("test/user_table".to_string()),
             true,

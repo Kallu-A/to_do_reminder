@@ -46,6 +46,7 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 - `405` try to do something only accessible for visitors
 - `417` code should not happen, it's when the user of the token doesn't exist
 - `418` expired token
+- `500` error internal (my bad)
 
 --- 
 
