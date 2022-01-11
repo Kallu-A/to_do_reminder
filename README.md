@@ -41,12 +41,12 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 # Implemented
 ## Status code
 **You can try every status code by going to [{server}/status/\<code>](http://0.0.0.0:8000/status/404)**
-- [403](http://0.0.0.0:8000/status/403) not login but action needs to
-- [404](http://0.0.0.0:8000/status/404) not found
-- `[405](http://0.0.0.0:8000/status/405) try to do something only accessible for visitors
-- [417](http://0.0.0.0:8000/status/417) code should not happen, it's when the user of the token doesn't exist
-- [418](http://0.0.0.0:8000/status/418) expired token
-- [500](http://0.0.0.0:8000/status/500) error internal (my bad)
+- [`403`](http://0.0.0.0:8000/status/403) not login but action needs to
+- [`404`](http://0.0.0.0:8000/status/404) not found
+- [`405`](http://0.0.0.0:8000/status/405) try to do something only accessible for visitors
+- [`417`](http://0.0.0.0:8000/status/417) code should not happen, it's when the user of the token doesn't exist
+- [`418`](http://0.0.0.0:8000/status/418) expired token
+- [`500`](http://0.0.0.0:8000/status/500) error internal (my bad)
 
 ## Home
 - `GET` : [`/`](http://0.0.0.0:8000/) Home of the website
