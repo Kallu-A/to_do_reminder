@@ -2,14 +2,17 @@
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/static/css/user_display.css">
+<link rel="stylesheet" href="/static/css/submit.css">
 
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
     <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
+    <p id="username" style="text-align: center">{{ user.username}} </p>
     <div class="form_picture">
         <label for="file" class="sub_picture" id="cursor">Change</label>
         <input type="file" id="file" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden">
-        <input type="submit" name="submit" class="sub_picture" value="Submit" />
+        <input type="submit" class="submit" value="Submit"/>
     </div>
 </form>
 <h1>Change password</h1>
@@ -22,7 +25,7 @@
         <tr>
             <td>Confirm</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> </td>
         </tr>
-        <td colspan="2"><input type="submit" id="submit" value="Submit"/></td>
+        <td colspan="2"><input type="submit" class="submit" value="Submit"/></td>
     </table>
 </form>
 

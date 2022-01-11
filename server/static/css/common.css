@@ -59,12 +59,15 @@ form {
 }
 
 input:hover {
-    color: var(--fg-green);
-    border-color: var(--fg-green);
+    border-color: var(--orange);
 }
 
 #submit {
     padding: 10px;
+}
+
+#submit:hover {
+    cursor: pointer;
 }
 
 #submit_red {
@@ -72,15 +75,16 @@ input:hover {
     border-color: var(--red);
 }
 
-#submit:hover {
-    cursor: pointer;
-}
-
 #submit_red:hover {
     cursor: pointer;
     color: var(--red);
 }
 
+
 a {
     color: var(--blue);
+}
+
+a:hover {
+    color: var(--orange);
 }

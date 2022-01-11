@@ -1,0 +1,7 @@
+.submit {
+    padding: 10px;
+}
+
+.submit:hover {
+    cursor: pointer;
+}

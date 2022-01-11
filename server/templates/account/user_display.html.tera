@@ -9,7 +9,7 @@
         <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
         <p id="username">{{ user.username}} </p>
         <a href="/account/edit" class="edit">edit profile</a>
-        <div style="display: flex">
+        <div style="display: flex; justify-content: center">
             <form action="/account/logout" method="post" style="margin-right: 20px">
                 <input type="hidden" name="_method" value="put" />
                 <input type="submit" class="submit_red" value="Logout"/>

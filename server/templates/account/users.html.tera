@@ -2,23 +2,20 @@
 {% block content %}
 
 <link rel="stylesheet" href="/static/css/member.css">
+<link rel="stylesheet" href="/static/css/user_display.css">
 
 <h1> Members on the website : </h1>
-
-<table style="margin-top: 30px">
-    {% for user in users %}
-    <tr>
-        <td> {{ user.username }} </td>
-        <td>
-            {% if user.picture == true %}
-            <img src="/static/image/profil/{{user.username}}" width="50px" height="50px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
-            {% else %}
-            <img src="/static/image/profil/default.png" width="50px" height="50px" alt="Logo of {{ user.username }}"/>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-
-</table>
+<div id="users_container" class="message">
+{% for user in users %}
+    <div style="margin: 0 30px 0 0 ;" class="message">
+        <b>{{ user.username }} </b> <br style="margin-bottom: 5px">
+        {% if user.picture == true %}
+            <img class="img_align" src="/static/image/profil/{{user.username}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
+        {% else %}
+            <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
 
 {% endblock content %}

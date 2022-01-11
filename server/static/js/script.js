@@ -5,3 +5,7 @@ function hide_after_time() {
         });
     }, 1500);
 }
+
+function confirm_pop_up() {
+    confirm("this is a confirm");
+}

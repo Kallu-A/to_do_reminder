@@ -32,3 +32,24 @@
 p {
     text-align: left;
 }
+
+.img_align {
+    vertical-align: middle;
+}
+
+#users_container {
+    padding: 30px;
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 600px) {
+    #personal {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
+
+}
