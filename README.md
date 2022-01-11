@@ -41,17 +41,37 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 # Implemented
 ## Status code
 **You can try every status code by going to [{server}/status/\<code>](http://0.0.0.0:8000/status/404)**
-- `403` not login but action needs to
-- `404` not found
-- `405` try to do something only accessible for visitors
-- `417` code should not happen, it's when the user of the token doesn't exist
-- `418` expired token
-- `500` error internal (my bad)
+- [403](http://0.0.0.0:8000/status/403) not login but action needs to
+- [404](http://0.0.0.0:8000/status/404) not found
+- `[405](http://0.0.0.0:8000/status/405) try to do something only accessible for visitors
+- [417](http://0.0.0.0:8000/status/417) code should not happen, it's when the user of the token doesn't exist
+- [418](http://0.0.0.0:8000/status/418) expired token
+- [500](http://0.0.0.0:8000/status/500) error internal (my bad)
 
+## Home
+- `GET` : [`/`](http://0.0.0.0:8000/) Home of the website
+- `GET` : [`/status/code`](http://0.0.0.0:8000/status/<code>) With `<code>` a response status code 
+  allows to simulate a code to see the template to it 
+
+## Account 
+*First the server will always have an admin account 
+with a default password `password` (you can change it)*
+### Path 
+- `GET` : [`/account/home`](http://0.0.0.0:8000/account/home) Send to login if not login else display user personal page
+- `GET` : [`/account/users`](http://0.0.0.0:8000/account/users) Allows to see every member of the website (if you're connected as admin get state of the database)
+- `GET` : [`/account/register`](http://0.0.0.0:8000/account/register) Show a form to fill to create a new account
+- `POST` : `/account/register` Handle the form and try to create the account
+- `GET` : [`/account/users`](http://0.0.0.0:8000/account/users) Show a form to fill to login 
+- `POST` : `/account/login` Handle the form and try to login
+- `PUT` : `/account/logout` Disconnect the user
+- `DELETE` : `/account/delete` Try to delete the user
+- `GET` : [`/account/edit`](http://0.0.0.0:8000/account/edit) Show form to change password or profile picture
+- `POST` : `/account/edit` Handle the change password
+- `POST` : `/account/set/picture` Handle the new picture
+- 
 --- 
 
 ## To do
 - ask user confirmation javascript?
-- user_display
-- home path in account
-- test section account
+- home account + template
+- users

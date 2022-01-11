@@ -9,31 +9,36 @@ mod schema;
 mod utils;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
-use crate::path::account::{
-    delete, edit, edit_post, home_logout, login, login_put, register, register_post,
-};
+use crate::path::account::{delete, edit, edit_post, home_logout, login, login_put, register, register_post, upload_picture};
 use crate::path::errors::{
     expired_token, internal_error, method_not_allowed, not_found, not_login, token_match_none,
 };
 use crate::utils::cookie::handler_flash;
 use path::account::{home, users};
 use rocket::fs::{relative, FileServer};
-use rocket::http::Status;
+use rocket::http::{CookieJar, Status};
 use rocket::request::FlashMessage;
 use rocket::{routes, Build, Rocket};
 use rocket_dyn_templates::Template;
+use crate::utils::token::get_token;
 
 /// Home of the website
 /// handle flash message
 #[get("/")]
-fn index(flash: Option<FlashMessage>) -> Template {
+fn index(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
     let (color, message) = handler_flash(flash);
+    let path;
+    if let Ok(user) = get_token(jar) {
+        path = user.get_path();
+    } else {
+        path = DEFAULT_PATH.to_string();
+    }
 
     Template::render(
         "home",
         context!(
             title: "Home",
-            path: DEFAULT_PATH,
+            path,
             color,
             message
         ),
@@ -42,7 +47,14 @@ fn index(flash: Option<FlashMessage>) -> Template {
 
 /// Path to try a status code put in dynamic arg to see how is looking if his work
 #[get("/status/<code>")]
-fn status(code: u16) -> Result<Status, Template> {
+fn status(jar: &CookieJar<'_>, code: u16) -> Result<Status, Template> {
+    let path;
+    if let Ok(user) = get_token(jar) {
+        path = user.get_path();
+    } else {
+        path = DEFAULT_PATH.to_string();
+    }
+
     if let Some(status) = Status::from_code(code) {
         Result::Ok(status)
     } else {
@@ -50,7 +62,7 @@ fn status(code: u16) -> Result<Status, Template> {
             "error/wrong_status",
             context!(
                 title: "Wrong Status",
-                path: DEFAULT_PATH,
+                path,
                 code,
             ),
         ))
@@ -93,7 +105,8 @@ fn rocket() -> Rocket<Build> {
                 home_logout,
                 delete,
                 edit,
-                edit_post
+                edit_post,
+                upload_picture
             ],
         )
 }

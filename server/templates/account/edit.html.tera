@@ -3,7 +3,15 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
 
-<img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
+
+<form action="/account/set/picture" method="post" enctype="multipart/form-data">
+    <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
+    <div class="form_picture">
+        <label for="file" class="sub_picture" id="cursor">Change</label>
+        <input type="file" id="file" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden">
+        <input type="submit" name="submit" class="sub_picture" value="Submit" />
+    </div>
+</form>
 <h1>Change password</h1>
 <form method="post" enctype="multipart/form-data">
     <input type="hidden" name="username_x" value="{{user.username}}">

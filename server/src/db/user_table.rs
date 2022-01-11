@@ -190,6 +190,7 @@ mod tests {
         assert_eq!(userx.picture, false, "default value");
         assert_eq!(set_password(userx.username.as_str(), "5"), true);
         assert_eq!(set_password("test/user_table2", "2"), false);
+        let userx = get_by_username("test/user_table").unwrap();
         set_picture(userx, true);
         let userx = get_by_username("test/user_table").unwrap();
         assert!(userx.picture, "value change by set_picture");
@@ -200,5 +201,6 @@ mod tests {
             "must be true, test/user_table user is create"
         );
         assert!(get_by_username("test/user_table").is_none());
+        assert_eq!(set_password(userx.username.as_str(), "5"), false);
     }
 }

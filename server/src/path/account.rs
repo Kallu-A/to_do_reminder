@@ -1,15 +1,19 @@
-use crate::db::user_table::{
-    create_user, delete_user, get_all, set_password, UserRegister, UsersLogin, DEFAULT_PATH,
-};
+use std::fs;
+use std::path::Path;
+use crate::db::user_table::{create_user, delete_user, get_all, set_password, UserRegister, UsersLogin, DEFAULT_PATH, set_picture};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use regex::Regex;
 use rocket::form::Form;
-use rocket::http::{CookieJar, Status};
+use rocket::Data;
+use rocket::http::{ContentType, CookieJar, Status};
 use rocket::request::FlashMessage;
 use rocket::response::{Flash, Redirect};
 use rocket_dyn_templates::Template;
+use rocket_multipart_form_data::{
+    mime, MultipartFormData, MultipartFormDataField, MultipartFormDataOptions,
+};
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
@@ -46,14 +50,22 @@ pub fn home(
     }
 }
 
+// TODO
 #[get("/users")]
-pub fn users() -> Template {
+pub fn users(jar: &CookieJar<'_>) -> Template {
     let users = get_all();
+    let path;
+    if let Ok(user) = get_token(jar) {
+        path = user.get_path();
+    } else {
+        path = DEFAULT_PATH.to_string();
+    }
+
     Template::render(
         "account/users",
         context!(
             title: "List of users",
-            path: DEFAULT_PATH,
+            path,
             users,
         ),
     )
@@ -299,7 +311,7 @@ pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
         Ok(user) => Ok(Template::render(
             "account/edit",
             context!(
-                path: DEFAULT_PATH,
+                path: user.get_path(),
                 title: "Edit Profile",
                 user,
                 password_first,
@@ -362,5 +374,93 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
             }
         }
         Err(e) => Err(e),
+    }
+}
+
+/// If `get_token` return an error display the `status code`
+/// If picture is too large `size limite of : 2MB` to avoid attack with large image then send an `appropriate message`
+/// else try to save the picture then redirect to `account with an appropriate message`
+#[post("/set/picture", data = "<data>")]
+pub async fn upload_picture(
+    jar: &CookieJar<'_>,
+    data: Data<'_>,
+    content_type: &ContentType,
+) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            let options = MultipartFormDataOptions::with_multipart_form_data_fields(vec![
+                MultipartFormDataField::file("picture")
+                    .size_limit(2 * 1024 * 1024)
+                    .content_type_by_string(Some(mime::IMAGE_STAR))
+                    .unwrap(),
+            ]);
+            if let Ok(multipart_form_data) = MultipartFormData::parse(content_type, data, options)
+                .await {
+                if let Some(picture) = multipart_form_data.files.get("picture") {
+                    let picture = &picture[0];
+                    let root = concat!(env!("CARGO_MANIFEST_DIR"), "/", "static/image/profil");
+                    let pa = Path::new(root).join(user.username.clone());
+
+                    let path = &picture.path.to_owned();
+
+                    if fs::copy(path, pa).is_ok() {
+                        set_picture(user, true);
+                        Ok(Flash::success(
+                            Redirect::to("/account/edit"),
+                            "gImage successfully change !",
+                        ))
+                    } else {
+                        Ok(Flash::error(
+                            Redirect::to("/account/edit"),
+                            "rError reading the file !",
+                        ))
+                    }
+                } else {
+                    Ok(Flash::error(
+                        Redirect::to("/account/edit"),
+                        "rPlease select a new image !",
+                    ))
+                }
+            } else {
+                Ok(Flash::error(
+                    Redirect::to("/account/edit"),
+                    "rPicture too large !",
+                ))
+            }
+        }
+        Err(status) => Err(status),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use rocket::http::Status;
+
+    #[test]
+    fn test_account() {
+        use crate::rocket;
+        use rocket::local::blocking::Client;
+        let client = Client::tracked(rocket()).unwrap();
+
+        assert_eq!(
+            client.get(uri!("/account/home")).dispatch().status(),
+            Status::SeeOther
+        );
+        assert_eq!(
+            client.get(uri!("/account/users")).dispatch().status(),
+            Status::Ok
+        );
+        assert_eq!(
+            client.get(uri!("/account/register")).dispatch().status(),
+            Status::Ok
+        );
+        assert_eq!(
+            client.get(uri!("/account/login")).dispatch().status(),
+            Status::Ok
+        );
+        assert_eq!(
+            client.get(uri!("/account/edit")).dispatch().status(),
+            Status::Forbidden
+        );
     }
 }

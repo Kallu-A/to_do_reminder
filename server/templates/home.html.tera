@@ -1,20 +1,19 @@
 {% extends "common" %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+
 Home of website <br>
 
 {% if message != "" %}
-<SCRIPT>
-    function hide() {
-        let x = document.getElementById('close_button');
-        x.style.display = 'none';
-    }
-</SCRIPT>
-<button onclick="hide()" id="close_button">
-    <div class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
-        <img src="/static/image/close_{% if color == 'r' %}red{% elif color == 'g'%}green{% endif %}.png" id="litle_close" alt="close logo">
+<div id="close_button">
+    <p class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
         {{ message }}
-    </div>
-</button>
+    </p>
+</div>
+<SCRIPT>
+    hide_after_time()
+</SCRIPT>
 {% endif %}
 {% endblock content %}

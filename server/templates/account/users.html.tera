@@ -11,7 +11,7 @@
         <td> {{ user.username }} </td>
         <td>
             {% if user.picture == true %}
-            <img src="/static/image/profil/{{user.username}}" width="50px" height="50px" alt="Logo of {{ user.username }}"/>
+            <img src="/static/image/profil/{{user.username}}" width="50px" height="50px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
             {% else %}
             <img src="/static/image/profil/default.png" width="50px" height="50px" alt="Logo of {{ user.username }}"/>
             {% endif %}
