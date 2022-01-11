@@ -20,21 +20,17 @@
     </table>
 </form>
 
-{% if message != "" %}
-<SCRIPT>
-    function hide() {
-        let x = document.getElementById('close_button');
-        x.style.display = 'none';
-    }
-</SCRIPT>
-<button onclick="hide()" id="close_button">
-    <div class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
-        <img src="/static/image/close_{% if color == 'r' %}red{% elif color == 'g'%}green{% endif %}.png" id="litle_close" alt="close logo">
-        {{ message }}
-    </div>
-</button>
-{% endif %}
 
+{% if message != "" %}
+<div id="close_button">
+    <p class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
+        {{ message }}
+    </p>
+</div>
+<SCRIPT>
+    hide_after_time()
+</SCRIPT>
+{% endif %}
 <h5 style="margin-top: 20px"> Already have an account ? <br> Click here :  <a href="/account/login">Login</a> </h5>
 
 {% endblock content %}

@@ -35,10 +35,10 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 - `sudo docker container exec CONTAINERID cargo test`
     replace `CONTAINERID` by the id of your container 
   - launch the test and hopefully everything will be ok
-- Dont forget to do `sudo docker-compose down` once you`re done  
+- Dont forget to do `sudo docker-compose down` once you're done  
 --- 
 
-# implemented
+# Implemented
 ## Status code
 **You can try every status code by going to [{server}/status/\<code>](http://0.0.0.0:8000/status/404)**
 - `403` not login but action needs to

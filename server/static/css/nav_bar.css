@@ -31,7 +31,7 @@ nav {
     background-color: var(--bg-dark);
     height: 80px;
     width: 100%;
-    border-bottom: 2px solid var(--fg-green);
+    border-bottom: 1px inset var(--fg-green);
     box-shadow: 0 0 10px var(--bg-dark);
 }
 
