@@ -73,5 +73,4 @@ with a default password `password` (you can change it)*
 
 ## To do
 - ask user confirmation javascript?
-- home account + template
-- users
+- better check form 

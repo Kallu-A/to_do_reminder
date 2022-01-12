@@ -24,6 +24,10 @@
     </div>
 </div>
 
+<SCRIPT>
+    confirm_pop_up();
+</SCRIPT>
+
 {% if message != "" %}
 <div id="close_button">
     <p class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
