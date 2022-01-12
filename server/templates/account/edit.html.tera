@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="/static/css/user_edit.css">
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
-    <img id="preview" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/>
     <label for="file" class="sub_picture">
+        <img id="preview" class="profile_pic" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user"/>
         <img src="/static/image/edit.png" class="edit_img">
     </label>
     <p id="username" style="text-align: center">{{ user.username}} <input type="submit" id="save_change_btn" class="submit" value="Save" style="width: 0; visibility: hidden"/> </p>

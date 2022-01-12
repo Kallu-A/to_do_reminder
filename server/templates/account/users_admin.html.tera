@@ -1,0 +1,42 @@
+{% extends "common" %}
+{% block content %}
+
+<link rel="stylesheet" href="/static/css/member.css">
+<link rel="stylesheet" href="/static/css/user_display.css">
+
+<style>
+    td {
+        border-right: 2px inset var(--bg-dark);
+        border-left: 2px outset var(--bg-dark);
+    }
+
+</style>
+
+<h1> Database of users : </h1>
+<table id="users_container" class="message" style="display: flex">
+    <tr>
+        <td class="td_header">Picture</td>
+        <td class="td_header">Username</td>
+        <td class="td_header">Password</td>
+        <td class="td_header">Perm</td>
+        <td class="td_header">Picture</td>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>
+            {% if user.picture == true %}
+            <img class="img_align" src="/static/image/profil/{{user.username}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
+            {% else %}
+            <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
+            {% endif %}
+        </td>
+        <td> <b>{{ user.username }}</b> </td>
+        <td> {{ user.password }}</td>
+        <td> {{ user.perm }}</td>
+        <td> {{ user.picture }}</td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}

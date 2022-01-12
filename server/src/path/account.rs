@@ -1,19 +1,22 @@
-use std::fs;
-use std::path::Path;
-use crate::db::user_table::{create_user, delete_user, get_all, set_password, UserRegister, UsersLogin, DEFAULT_PATH, set_picture};
+use crate::db::user_table::{
+    create_user, delete_user, get_all, set_password, set_picture, UserRegister, UsersLogin,
+    DEFAULT_PATH,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use regex::Regex;
 use rocket::form::Form;
-use rocket::Data;
 use rocket::http::{ContentType, CookieJar, Status};
 use rocket::request::FlashMessage;
 use rocket::response::{Flash, Redirect};
+use rocket::Data;
 use rocket_dyn_templates::Template;
 use rocket_multipart_form_data::{
     mime, MultipartFormData, MultipartFormDataField, MultipartFormDataOptions,
 };
+use std::fs;
+use std::path::Path;
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
@@ -50,17 +53,27 @@ pub fn home(
     }
 }
 
-// TODO
+/// If not login or not an admin show a nice display of the user
+/// if login as admin show more a state of the database with extra data like password
 #[get("/users")]
 pub fn users(jar: &CookieJar<'_>) -> Template {
     let users = get_all();
     let path;
     if let Ok(user) = get_token(jar) {
         path = user.get_path();
+        if user.perm {
+            return Template::render(
+                "account/users_admin",
+                context!(
+                title: "Database user",
+                path,
+                users,
+                ),
+            );
+        }
     } else {
         path = DEFAULT_PATH.to_string();
     }
-
     Template::render(
         "account/users",
         context!(
@@ -394,8 +407,9 @@ pub async fn upload_picture(
                     .content_type_by_string(Some(mime::IMAGE_STAR))
                     .unwrap(),
             ]);
-            if let Ok(multipart_form_data) = MultipartFormData::parse(content_type, data, options)
-                .await {
+            if let Ok(multipart_form_data) =
+                MultipartFormData::parse(content_type, data, options).await
+            {
                 if let Some(picture) = multipart_form_data.files.get("picture") {
                     let picture = &picture[0];
                     let root = concat!(env!("CARGO_MANIFEST_DIR"), "/", "static/image/profil");

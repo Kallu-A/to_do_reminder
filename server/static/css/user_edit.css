@@ -9,3 +9,11 @@
 .edit_img:hover {
     cursor: pointer;
 }
+
+.profile_pic {
+    border-radius: 40px;
+}
+
+.profile_pic:hover {
+    cursor: pointer;
+}
