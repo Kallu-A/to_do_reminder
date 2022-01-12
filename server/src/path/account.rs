@@ -220,21 +220,20 @@ pub fn register_post(
 }
 
 /// get login with a form for the user to fill and login also a <a> to the register
+/// handle flash message to nice display error in form
 /// if the user already login to send him a `code 405`
 /// else handle the `cookie to reset back the value`
 /// if the user was already trying to login and also `display the error message`
 #[get("/login")]
 pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
-    let (color, message) = handler_flash(flash);
+    // input : u -> username , p -> password, ' ' -> nothing
+    let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(_) => Err(Status::MethodNotAllowed),
         Err(_) => {
             let username_x = cookie_handler(jar, "username_x".to_string());
             let password_x = cookie_handler(jar, "password_x".to_string());
-            let mut show_err = false;
-            if !message.is_empty() {
-                show_err = true;
-            }
+
             Result::Ok(Template::render(
                 "account/login",
                 context!(
@@ -242,9 +241,8 @@ pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templat
                     path: DEFAULT_PATH,
                     username_x,
                     password_x,
-                    color,
-                    message,
-                    show_err
+                    form_field,
+                    message
                 ),
             ))
         }
@@ -271,7 +269,7 @@ pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Re
 
     if form.username_x == "" {
         create_cookie();
-        return Result::Ok(Flash::error(Redirect::to("login"), "rPlease fill the username "));
+        return Result::Ok(Flash::error(Redirect::to("login"), "uPlease fill the username "));
     }
 
     // if user exist
@@ -282,11 +280,11 @@ pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Re
             Result::Ok(Flash::success(Redirect::to("home"), "gYou're logged"))
         } else {
             create_cookie();
-            Result::Ok(Flash::error(Redirect::to("login"), "rWrong password"))
+            Result::Ok(Flash::error(Redirect::to("login"), "pWrong password"))
         };
     }
     create_cookie();
-    Result::Ok(Flash::error(Redirect::to("login"), "rUser don't exist "))
+    Result::Ok(Flash::error(Redirect::to("login"), "uUser don't exist "))
 }
 
 /// PUT for trying to logout

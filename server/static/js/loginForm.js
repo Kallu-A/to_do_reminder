@@ -46,8 +46,13 @@ function verif_password() {
     }
 }
 
-// init all to see the current state of the form
+// use to set an form error with a message from the server
+function set_err(name, name_text, message) {
+    $(name).parent().removeClass().addClass("form_err");
+    $(name_text).text(message)
+}
+
 function init() {
-    verif_username();
     verif_password();
+    verif_username();
 }

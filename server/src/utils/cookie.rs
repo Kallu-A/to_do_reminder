@@ -8,21 +8,12 @@ pub fn handler_flash(flash: Option<FlashMessage>) -> (char, String) {
         .unwrap_or_else(|| "".to_string());
 
     if !val.is_empty() {
-        (from_char_to_color(val.remove(0)), val)
+        (val.remove(0), val)
     } else {
         (' ', val)
     }
 }
 
-/// Transform char to handling type of char
-/// if r => r || g => g else return ' '
-pub fn from_char_to_color(c: char) -> char {
-    match c {
-        'r' => 'r',
-        'g' => 'g',
-        _ => ' ',
-    }
-}
 /// Return the value of the cookie and remove it from the cookiejar
 /// If cookie not set return ""
 pub fn cookie_handler(jar: &CookieJar, name: String) -> String {
@@ -46,6 +37,7 @@ pub fn create_field_cookie(jar: &CookieJar<'_>, name: &str, value: &str) {
 
 #[cfg(test)]
 mod tests {
+    use crate::handler_flash;
     use crate::utils::cookie::{cookie_handler, create_field_cookie};
 
     //Unit test of `create_field_cookie` and `cookie handler`
