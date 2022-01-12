@@ -19,7 +19,7 @@
 <header>
     <nav>
         <a href="/account/home" class="logo" style="float: right">
-            <img src="{{path}}" width="50px" height="50px" alt="Profil picture of the user" style="border-radius: 10px; margin-right: 30px; "/>
+            <img src="{{path}}" width="50px" height="50px" alt="Profil picture of the user" style="border-radius: 10px; margin-right: 30px; "/> <div id="path_img"></div>
         </a>
         <input type="checkbox" id="check">
         <label for="check" class="checkbox">

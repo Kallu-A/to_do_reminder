@@ -2,16 +2,24 @@
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
+
 <link rel="stylesheet" href="/static/css/user_display.css">
 <link rel="stylesheet" href="/static/css/submit.css">
-
+<link rel="stylesheet" href="/static/css/account.css">
+<link rel="stylesheet" href="/static/css/user_edit.css">
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
-    <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
+    <SCRIPT>
+        set_upload();
+    </SCRIPT>
+    <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/>
+    <label for="upload_button" class="sub_picture" id="cursor">
+        <img src="/static/image/edit.png" class="edit_img" id="preview">
+    </label>
+    <br>
     <p id="username" style="text-align: center">{{ user.username}} </p>
     <div class="form_picture">
-        <label for="file" class="sub_picture" id="cursor">Change</label>
-        <input type="file" id="file" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden">
+        <input type="file" id="upload_button" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
         <input type="submit" class="submit" value="Submit"/>
     </div>
 </form>

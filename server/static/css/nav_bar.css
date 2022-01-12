@@ -26,6 +26,7 @@ body {
     --red: crimson;
     --blue: #407899;
     --grey: #73877B;
+    --dark: #111
 }
 nav {
     background-color: var(--bg-dark);
@@ -39,7 +40,6 @@ nav .logo {
     margin-left: 30px;
     margin-top: 15px;
 }
-
 
 nav ul {
     float: right;

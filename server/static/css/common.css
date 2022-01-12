@@ -58,10 +58,6 @@ form {
     margin-top: 20px;
 }
 
-input:hover {
-    border-color: var(--orange);
-}
-
 #submit {
     padding: 10px;
 }
@@ -77,14 +73,8 @@ input:hover {
 
 #submit_red:hover {
     cursor: pointer;
-    color: var(--red);
 }
-
 
 a {
     color: var(--blue);
-}
-
-a:hover {
-    color: var(--orange);
 }

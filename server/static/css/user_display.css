@@ -14,13 +14,10 @@
 
 .submit_red {
     padding: 10px;
-    border-color: var(--red);
 }
 
 .submit_red:hover {
     cursor: pointer;
-    border-color: var(--red);
-    color: var(--red);
 }
 
 #username {
