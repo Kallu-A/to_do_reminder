@@ -1,0 +1,21 @@
+.submit {
+    padding: 10px;
+}
+
+.submit:hover {
+    cursor: pointer;
+}
+
+.error_form {
+    color: var(--red);
+    font-size: 18px;
+    position: fixed;
+}
+
+.form_ok input {
+    border-color: var(--fg-green);
+}
+
+.form_err input {
+    border-color: var(--red);
+}

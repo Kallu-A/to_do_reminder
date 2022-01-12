@@ -1,4 +1,4 @@
-
+// Hide the display flash after 1500 ms
 function hide_after_time() {
     window.setTimeout(function() {
         $('#close_button').fadeTo(1000, 0).slideUp(1000, function(){
@@ -7,6 +7,7 @@ function hide_after_time() {
     }, 1500);
 }
 
+// Send a confirm pop_up for important action
 function confirm_pop_up(message, action) {
     let choice = confirm(message);
     if (choice) {
@@ -14,6 +15,7 @@ function confirm_pop_up(message, action) {
     }
 }
 
+// Allow to preview the new picture before saving it
 function preview_img() {
     const uploadBtn = document.querySelector("#file");
     const preview = document.querySelector("#preview");

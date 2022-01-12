@@ -231,6 +231,10 @@ pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templat
         Err(_) => {
             let username_x = cookie_handler(jar, "username_x".to_string());
             let password_x = cookie_handler(jar, "password_x".to_string());
+            let mut show_err = false;
+            if !message.is_empty() {
+                show_err = true;
+            }
             Result::Ok(Template::render(
                 "account/login",
                 context!(
@@ -239,7 +243,8 @@ pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templat
                     username_x,
                     password_x,
                     color,
-                    message
+                    message,
+                    show_err
                 ),
             ))
         }
@@ -263,6 +268,12 @@ pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Re
     if get_token(jar).is_ok() {
         return Result::Err(Status::MethodNotAllowed);
     }
+
+    if form.username_x == "" {
+        create_cookie();
+        return Result::Ok(Flash::error(Redirect::to("login"), "rPlease fill the username "));
+    }
+
     // if user exist
     if let Some(s) = get_by_username(form.username_x) {
         // and password match

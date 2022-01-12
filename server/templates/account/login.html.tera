@@ -1,24 +1,40 @@
 {% extends "common" %}
 {% block content %}
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
+<script src="/static/js/loginForm.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="/static/css/account.css">
+<link rel="stylesheet" href="/static/css/form.css">
 
 <h1>Log into your account</h1>
 <form method="post" enctype="multipart/form-data">
-    <table class = row>
+    <table class="form_table">
         <tr>
-            <div class="space">
-                <td>Username</td><td><input class="fields" type="text" size="10" maxlength="40" name="username_x" value="{{username_x}}"/> </td>
-            </div>
+            <td>Username</td>
+            <td style="text-align: left;">
+                <input id="input_username" type="text" size="10" maxlength="40" name="username_x" value="{{username_x}}"/> <br>
+                <span class="error_form" id="error_username"></span>
+            </td>
         </tr>
         <tr>
-            <td>Password</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x" value="{{password_x}}"/> </td>
+            <td>Password</td>
+            <td style="text-align: left">
+                <input id="input_password" type="password" size="10" maxlength="20" name="password_x" value="{{password_x}}"/> <br>
+                <span class="error_form" id="error_password"></span>
+            </td>
         </tr>
         <td colspan="2"><input type="submit" id="submit" value="Submit"/></td>
     </table>
 </form>
+
+{% if show_err == true %}
+<SCRIPT>
+    init();
+</SCRIPT>
+{% endif %}
+
 {% if message != "" %}
 <div id="close_button">
     <p class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
@@ -30,5 +46,4 @@
 </SCRIPT>
 {% endif %}
 <h5 style="margin-top: 20px"> Don't have an account ? <br> Click here :  <a href="/account/register">Register</a> </h5>
-
 {% endblock content %}

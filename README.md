@@ -68,7 +68,7 @@ with a default password `password` (you can change it)*
 - `GET` : [`/account/edit`](http://0.0.0.0:8000/account/edit) Show form to change password or profile picture
 - `POST` : `/account/edit` Handle the change password
 - `POST` : `/account/set/picture` Handle the new picture
-- 
+
 --- 
 
 ## To do
