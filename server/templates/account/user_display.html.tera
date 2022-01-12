@@ -17,16 +17,13 @@
                 <input type="submit" class="submit_red" value="Logout"/>
             </form>
             <form action="/account/delete" method="post">
-                <input type="hidden" name="_method" value="delete" />
-                <input type="submit" class="submit_red" value="delete"/>
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="button" onclick="confirm_pop_up('Do you really want to delete your account?', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
+                <input type="submit" id="submit" style="visibility: hidden; width: 0">
             </form>
         </div>
     </div>
 </div>
-
-<SCRIPT>
-    confirm_pop_up();
-</SCRIPT>
 
 {% if message != "" %}
 <div id="close_button">

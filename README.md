@@ -72,5 +72,4 @@ with a default password `password` (you can change it)*
 --- 
 
 ## To do
-- ask user confirmation javascript?
 - better check form 

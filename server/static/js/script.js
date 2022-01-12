@@ -1,3 +1,4 @@
+
 function hide_after_time() {
     window.setTimeout(function() {
         $('#close_button').fadeTo(1000, 0).slideUp(1000, function(){
@@ -6,8 +7,11 @@ function hide_after_time() {
     }, 1500);
 }
 
-function confirm_pop_up() {
-    confirm("this is a confirm");
+function confirm_pop_up(message, action) {
+    let choice = confirm(message);
+    if (choice) {
+        document.getElementById(action).click()
+    }
 }
 
 function preview_img() {

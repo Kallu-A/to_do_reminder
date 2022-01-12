@@ -50,4 +50,8 @@ p {
         width: 100%;
     }
 
+    #username {
+        text-align: center;
+    }
+
 }
