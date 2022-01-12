@@ -9,7 +9,6 @@
 .error_form {
     color: var(--red);
     font-size: 18px;
-    position: fixed;
 }
 
 .form_ok input {

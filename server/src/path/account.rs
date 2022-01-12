@@ -90,7 +90,7 @@ pub fn users(jar: &CookieJar<'_>) -> Template {
 /// if the user was already trying to register and also `display the error message`
 #[get("/register")]
 pub fn register(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
-    let (color, message) = handler_flash(flash);
+    let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(_) => Err(Status::MethodNotAllowed),
         Err(_) => {
@@ -105,7 +105,7 @@ pub fn register(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Temp
                     username_x,
                     password_first,
                     password_second,
-                    color,
+                    form_field,
                     message
                 ),
             ))
@@ -146,14 +146,14 @@ pub fn register_post(
         create_cookie();
         return Result::Ok(Flash::error(
             Redirect::to("register"),
-            "rYou need a Username",
+            "uneed a username",
         ));
     }
 
     // username too long
     if form.username_x.len() > 15 {
         create_cookie();
-        return Result::Ok(Flash::error(Redirect::to("register"), "rUsername too long"));
+        return Result::Ok(Flash::error(Redirect::to("register"), "uusername too long"));
     }
 
     // username_x don't match reserved username
@@ -167,7 +167,7 @@ pub fn register_post(
         create_cookie();
         return Result::Ok(Flash::error(
             Redirect::to("register"),
-            "rThe username is reserved",
+            "uusername is reserved",
         ));
     }
 
@@ -176,7 +176,7 @@ pub fn register_post(
         create_cookie();
         return Result::Ok(Flash::error(
             Redirect::to("register"),
-            "rYou must choose a password",
+            "pneed a password",
         ));
     }
 
@@ -185,7 +185,7 @@ pub fn register_post(
         create_cookie();
         return Result::Ok(Flash::error(
             Redirect::to("register"),
-            "rYou have to fill the second password",
+            "cneed to confirm password",
         ));
     }
 
@@ -194,7 +194,7 @@ pub fn register_post(
         create_cookie();
         return Result::Ok(Flash::error(
             Redirect::to("register"),
-            "rYour password doesn't match",
+            "cdoesn't match the password",
         ));
     }
 
@@ -205,7 +205,7 @@ pub fn register_post(
             create_cookie();
             Result::Ok(Flash::error(
                 Redirect::to("register"),
-                "rThe user already exists",
+                "uuser already exists",
             ))
         }
         None => {
@@ -269,7 +269,10 @@ pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Re
 
     if form.username_x == "" {
         create_cookie();
-        return Result::Ok(Flash::error(Redirect::to("login"), "uPlease fill the username "));
+        return Result::Ok(Flash::error(
+            Redirect::to("login"),
+            "uPlease fill the username ",
+        ));
     }
 
     // if user exist
