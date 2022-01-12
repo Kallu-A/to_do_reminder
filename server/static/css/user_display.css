@@ -14,6 +14,7 @@
 
 .submit_red {
     padding: 10px;
+    border-color: var(--red);
 }
 
 .submit_red:hover {

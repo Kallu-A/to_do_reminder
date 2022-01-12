@@ -9,19 +9,12 @@
 <link rel="stylesheet" href="/static/css/user_edit.css">
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
-    <SCRIPT>
-        set_upload();
-    </SCRIPT>
-    <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/>
-    <label for="upload_button" class="sub_picture" id="cursor">
-        <img src="/static/image/edit.png" class="edit_img" id="preview">
+    <img id="preview" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/>
+    <label for="file" class="sub_picture">
+        <img src="/static/image/edit.png" class="edit_img">
     </label>
-    <br>
-    <p id="username" style="text-align: center">{{ user.username}} </p>
-    <div class="form_picture">
-        <input type="file" id="upload_button" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
-        <input type="submit" class="submit" value="Submit"/>
-    </div>
+    <p id="username" style="text-align: center">{{ user.username}} <input type="submit" id="save_change_btn" class="submit" value="Save" style="width: 0; visibility: hidden"/> </p>
+    <input type="file" id="file" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
 </form>
 <h1>Change password</h1>
 <form method="post" enctype="multipart/form-data">
