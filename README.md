@@ -35,7 +35,12 @@ CONTAINER ID   IMAGE                   COMMAND                  CREATED         
 - `sudo docker container exec CONTAINERID cargo test`
     replace `CONTAINERID` by the id of your container 
   - launch the test and hopefully everything will be ok
-- Dont forget to do `sudo docker-compose down` once you're done  
+- Dont forget to do `sudo docker-compose down` once you're done
+
+# Security 
+The password is saved in the database with the encryption `PBKDF2`
+token are generated with serialise and `sha256` encryption plus a private cookie with `base64` hash
+
 --- 
 
 # Implemented
@@ -69,8 +74,3 @@ with a default password `password` (you can change it)*
 - `POST` : `/account/edit` Handle the change password
 - `POST` : `/account/set/picture` Handle the new picture
 
---- 
-
-## To do
-- better check form
-- edit
