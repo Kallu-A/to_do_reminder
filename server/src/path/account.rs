@@ -155,11 +155,9 @@ pub fn register_post(
 
     // username_x don't match reserved username
     let regex = Regex::new("^test*").unwrap();
-    let regex2 = Regex::new("#-#").unwrap();
     if form.username_x == "default.png"
         || form.username_x == "admin"
         || regex.is_match(form.username_x)
-        || regex2.is_match(form.username_x)
     {
         create_cookie();
         return Result::Ok(Flash::error(
@@ -418,12 +416,15 @@ pub async fn upload_picture(
                 if let Some(picture) = multipart_form_data.files.get("picture") {
                     let picture = &picture[0];
                     let root = concat!(env!("CARGO_MANIFEST_DIR"), "/", "static/image/profil");
-                    let pa = Path::new(root).join(user.username.clone());
+                    let pa = Path::new(root).join(user.id.to_string().as_str());
 
                     let path = &picture.path.to_owned();
 
                     if fs::copy(path, pa).is_ok() {
+                        let username = user.username.clone();
                         set_picture(user, true);
+                        remove_token(jar);
+                        create_token(jar, &get_by_username(username.as_str()).unwrap());
                         Ok(Flash::success(
                             Redirect::to("/account/edit"),
                             "gImage successfully change !",

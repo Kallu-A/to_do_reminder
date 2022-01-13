@@ -24,7 +24,7 @@
     <tr>
         <td>
             {% if user.picture == true %}
-            <img class="img_align" src="/static/image/profil/{{user.username}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
+            <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
             {% else %}
             <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
             {% endif %}
