@@ -20,3 +20,15 @@ function set_err(name, name_text, message) {
     $(name).parent().removeClass().addClass("form_err");
     $(name_text).text(message)
 }
+
+function isMatch(passFirst, passSecond, errorDisplay) {
+    if ( passFirst.val() !==  passSecond.val() ) {
+        passSecond.parent().removeClass().addClass("form_err");
+        errorDisplay.text("doesn't match the password");
+    } else {
+        if ( passFirst.val() !== "" && passSecond.val() !== "") {
+            passSecond.parent().removeClass().addClass("form_ok");
+            errorDisplay.text("");
+        }
+    }
+}

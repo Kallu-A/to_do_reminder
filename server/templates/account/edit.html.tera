@@ -2,11 +2,14 @@
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
+<script src="/static/js/commonForm.js" type="text/javascript"></script>
+<script src="/static/js/editForm.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="/static/css/user_display.css">
 <link rel="stylesheet" href="/static/css/submit.css">
 <link rel="stylesheet" href="/static/css/account.css">
 <link rel="stylesheet" href="/static/css/user_edit.css">
+<link rel="stylesheet" href="/static/css/form.css">
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
     <label for="file" class="sub_picture">
@@ -21,18 +24,35 @@
     <input type="hidden" name="username_x" value="{{user.username}}">
     <table class = row>
         <tr>
-            <td>New Password</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> </td>
+            <td>New Password</td><td><input id="input_password1" class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> <br>
+            <span class="error_form" id="error_password1"></span> </td>
         </tr>
+        <tr style="height: 10px"></tr>
         <tr>
-            <td>Confirm</td><td><input class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> </td>
+            <td>Confirm</td><td><input id="input_password2" class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> <br>
+            <span class="error_form" id="error_password2"></span></td>
         </tr>
+        <tr style="height: 10px"></tr>
         <td colspan="2"><input type="submit" class="submit" value="Submit"/></td>
     </table>
 </form>
 
-{% if message != "" %}
+<p style="visibility: hidden" id="message">{{message}}</p>
+{% if form_field == '1' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_password1", "#error_password1", message )
+</script>
+{% elif form_field == '2' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_password2", "#error_password2", message )
+</script>
+{% elif message != "" %}
 <div id="close_button">
-    <p class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
+    <p class="message" id="{% if form_field == 'r' %}display_red{% elif form_field == 'g'%}display_green{% endif %}">
         {{ message }}
     </p>
 </div>

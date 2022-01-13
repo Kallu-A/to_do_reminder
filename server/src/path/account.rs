@@ -288,7 +288,7 @@ pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Re
 pub fn home_logout(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
     if jar.get_private(TOKEN).is_some() {
         remove_token(jar);
-        Result::Ok(Flash::success(Redirect::to("home"), "gSuccessfully logout"))
+        Result::Ok(Flash::success(Redirect::to("/"), "gSuccessfully logout"))
     } else {
         Result::Err(Status::Forbidden)
     }
@@ -318,9 +318,11 @@ pub fn delete(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
 /// if get_token exist,
 /// show form to change value
 /// if get_token return an error display the code status
+/// for flash :
+/// 1 -> password.first | 2 -> password.second | g -> green | r -> red
 #[get("/edit")]
 pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
-    let (color, message) = handler_flash(flash);
+    let (form_field, message) = handler_flash(flash);
     let password_first = cookie_handler(jar, "password_x.first".to_string());
     let password_second = cookie_handler(jar, "password_x.second".to_string());
     match get_token(jar) {
@@ -332,7 +334,7 @@ pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
                 user,
                 password_first,
                 password_second,
-                color,
+                form_field,
                 message
             ),
         )),
@@ -360,7 +362,7 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
                 create_cookie();
                 return Ok(Flash::error(
                     Redirect::to("edit"),
-                    "rYou must put a password",
+                    "1need a password",
                 ));
             }
 
@@ -368,7 +370,7 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
                 create_cookie();
                 return Ok(Flash::error(
                     Redirect::to("edit"),
-                    "rYou must fill the second password",
+                    "2need to confirm password",
                 ));
             }
 
@@ -376,7 +378,7 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
                 create_cookie();
                 return Ok(Flash::error(
                     Redirect::to("edit"),
-                    "rYour password doesn't match",
+                    "2doesn't match the password",
                 ));
             }
 
@@ -385,7 +387,7 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
             } else {
                 Ok(Flash::error(
                     Redirect::to("edit"),
-                    "gOops. Please try again",
+                    "rOops. Please try again",
                 ))
             }
         }

@@ -32,8 +32,6 @@
         <td> <b>{{ user.username }}</b> </td>
         <td> {{ user.perm }}</td>
         <td> {{ user.picture }}</td>
-        <td> {{ user.password }}</td>
-
     </tr>
     {% endfor %}
 </table>
