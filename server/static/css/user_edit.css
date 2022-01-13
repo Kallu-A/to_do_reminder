@@ -16,3 +16,6 @@
 .profile_pic:hover {
     cursor: pointer;
 }
+.sub_picture {
+    margin-left: 20px;
+}

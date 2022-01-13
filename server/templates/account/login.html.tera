@@ -7,7 +7,7 @@
 <script src="/static/js/commonForm.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="/static/css/account.css">
-<link rel="stylesheet" href="/static/css/form.css">
+<link rel="stylesheet" href="/static/css/common_form.css">
 
 <h1>Log into your account</h1>
 <form method="post" enctype="multipart/form-data">
