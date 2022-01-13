@@ -72,6 +72,7 @@ pub struct Password<'v> {
 /// Return the username with the name in param or None if he doesn't exist
 pub fn get_by_username(username_find: &str) -> Option<UserEntity> {
     let conn = &mut handler::establish_connection();
+    println!("Get the user");
     match user
         .filter(username.eq(username_find))
         .load::<UserEntity>(conn)

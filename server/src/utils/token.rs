@@ -1,32 +1,42 @@
 use crate::db::user_table::UserEntity;
-use crate::get_by_username;
+use dotenv::dotenv;
+use hmac::{Hmac, Mac};
+use jwt::{Header, SignWithKey, Token, VerifyWithKey};
 use rocket::http::{Cookie, CookieJar, Status};
-use time::{Duration, OffsetDateTime};
+use serde::{Deserialize, Serialize};
+use sha2::Sha256;
+use std::env;
+use time::Duration;
 
 pub const TOKEN: &str = "token";
 
+/// Token structure to serialize deserialize
+#[derive(Default, Deserialize, Serialize)]
+struct TokenEntity {
+    id: i32,
+    username: String,
+    password: String,
+    picture: bool,
+    perm: bool,
+}
+
 /// Create the encrypted token with a Duration of 2 hours
 /// With name tokento_do_reminder
-/// Token is created like that : value#-#date#-#hour#-#minute
-/// value is the username
-/// #-# is the regex expression to separate
-/// expiredate is the date when the token is expired
-pub fn create_token(jar: &CookieJar<'_>, value: &str) {
+/// return bool if create or not
+pub fn create_token(jar: &CookieJar<'_>, user: &UserEntity) -> bool {
     println!("Creation token ");
-    let duration = OffsetDateTime::now_utc() + Duration::hours(2);
+    let val = new_token(user);
+    if val.is_err() {
+        return false;
+    }
+    let val = val.unwrap();
+
     jar.add_private(
-        Cookie::build(
-            TOKEN,
-            format!(
-                "{}#-#{}#-#{}#-#{}",
-                value.to_owned(),
-                duration.date(),
-                duration.hour(),
-                duration.minute(),
-            ),
-        )
-        .finish(),
-    )
+        Cookie::build(TOKEN, val)
+            .max_age(Duration::hours(2))
+            .finish(),
+    );
+    true
 }
 
 /// Work as explain in function 'get_token' but with the test bool if is true will
@@ -39,43 +49,22 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
     }
     .map(|c| c.value().to_string())
     {
-        let val: Vec<&str> = username.split("#-#").collect();
-        if val.len() != 4 {
-            println!("invalid len");
+        let token = login_token(username.as_str());
+        if token.is_err() {
             remove_token(jar);
-            return Err(Status::ExpectationFailed);
+            return Err(Status::InternalServerError);
         }
-        let duration = OffsetDateTime::now_utc();
-        let date = duration.date().to_string();
-        let hours = duration.hour().to_string().parse::<i8>().unwrap();
-        let min = duration.minute().to_string().parse::<i8>().unwrap();
-        let date_token = val[1];
-        let hours_token = val[2].parse::<i8>().unwrap();
-        let min_token = val[3].parse::<i8>().unwrap();
-        // if date token  < current date token expired or
-        // date token == current date then see hours if token hours < current hours = token expired
-        // else if date and hours ==, see min
-        println!(
-            "test token:  -------------------\ndate: {}  token: {} \n hour: {} token: {} \n min: {} token: {}\n ----------------------",
-            date, date_token, hours, hours_token, min, min_token
-        );
-        if *date_token < *date
-            || *date_token == *date && hours_token < hours
-            || *date_token == *date && hours_token == hours && min_token < min
-        {
-            println!("expired token");
-            remove_token(jar);
-            return Err(Status::ImATeapot);
-        }
+        let token = token.unwrap();
 
-        if let Some(user) = get_by_username(val[0]) {
-            Ok(user)
-        } else {
-            println!("user don't exist");
-            remove_token(jar);
-            Err(Status::ExpectationFailed)
-        }
+        Ok(UserEntity {
+            id: token.id,
+            username: token.username,
+            password: token.password,
+            perm: token.perm,
+            picture: token.picture,
+        })
     } else {
+        remove_token(jar);
         Err(Status::Forbidden)
     }
 }
@@ -89,16 +78,60 @@ pub fn remove_token(jar: &CookieJar<'_>) {
 /// Do a lot of operation to try to get the token if all is good will return Ok(UserEntity)
 /// But if not then :
 /// If user not login (token) return `error 403`
-/// if login but can't find user return `error 417` and remove the token
-/// if token is expire return `error 418` and remove the token
+/// if error while get the token return `error 500` and remove the token
 pub fn get_token(jar: &CookieJar<'_>) -> Result<UserEntity, Status> {
     get_token_spec(jar, false)
 }
 
+/// Create a token and return a book if successful or not
+fn new_token(user_x: &UserEntity) -> Result<String, String> {
+    let header: Header = Default::default();
+    // create the serialize struct
+    let claims = TokenEntity {
+        id: user_x.id,
+        username: user_x.username.clone(),
+        password: user_x.password.clone(),
+        picture: user_x.picture,
+        perm: user_x.perm,
+    };
+
+    let unsigned_token = Token::new(header, claims);
+    dotenv().ok();
+    let key: Hmac<Sha256> = Hmac::new_from_slice(
+        env::var("TOKEN_KEY")
+            .expect("TOKEN_KEY must be set")
+            .as_bytes(),
+    )
+    .map_err(|_e| "Unable to create the token")?;
+    let signed_token = unsigned_token
+        .sign_with_key(&key)
+        .map_err(|_e| "Invalid key")?;
+
+    Ok(signed_token.into())
+}
+
+/// Try to get the token return the structure if it's a success, else return status code
+fn login_token(token: &str) -> Result<TokenEntity, &'static str> {
+    dotenv().ok();
+    let key: Hmac<Sha256> = Hmac::new_from_slice(
+        env::var("TOKEN_KEY")
+            .expect("TOKEN_KEY must be set")
+            .as_bytes(),
+    )
+    .map_err(|_e| "Invalid key")?;
+
+    let token: Token<Header, TokenEntity, _> =
+        VerifyWithKey::verify_with_key(token, &key).map_err(|_e| "Verification failed")?;
+
+    let (_, claims) = token.into();
+    Ok(claims)
+}
+
 #[cfg(test)]
 mod tests {
+    use crate::db::user_table::UserEntity;
     use crate::get_by_username;
-    use crate::utils::token::{create_token, get_token_spec, remove_token, TOKEN};
+    use crate::utils::token::{create_token, get_token_spec, login_token, new_token, remove_token};
     use rocket::http::Status;
 
     // try a lot of scenario with the token 'get_token' 'create_token' 'remove_token' to make sur
@@ -114,7 +147,15 @@ mod tests {
             get_by_username("admin").is_some(),
             "Should have an admin account !"
         );
-        create_token(jar, "admin");
+        let admin = UserEntity {
+            id: 0,
+            username: "admin".to_string(),
+            password: "1".to_string(),
+            perm: false,
+            picture: false,
+        };
+
+        create_token(jar, &admin);
 
         assert!(
             get_token_spec(jar, true).is_ok(),
@@ -131,31 +172,30 @@ mod tests {
             get_by_username("test/token").is_none(),
             "Should never exist reserved key"
         );
-        create_token(jar, "test/token");
+    }
 
-        let c = jar.get_pending(TOKEN).unwrap();
-        let cookie_token = c.value();
-        let token: Vec<&str> = cookie_token.split("#-#").collect();
-        assert_eq!(
-            token.len(),
-            4,
-            "token split with pattern refex should always be len 4"
-        );
-        assert_eq!(
-            token[0], "test/token",
-            "should keep the username value intact"
-        );
+    // assure the data in the token are correctly generated
+    #[test]
+    fn generate_token() {
+        let user = UserEntity {
+            id: 10,
+            username: "user".to_string(),
+            password: "pass".to_string(),
+            perm: true,
+            picture: false,
+        };
+        let token = new_token(&user);
+        assert!(token.is_ok());
+        let token = token.unwrap();
 
-        assert_eq!(
-            get_token_spec(jar, true).err().unwrap(),
-            Status::ExpectationFailed,
-            "Should happen because test is not in the database"
-        );
-
-        assert_eq!(
-            get_token_spec(jar, true).err().unwrap(),
-            Status::Forbidden,
-            "Should happen because the failed get_token should remove the cookie"
-        );
+        let res = login_token(token.as_str());
+        assert!(res.is_ok());
+        assert!(login_token("wrong token").is_err());
+        let token = res.unwrap();
+        assert_eq!(token.username, "user");
+        assert_eq!(token.password, "pass");
+        assert_eq!(token.perm, true);
+        assert_eq!(token.picture, false);
+        assert_eq!(token.id, 10);
     }
 }
