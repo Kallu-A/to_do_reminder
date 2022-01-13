@@ -17,7 +17,6 @@
     <tr>
         <td class="td_header">Picture</td>
         <td class="td_header">Username</td>
-        <td class="td_header">Password</td>
         <td class="td_header">Perm</td>
         <td class="td_header">Picture</td>
     </tr>
@@ -31,9 +30,9 @@
             {% endif %}
         </td>
         <td> <b>{{ user.username }}</b> </td>
-        <td> {{ user.password }}</td>
         <td> {{ user.perm }}</td>
         <td> {{ user.picture }}</td>
+        <td> {{ user.password }}</td>
 
     </tr>
     {% endfor %}

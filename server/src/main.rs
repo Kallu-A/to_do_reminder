@@ -23,18 +23,19 @@ use rocket::http::{CookieJar, Status};
 use rocket::request::FlashMessage;
 use rocket::{routes, Build, Rocket};
 use rocket_dyn_templates::Template;
+use std::env;
 
 /// Home of the website
 /// handle flash message
 #[get("/")]
 fn index(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
     let (color, message) = handler_flash(flash);
-    let path;
-    if let Ok(user) = get_token(jar) {
-        path = user.get_path();
+
+    let path = if let Ok(user) = get_token(jar) {
+        user.get_path()
     } else {
-        path = DEFAULT_PATH.to_string();
-    }
+        DEFAULT_PATH.to_string()
+    };
 
     Template::render(
         "home",
@@ -50,12 +51,11 @@ fn index(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
 /// Path to try a status code put in dynamic arg to see how is looking if his work
 #[get("/status/<code>")]
 fn status(jar: &CookieJar<'_>, code: u16) -> Result<Status, Template> {
-    let path;
-    if let Ok(user) = get_token(jar) {
-        path = user.get_path();
+    let path = if let Ok(user) = get_token(jar) {
+        user.get_path()
     } else {
-        path = DEFAULT_PATH.to_string();
-    }
+        DEFAULT_PATH.to_string()
+    };
 
     if let Some(status) = Status::from_code(code) {
         Result::Ok(status)
@@ -77,7 +77,7 @@ fn rocket() -> Rocket<Build> {
     if get_by_username("admin").is_none() {
         println!("Admin doesn't exist ! Creation of it ");
         if create_user_perm("admin", "password", true) == 0 {
-            println!("Error at creation of the admin")
+            println!("Error at creation of the admin");
         };
     }
     rocket::build()

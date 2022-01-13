@@ -37,7 +37,6 @@ pub fn create_field_cookie(jar: &CookieJar<'_>, name: &str, value: &str) {
 
 #[cfg(test)]
 mod tests {
-    use crate::handler_flash;
     use crate::utils::cookie::{cookie_handler, create_field_cookie};
 
     //Unit test of `create_field_cookie` and `cookie handler`

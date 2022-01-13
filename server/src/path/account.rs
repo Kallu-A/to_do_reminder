@@ -1,7 +1,4 @@
-use crate::db::user_table::{
-    create_user, delete_user, get_all, set_password, set_picture, UserRegister, UsersLogin,
-    DEFAULT_PATH,
-};
+use crate::db::user_table::{create_user, delete_user, get_all, set_password, set_picture, UserRegister, UsersLogin, DEFAULT_PATH, is_password};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
@@ -144,10 +141,7 @@ pub fn register_post(
     // username_x not empty
     if form.username_x.is_empty() {
         create_cookie();
-        return Result::Ok(Flash::error(
-            Redirect::to("register"),
-            "uneed a username",
-        ));
+        return Result::Ok(Flash::error(Redirect::to("register"), "uneed a username"));
     }
 
     // username too long
@@ -174,10 +168,7 @@ pub fn register_post(
     // password_x.first not empty
     if form.password_x.first.is_empty() {
         create_cookie();
-        return Result::Ok(Flash::error(
-            Redirect::to("register"),
-            "pneed a password",
-        ));
+        return Result::Ok(Flash::error(Redirect::to("register"), "pneed a password"));
     }
 
     // password_x.second not empty
@@ -267,27 +258,27 @@ pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Re
         return Result::Err(Status::MethodNotAllowed);
     }
 
-    if form.username_x == "" {
+    if form.username_x.is_empty() {
         create_cookie();
         return Result::Ok(Flash::error(
             Redirect::to("login"),
-            "uPlease fill the username ",
+            "uplease fill the username ",
         ));
     }
 
     // if user exist
     if let Some(s) = get_by_username(form.username_x) {
         // and password match
-        return if s.password == form.password_x {
+        return if is_password(&s, form.password_x) {
             create_token(jar, form.username_x);
-            Result::Ok(Flash::success(Redirect::to("home"), "gYou're logged"))
+            Result::Ok(Flash::success(Redirect::to("home"), "gYou'r logged"))
         } else {
             create_cookie();
-            Result::Ok(Flash::error(Redirect::to("login"), "pWrong password"))
+            Result::Ok(Flash::error(Redirect::to("login"), "pwrong password"))
         };
     }
     create_cookie();
-    Result::Ok(Flash::error(Redirect::to("login"), "uUser don't exist "))
+    Result::Ok(Flash::error(Redirect::to("login"), "uuser don't exist "))
 }
 
 /// PUT for trying to logout
@@ -403,7 +394,7 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
 }
 
 /// If `get_token` return an error display the `status code`
-/// If picture is too large `size limite of : 2MB` to avoid attack with large image then send an `appropriate message`
+/// If picture is too large `size limite of : 1MB` to avoid attack with large image then send an `appropriate message`
 /// else try to save the picture then redirect to `account with an appropriate message`
 #[post("/set/picture", data = "<data>")]
 pub async fn upload_picture(
@@ -415,7 +406,7 @@ pub async fn upload_picture(
         Ok(user) => {
             let options = MultipartFormDataOptions::with_multipart_form_data_fields(vec![
                 MultipartFormDataField::file("picture")
-                    .size_limit(2 * 1024 * 1024)
+                    .size_limit(1024 * 1024)
                     .content_type_by_string(Some(mime::IMAGE_STAR))
                     .unwrap(),
             ]);

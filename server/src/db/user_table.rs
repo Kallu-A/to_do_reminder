@@ -1,13 +1,16 @@
 use diesel::prelude::*;
 use regex::Regex;
 use rocket::serde::{Deserialize, Serialize};
-use std::fs;
 use std::path::Path;
+use std::{env, fs};
 
 use crate::db::handler;
 use crate::db::handler::establish_connection;
 use crate::schema::user;
 use crate::schema::user::dsl::*;
+use dotenv::dotenv;
+use pbkdf2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier};
+use pbkdf2::Pbkdf2;
 
 pub const DEFAULT_PATH: &str = "/static/image/profil/default.png";
 
@@ -116,7 +119,7 @@ pub fn delete_user(username_delete: String) -> bool {
 /// If the username match '^test*' Regex and admin_x is not true also return 0 and don't create the user
 /// if admin_x is true create the user even if the pattern match '^test*`
 /// username: &str a primary key
-/// password
+/// password will be hashed
 /// admin for the permission
 pub fn create_user_perm(username_x: &str, password_x: &str, admin_x: bool) -> usize {
     let conn = &handler::establish_connection();
@@ -126,9 +129,16 @@ pub fn create_user_perm(username_x: &str, password_x: &str, admin_x: bool) -> us
         return 0;
     }
 
+    dotenv().ok();
+    let key = env::var("SECRET_KEY").expect("Secret_key must be set");
+    let password_hash = Pbkdf2
+        .hash_password_simple(password_x.as_bytes(), key.as_str())
+        .unwrap()
+        .to_string();
+
     let new_user = NewUserEntity {
         username: username_x,
-        password: password_x,
+        password: password_hash.as_str(),
         perm: admin_x,
         picture: false,
     };
@@ -157,16 +167,30 @@ pub fn set_picture(mut user_x: UserEntity, pic: bool) -> bool {
 pub fn set_password(user_x: &str, password_x: &str) -> bool {
     if let Some(mut us) = get_by_username(user_x) {
         let con = &mut establish_connection();
-        us.password = password_x.to_owned();
+        dotenv().ok();
+        let key = env::var("SECRET_KEY").expect("Secret_key must be set");
+        let password_hash = Pbkdf2
+            .hash_password_simple(password_x.as_bytes(), key.as_str())
+            .unwrap()
+            .to_string();
+        us.password = password_hash;
         us.save_changes::<UserEntity>(con).is_ok()
     } else {
         false
     }
 }
 
+/// Test if password_x not hashed is the same as the password of the user
+pub fn is_password(us: &UserEntity, password_x: &str) -> bool {
+    let parsed_hash = PasswordHash::new(us.password.as_str()).unwrap();
+    Pbkdf2
+        .verify_password(password_x.as_bytes(), &parsed_hash)
+        .is_ok()
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::db::user_table::{delete_user, set_password, set_picture};
+    use crate::db::user_table::{delete_user, is_password, set_password, set_picture};
     use crate::{create_user_perm, get_by_username};
     use std::panic;
 
@@ -186,7 +210,8 @@ mod tests {
         let userx = get_by_username("test/user_table");
         assert!(userx.is_some(), "just create");
         let userx = userx.unwrap();
-        assert_eq!(userx.password, "1");
+        assert!(is_password(&userx, "1"));
+        assert!(!is_password(&userx, "4"));
         assert_eq!(userx.picture, false, "default value");
         assert_eq!(set_password(userx.username.as_str(), "5"), true);
         assert_eq!(set_password("test/user_table2", "2"), false);
@@ -194,7 +219,8 @@ mod tests {
         set_picture(userx, true);
         let userx = get_by_username("test/user_table").unwrap();
         assert!(userx.picture, "value change by set_picture");
-        assert_eq!(userx.password, "5");
+        assert!(is_password(&userx, "5"));
+        assert!(!is_password(&userx, "4"));
         assert_eq!(
             delete_user("test/user_table".to_string()),
             true,

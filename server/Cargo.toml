@@ -16,6 +16,7 @@ diesel={version="1.4.2", features=["sqlite"]}
 regex = "1.5.4"
 rocket-multipart-form-data = "0.10.0"
 time = { version = "0.2.1", default-features = false, features = ["std"] }
+pbkdf2 = "0.7"
 
 [dependencies.rocket_dyn_templates]
 version = "0.1.0-rc.1"

@@ -72,6 +72,5 @@ with a default password `password` (you can change it)*
 --- 
 
 ## To do
-- better check form 
-- register
+- better check form
 - edit

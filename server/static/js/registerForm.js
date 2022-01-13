@@ -22,6 +22,11 @@ function isMatch() {
     if ( passFirst.val() !==  passSecond.val() ) {
         passSecond.parent().removeClass().addClass("form_err");
         $('#error_passwordSecond').text("doesn't match the password");
+    } else {
+        if ( passFirst.val() !== "" && passSecond.val() !== "") {
+            passSecond.parent().removeClass().addClass("form_ok");
+            $('#error_passwordSecond').text("");
+        }
     }
 }
 
