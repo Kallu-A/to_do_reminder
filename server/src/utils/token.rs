@@ -9,6 +9,7 @@ use std::env;
 use time::Duration;
 
 pub const TOKEN: &str = "token";
+pub const TOKEN_DATE: &str = "token-set";
 
 /// Token structure to serialize deserialize
 #[derive(Default, Deserialize, Serialize)]
@@ -20,7 +21,8 @@ struct TokenEntity {
     perm: bool,
 }
 
-/// Create the encrypted token with a Duration of 2 hours
+/// Create the encrypted token with a Duration of 2 hours for expired token
+/// set a TOKEN-SET to handle when a token is expired who's limited in time of 12 hours
 /// With name tokento_do_reminder
 /// return bool if create or not
 pub fn create_token(jar: &CookieJar<'_>, user: &UserEntity) -> bool {
@@ -34,6 +36,11 @@ pub fn create_token(jar: &CookieJar<'_>, user: &UserEntity) -> bool {
     jar.add_private(
         Cookie::build(TOKEN, val)
             .max_age(Duration::hours(2))
+            .finish(),
+    );
+    jar.add_private(
+        Cookie::build(TOKEN_DATE, "")
+            .max_age(Duration::hours(12))
             .finish(),
     );
     true
@@ -63,8 +70,16 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
             perm: token.perm,
             picture: token.picture,
         })
+    } else if if test {
+        jar.get_pending(TOKEN_DATE)
     } else {
+        jar.get_private(TOKEN_DATE)
+    }
+    .is_some()
+    {
         remove_token(jar);
+        Err(Status::ImATeapot)
+    } else {
         Err(Status::Forbidden)
     }
 }
@@ -73,6 +88,7 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
 pub fn remove_token(jar: &CookieJar<'_>) {
     println!("token remove ! ");
     jar.remove_private(Cookie::named(TOKEN));
+    jar.remove_private(Cookie::named(TOKEN_DATE));
 }
 
 /// Do a lot of operation to try to get the token if all is good will return Ok(UserEntity)
