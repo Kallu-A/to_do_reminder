@@ -6,7 +6,14 @@ echo "'r' -> release"
 echo "'d' -> debug"
 echo "'t' -> test"
 
-diesel migration run
+# if database doesn't exist launch the creation
+if [ ! -f database  ]
+then
+  diesel migration run
+  echo "Creation of the database: success"
+else
+  echo "Link to the database: success"
+fi
 
 case $LAUNCH_MODE in
 
