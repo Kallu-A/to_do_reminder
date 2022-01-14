@@ -34,8 +34,11 @@ server_1  | Mode is: debug 'd'
 Everything has been explain you just need to go to the `server/.env` file and change the value of `LAUNCH_MODE` to the mode you want
 
 # Tests
+### Option 1
 **To see if the server passes all the tests you need to:**
-You can change the in the `server/.env` file the value of `LAUNCH_MODE` to `t` and do `sudo docker-compose up` or
+You can change the in the `server/.env` file the value of `LAUNCH_MODE` to `t` and do `sudo docker-compose up`
+
+### Option 2
 
 go to the `root` of the project and do: 
 - `sudo docker-compose up -d` to launch the container in daemon mode

@@ -6,7 +6,10 @@ echo "'r' -> release"
 echo "'d' -> debug"
 echo "'t' -> test"
 
+diesel migration run
+
 case $LAUNCH_MODE in
+
   "r")  echo "Mode is: release 'r'"
         cargo run --release src/main.rs
         exit 0;;
