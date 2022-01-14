@@ -7,4 +7,4 @@ services:
       - "8000:8000"
     volumes:
       - ./server:/usr/src/app
-    command: bash -c "cargo run src/main.rs"
+    command: bash "./launch.sh"

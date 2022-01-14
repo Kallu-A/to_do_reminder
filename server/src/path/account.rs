@@ -423,6 +423,7 @@ pub async fn upload_picture(
                     if fs::copy(path, pa).is_ok() {
                         let username = user.username.clone();
                         set_picture(user, true);
+                        // needed to get the new value in the token
                         remove_token(jar);
                         create_token(jar, &get_by_username(username.as_str()).unwrap());
                         Ok(Flash::success(
