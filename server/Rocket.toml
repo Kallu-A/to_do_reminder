@@ -5,3 +5,8 @@ port = 8000
 [default]
 secret_key = "3EnlwVg76d/MAyVuuTjC44E4qqLLjFvIZ2UV7QipWjc="
 
+[release]
+log_level = "critical"
+
+[debug]
+log_level = "debug"

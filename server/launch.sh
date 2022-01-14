@@ -8,7 +8,7 @@ echo "'t' -> test"
 
 case $LAUNCH_MODE in
   "r")  echo "Mode is: release 'r'"
-        cargo run src/main.rs --release
+        cargo run --release src/main.rs
         exit 0;;
 
   "d")  echo "Mode is: debug 'd'"
