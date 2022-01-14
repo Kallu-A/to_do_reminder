@@ -29,6 +29,16 @@ case $LAUNCH_MODE in
         cargo test
         exit 0;;
 
+        # mode for developers so not display
+  "c")  echo "Mode is: clippy 'c'"
+        cargo clippy;
+        exit 0;;
+
+        # mode for developers so not display
+  "f")  echo "Mode is: fmt 'f'"
+        cargo fmt;
+        exit 0;;
+
   *) echo "LAUNCH_MODE = '$LAUNCH_MODE' incorrect , available option are (r, d, t)";;
 esac
 exit 1;
