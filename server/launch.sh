@@ -18,7 +18,7 @@ fi
 case $LAUNCH_MODE in
 
   "r")  echo "Mode is: release 'r'"
-        cargo test;
+        cargo test
         cargo run --release src/main.rs
         exit 0;;
 
@@ -32,7 +32,7 @@ case $LAUNCH_MODE in
 
         # mode for developers so not display
   "c")  echo "Mode is: clippy 'c'"
-        cargo clippy;
+        cargo clippy
         exit 0;;
 
         # mode for developers so not display
@@ -42,13 +42,13 @@ case $LAUNCH_MODE in
 
   "a")  echo "Mode is: all verif 'a'"
         echo -n "launch fmt: "
-        cargo fmt;
+        cargo fmt
         echo "finish"
         echo "launch clippy: "
-        cargo clippy;
+        cargo clippy
         echo "-- finish --"
         echo "launch test: "
-        cargo test;
+        cargo test
         echo "-- finish --"
         echo "launch server: "
         cargo run --release src/main.rs

@@ -2,8 +2,10 @@
 extern crate diesel;
 #[macro_use]
 extern crate rocket;
+extern crate lettre;
 
 use std::env;
+use std::process::exit;
 
 use rocket::fs::{relative, FileServer};
 use rocket::http::{CookieJar, Status};
@@ -21,6 +23,7 @@ use crate::path::errors::{
     expired_token, internal_error, method_not_allowed, not_found, not_login, token_match_none,
 };
 use crate::utils::cookie::handler_flash;
+use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
 mod db;
@@ -76,6 +79,11 @@ fn status(jar: &CookieJar<'_>, code: u16) -> Result<Status, Template> {
 
 #[launch]
 fn rocket() -> Rocket<Build> {
+    if !verif_env() {
+        println!("FATAL-ERROR: Your .env as incorrect SMTP value (HELP: maybe your relay doesn't allow the connection?)");
+        exit(1);
+    }
+
     // Create a Admin account with perm if he doesn't exist
     if get_by_username("admin").is_none() {
         println!("Admin doesn't exist ! Creation of it ");

@@ -1,6 +1,22 @@
 # Installation 
 Install [Docker](https://docs.docker.com/engine/installation/) & [Docker-Compose](https://docs.docker.com/compose/install/)
 
+### Init the SMTP server 
+Before launch the server, you need to connect an `SMTP` account if you don't have one you can by `example use gmail`
+
+go to the `.env` file and change all the value with `SMTP`
+- `ADRESS_SMTP` *It's the adresse email you using*
+- `PASSWORD_SMTP` *It's your password*
+- `RELAY_SMTP` *It's your relay, example if you use a gmail account, it's will be smtp.gmail.com*
+
+*Of course you're not obligated to use a gmail account*
+**If your values SMTP are corrects it's possible the link still don't work because you have the connexion refused
+you just need to change in your account the setting**
+
+if something with the SMTP goes wrong the server will not launch so if it's launch or pass the test don't worry it's working
+
+### Launch
+
 Then download the repository go to the root where the 
 `Dockerfile` is and do: `sudo docker-compose up` 
 *sudo is needed to access to the port*
