@@ -18,6 +18,7 @@ fi
 case $LAUNCH_MODE in
 
   "r")  echo "Mode is: release 'r'"
+        cargo test;
         cargo run --release src/main.rs
         exit 0;;
 
@@ -37,6 +38,20 @@ case $LAUNCH_MODE in
         # mode for developers so not display
   "f")  echo "Mode is: fmt 'f'"
         cargo fmt;
+        exit 0;;
+
+  "a")  echo "Mode is: all verif 'a'"
+        echo -n "launch fmt: "
+        cargo fmt;
+        echo "finish"
+        echo "launch clippy: "
+        cargo clippy;
+        echo "-- finish --"
+        echo "launch test: "
+        cargo test;
+        echo "-- finish --"
+        echo "launch server: "
+        cargo run --release src/main.rs
         exit 0;;
 
   *) echo "LAUNCH_MODE = '$LAUNCH_MODE' incorrect , available option are (r, d, t)";;

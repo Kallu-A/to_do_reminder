@@ -32,14 +32,14 @@ server_1  | Creation of the database: success
 server_1  | Mode is: debug 'd'
 ```
 Everything has been explain you just need to go to the `server/.env` file and change the value of `LAUNCH_MODE` to the mode you want
-- `'r' release` better performance, `log level is critical`, so only important message are displayed in the terminal
+- `'r' release` launch the test before to make sure everything should work: better performance in runtime, `log level is critical`, so only important message are displayed in the terminal
 - `'d' debug` use for full data display to the terminal `log level normal`
 - `'t' test` launch the test of the server
 #### hidden mode
 *this mode is here only for development purpose to them are not displayed in the possible mode but they exist*
 - `'c' clippy` launch the clippy functionality of cargo *(test if their better syntax solution)*
 - `'f' fmt` launch the fmt functionality of cargo *(reformat the code with the rust convention)*
-
+- `'a' all` launch fmt, clippy, test, and server in release use this before a commit to make sure everything works fine
 # Tests
 ### Option 1
 **To see if the server passes all the tests you need to:**

@@ -1,12 +1,17 @@
 #[macro_use]
-extern crate rocket;
-#[macro_use]
 extern crate diesel;
+#[macro_use]
+extern crate rocket;
 
-mod db;
-mod path;
-mod schema;
-mod utils;
+use std::env;
+
+use rocket::fs::{relative, FileServer};
+use rocket::http::{CookieJar, Status};
+use rocket::request::FlashMessage;
+use rocket::{routes, Build, Rocket};
+use rocket_dyn_templates::Template;
+
+use path::account::{home, users};
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
 use crate::path::account::{
@@ -17,13 +22,11 @@ use crate::path::errors::{
 };
 use crate::utils::cookie::handler_flash;
 use crate::utils::token::get_token;
-use path::account::{home, users};
-use rocket::fs::{relative, FileServer};
-use rocket::http::{CookieJar, Status};
-use rocket::request::FlashMessage;
-use rocket::{routes, Build, Rocket};
-use rocket_dyn_templates::Template;
-use std::env;
+
+mod db;
+mod path;
+mod schema;
+mod utils;
 
 /// Home of the website
 /// handle flash message
