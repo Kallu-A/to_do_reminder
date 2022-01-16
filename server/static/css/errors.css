@@ -1,8 +1,11 @@
 h1 {
     color: var(--red);
-    margin-top: 15%;
 }
 
 b {
     color: var(--orange);
+}
+
+#content {
+    margin-top: 15%;
 }

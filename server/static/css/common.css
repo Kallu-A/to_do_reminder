@@ -1,6 +1,7 @@
 :root {
     --bg-dark: #242423;
     --bg-dark-transp: #24242390;
+    --bg-dark-transp_low: #242423b0;
     --bg-light: #333533;
     --fg-green: #04AA6D;
     --text-color: #fff;
@@ -61,22 +62,29 @@ a {
 #display_red {
     margin-top: 15px;
     color: var(--red);
-    padding: 5px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 10px;
     border: 1px solid var(--red);
+    background: var(--bg-dark-transp_low);
 }
 
 #display_green {
     margin-top: 15px;
     color: var(--fg-green);
-    padding: 5px;
+    padding: 10px;
     border-radius: 10px;
     border: 1px inset var(--fg-green);
+    background: var(--bg-dark-transp_low);
 }
 
 #close_button {
     border: none;
-    background: transparent;
+    position: absolute;
+    top: 70px;
+    font-size: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
 }
 
 #close_button:hover {
