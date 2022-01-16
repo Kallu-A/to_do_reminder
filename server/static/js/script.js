@@ -34,5 +34,3 @@ function preview_img() {
         }
     });
 }
-
-

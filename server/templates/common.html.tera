@@ -14,9 +14,6 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <title>{{ title }}</title>
-</head>
-<body>
-<header>
     <nav>
         <a href="/account/home" class="logo" style="float: right">
             <img src="{{path}}" width="50px" height="50px" alt="Profil picture of the user" style="border-radius: 10px; margin-right: 30px; "/> <div id="path_img"></div>
@@ -33,14 +30,16 @@
             <li><a id="unimplemented" href="#">Index2</a></li>
         </ul>
     </nav>
-</header>
+</head>
+<body>
+
 <!-- Here will be the child -->
-<div id="child_div" style="margin-top: 30px; font-size: 30px; text-align: center;">
-    {% block content %}
-    {% endblock content %}
+<div id="child_div" style="padding-top: 30px; font-size: 30px;">
+    <div id="content">
+        {% block content %}
+        {% endblock content %}
+    </div>
 </div>
 
-
 </body>
-
 </html>

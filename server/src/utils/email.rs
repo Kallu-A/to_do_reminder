@@ -52,12 +52,7 @@ fn create_email(username: &str, adress: &str, suject: String, body: String) -> M
 }
 
 pub fn send_email() -> Result<Response, Error> {
-    let email = create_email(
-        "",
-        "",
-        "".to_string(),
-        "".to_string(),
-    );
+    let email = create_email("", "", "".to_string(), "".to_string());
     let mailer = create_mailer();
 
     mailer.send(&email)

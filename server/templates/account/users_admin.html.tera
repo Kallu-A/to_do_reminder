@@ -6,8 +6,8 @@
 
 <style>
     td {
-        border-right: 2px inset var(--bg-dark);
-        border-left: 2px outset var(--bg-dark);
+        border-right: 2px inset var(--bg-dark-transp);
+        border-left: 2px outset var(--bg-dark-transp);
     }
 
 </style>

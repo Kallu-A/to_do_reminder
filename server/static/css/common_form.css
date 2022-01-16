@@ -20,3 +20,7 @@
 .form_err input {
     border-color: var(--red);
 }
+
+.separator {
+    height: 10px;
+}

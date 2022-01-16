@@ -1,27 +1,23 @@
 {% extends "common" %}
 {% block content %}
-<link rel="stylesheet" href="/static/css/user_display.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/static/css/user_display.css">
 
-<link rel="stylesheet" href="/static/css/account.css">
-
-<div id="display_manager">
-    <div id="personal" class="message">
-        <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
-        <p id="username">{{ user.username}} </p>
-        <a href="/account/edit" class="edit">edit profile</a>
-        <div style="display: flex; justify-content: center">
-            <form action="/account/logout" method="post" style="margin-right: 20px">
-                <input type="hidden" name="_method" value="put" />
-                <input type="submit" class="submit_red" value="Logout"/>
-            </form>
-            <form action="/account/delete" method="post">
-                <input type="hidden" name="_method" value="delete"/>
-                <input type="button" onclick="confirm_pop_up('Do you really want to delete your account?', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
-                <input type="submit" id="submit" style="visibility: hidden; width: 0">
-            </form>
-        </div>
+<div class="message" id="user_container">
+    <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
+    <p id="username">{{ user.username}} </p>
+    <a href="/account/edit" class="edit">edit profile</a>
+    <div style="display: flex;">
+        <form action="/account/logout" method="post">
+            <input type="hidden" name="_method" value="put" />
+            <input type="submit" class="submit_red" value="Logout"/>
+        </form>
+        <form action="/account/delete" method="post">
+            <input type="submit" id="submit" style="visibility: hidden; width: 0">
+            <input type="hidden" name="_method" value="delete"/>
+            <input type="button" onclick="confirm_pop_up('Do you really want to delete your account?', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
+        </form>
     </div>
 </div>
 

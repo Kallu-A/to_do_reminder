@@ -1,8 +1,41 @@
+:root {
+    --bg-dark: #242423;
+    --bg-dark-transp: #24242390;
+    --bg-light: #333533;
+    --fg-green: #04AA6D;
+    --text-color: #fff;
+    --orange: #d26839;
+    --red: crimson;
+    --blue: #407899;
+    --grey: #73877B;
+    --dark: #111
+}
+
+body {
+    background-image: linear-gradient(
+            to right,
+            hsl(299, 32%, 54%),
+            hsl(275, 100%, 10%)
+    );
+
+}
+
+#content {
+    width: fit-content;
+    text-align: center;
+    margin: 20px auto 0;
+    padding: 20px;
+    border-radius: 15px;
+    background: var(--bg-dark-transp);
+}
+
+form {
+    margin-top: 20px;
+}
+
 table {
     border-collapse: collapse;
-    box-shadow: 0 0 20px var(--bg-dark);
     margin: 0 auto;
-    border-radius: 7px;
 }
 
 td {
@@ -16,24 +49,29 @@ td {
 }
 
 .message {
-    margin: 20px auto 0;
-    border-radius: 7px;
     font-size: 25px;
-    box-shadow: 0 0 20px var(--bg-dark);
-    background: var(--bg-light);
-    padding: 10px;
     width: fit-content;
     text-align: center;
 }
 
+a {
+    color: var(--blue);
+}
+
 #display_red {
+    margin-top: 15px;
     color: var(--red);
+    padding: 5px;
+    border-radius: 5px;
     border: 1px solid var(--red);
 }
 
 #display_green {
+    margin-top: 15px;
     color: var(--fg-green);
-    border: 1px solid var(--fg-green);
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px inset var(--fg-green);
 }
 
 #close_button {
@@ -48,21 +86,22 @@ td {
 #litle_close {
     width: 24px;
     height: 24px;
-    background: var(--bg-light);
+    background: none;
     border: none;
+}
+
+#message {
+    visibility: hidden;
 }
 
 input {
     font-size: 25px;
     box-shadow: 0 0 20px var(--bg-dark);
-    background: var(--bg-light);
+    background: none;
     color: var(--text-color);
     border-radius: 7px;
 }
 
-form {
-    margin-top: 20px;
-}
 
 #submit {
     padding: 10px;
@@ -81,6 +120,16 @@ form {
     cursor: pointer;
 }
 
-a {
-    color: var(--blue);
+#path_img {
+    border-radius: 3px;
+    width: 50px;
+    height: 2px;
+    background: var(--orange);
+}
+
+
+@media (max-width: 600px) {
+    #content {
+        width: 100%;
+    }
 }
