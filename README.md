@@ -17,8 +17,8 @@ if something with the SMTP goes wrong the server will not launch so if the serve
 
 ### Launch
 
-Then download the repository go to the root where the 
-`Dockerfile` is and do: `sudo docker-compose up` 
+Go to the root where the 
+`docker-compose` is and do: `sudo docker-compose up` 
 *sudo is needed to access to the port*
 
 In the terminal where you launch the docker-compose you should see 
