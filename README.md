@@ -11,9 +11,9 @@ go to the `.env` file and change all the value with `SMTP`
 
 *Of course you're not obligated to use a gmail account*
 **If your values SMTP are corrects it's possible the link still don't work because you have the connexion refused
-you just need to change in your account the setting**
+you just need to change in your account the setting `Allow applications with less security`**
 
-if something with the SMTP goes wrong the server will not launch so if it's launch or pass the test don't worry it's working
+if something with the SMTP goes wrong the server will not launch so if the server is launch or pass the test don't worry it's working
 
 ### Launch
 
