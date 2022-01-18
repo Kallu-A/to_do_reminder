@@ -33,6 +33,22 @@
     background: var(--bg-dark-transp);
 }
 
+.email {
+    margin-top: 40px;
+    border: 1px solid var(--red);
+    box-shadow: 0 0 20px var(--bg-dark);
+    border-radius: 7px;
+    padding: 10px;
+    text-align: left;
+}
+
+.container {
+    width: fit-content;
+    padding: 20px;
+    border-radius: 15px;
+    background: var(--bg-dark-transp);
+}
+
 #username {
     margin-top: 15px;
     font-size: 40px;

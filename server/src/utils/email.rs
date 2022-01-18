@@ -1,9 +1,16 @@
 use dotenv::dotenv;
 use lettre::transport::smtp::authentication::Credentials;
-use lettre::transport::smtp::response::Response;
-use lettre::transport::smtp::Error;
 use lettre::{Message, SmtpTransport, Transport};
 use std::env;
+use crate::db::user_table::UserEntity;
+use rocket::serde::Serialize;
+
+
+/// To get the code in the form
+#[derive(Serialize, FromForm)]
+pub struct Code<'a> {
+    pub confirm_code: &'a str
+}
 
 /// method to test if the env var allow to send email or not use to kill the server before the launch if he can't send email
 pub fn verif_env() -> bool {
@@ -51,11 +58,18 @@ fn create_email(username: &str, adress: &str, suject: String, body: String) -> M
         .expect("error while creating the email")
 }
 
-pub fn send_email() -> Result<Response, Error> {
-    let email = create_email("", "", "".to_string(), "".to_string());
+/// Send a email to the user and return
+/// a bool who tell if the send was successfull or not
+pub fn send_email_code(user: &UserEntity) -> bool {
     let mailer = create_mailer();
+    let mail = create_email(
+        user.username.as_str(),
+        user.email.as_str(),
+        "Code to confirm the email".to_string(),
+        format!("Thanks for using our website To-Do-Reminder \n Here your code: <h3>{}</h3>", user.get_code())
+    );
 
-    mailer.send(&email)
+    mailer.send(&mail).is_ok()
 }
 
 #[cfg(test)]

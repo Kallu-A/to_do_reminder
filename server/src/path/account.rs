@@ -1,7 +1,4 @@
-use crate::db::user_table::{
-    create_user, delete_user, get_all, is_password, set_password, set_picture, UserRegister,
-    UsersLogin, DEFAULT_PATH,
-};
+use crate::db::user_table::{create_user, delete_user, get_all, is_password, set_password, set_picture, UserRegister, UsersLogin, DEFAULT_PATH, set_confirm_email};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
@@ -17,17 +14,20 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
+use crate::utils::email::{Code, send_email_code};
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
 /// else if the user is login send him to the template `user_display` with all possible options for him
 /// else if `get_token` return code 403 then redirect to `login` else display `status error from get_token`
+/// if user is login and email not enable show him a message to enable email
 #[get("/home")]
 pub fn home(
     jar: &CookieJar<'_>,
     flash: Option<FlashMessage>,
 ) -> Result<Template, Result<Flash<Redirect>, Status>> {
     let (color, message) = handler_flash(flash);
+    let code_confirm = cookie_handler(jar, "code_confirm".to_string());
 
     match get_token(jar) {
         Ok(user) => Ok(Template::render(
@@ -37,7 +37,8 @@ pub fn home(
                 title: "Account",
                 color,
                 message,
-                user
+                user,
+                code_confirm
             ),
         )),
         Err(status) => {
@@ -220,9 +221,10 @@ pub fn register_post(
         None => {
             create_user(form.username_x, form.password_x.first, form.email_x);
             create_token(jar, &get_by_username(form.username_x).unwrap());
+            send_email_code(&get_by_username(form.username_x).unwrap());
             Result::Ok(Flash::success(
                 Redirect::to("home"),
-                "gAccount successfully created",
+                "gAccount successfully created. Please confirm your email",
             ))
         }
     }
@@ -467,6 +469,55 @@ pub async fn upload_picture(
             }
         }
         Err(status) => Err(status),
+    }
+}
+
+
+/// Allow to send the code to confirm the email
+/// Try the token return error of `get_token`
+#[put("/send_code")]
+pub fn send_code(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            if user.confirm_email {
+                return Ok(Flash::error(Redirect::to("home"), "rEmail is already confirmed"));
+            }
+            if send_email_code(&user) {
+                Ok(Flash::success(Redirect::to("home"), "gCode send"))
+            } else {
+                Ok(Flash::error(Redirect::to("home"), "rError while sending the code"))
+            }
+        }
+        Err(e) => Err(e),
+    }
+}
+
+/// Try a code to see if the email is good
+/// Try the token return error of `get_token`
+#[post("/confirm", data="<code>")]
+pub fn confirm_code<'a>(jar: &CookieJar<'_>, code: Form<Code>) -> Result<Flash<Redirect>, Status> {
+    let create_cookie = || {
+        create_field_cookie(jar, "code_confirm", code.confirm_code);
+    };
+    match get_token(jar) {
+        Ok(mut user) => {
+            if user.confirm_email {
+                create_cookie();
+                return Ok(Flash::error(Redirect::to("home"), "rEmail is already confirmed"));
+            }
+            println!("{}, {}", code.confirm_code, user.get_code());
+            if code.confirm_code == user.get_code().as_str() {
+                remove_token(jar);
+                let confirm = set_confirm_email(user.username.as_str());
+                user.confirm_email = confirm;
+                create_token(jar, &user);
+                Ok(Flash::success(Redirect::to("home"), "gEmail confirm"))
+            } else {
+                create_cookie();
+                Ok(Flash::error(Redirect::to("home"), "rWrong code"))
+            }
+        }
+        Err(e) => Err(e),
     }
 }
 

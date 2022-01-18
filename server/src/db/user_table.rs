@@ -39,6 +39,19 @@ impl UserEntity {
         }
         path
     }
+
+    /// Generate a unique code for every user (use to confirm email)
+    pub fn get_code(&self) -> String {
+        let mut code = "".to_string();
+        code.push_str(self.username.len().to_string().as_str());
+        code.push_str(self.id.to_string().drain(0..1).as_str());
+        code.push_str(self.username.chars().map(|c| {
+            (c.to_ascii_lowercase() as u32).to_string()
+        }).collect::<String>().as_str());
+
+        code.truncate(10);
+        code
+    }
 }
 /// Struct to put a new user on the table User
 #[derive(Insertable)]
@@ -206,6 +219,18 @@ pub fn set_email(user_x: &str, email_x: &str) -> bool {
     }
 }
 
+/// Try to put true to the confirm_email field of the `user_x`
+pub fn set_confirm_email(user_x: &str) -> bool {
+    if let Some(mut us) = get_by_username(user_x) {
+        let con = &mut establish_connection();
+        dotenv().ok();
+        us.confirm_email = true;
+        us.save_changes::<UserEntity>(con).is_ok()
+    } else {
+        false
+    }
+}
+
 /// Test if password_x not hashed is the same as the password of the user
 pub fn is_password(us: &UserEntity, password_x: &str) -> bool {
     let parsed_hash = PasswordHash::new(us.password.as_str()).unwrap();
@@ -216,7 +241,7 @@ pub fn is_password(us: &UserEntity, password_x: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::db::user_table::{delete_user, is_password, set_email, set_password, set_picture};
+    use crate::db::user_table::{delete_user, is_password, set_confirm_email, set_email, set_password, set_picture};
     use crate::{create_user_perm, get_by_username};
     use std::panic;
 
@@ -253,6 +278,9 @@ mod tests {
         assert!(is_password(&userx, "5"));
         assert!(!is_password(&userx, "4"));
         assert_eq!(userx.confirm_email, false);
+        assert!(set_confirm_email(userx.username.as_str()));
+        let userx = get_by_username("test/user_table").unwrap();
+        assert!(userx.confirm_email);
         assert_eq!(
             delete_user("test/user_table".to_string()),
             true,

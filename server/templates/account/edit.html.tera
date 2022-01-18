@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/static/css/user_display.css">
 <link rel="stylesheet" href="/static/css/user_edit.css">
 <link rel="stylesheet" href="/static/css/common_form.css">
+<link rel="stylesheet" href="/static/css/account.css">
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
     <label for="file" class="sub_picture">

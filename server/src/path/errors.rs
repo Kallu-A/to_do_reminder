@@ -1,4 +1,4 @@
-use crate::{context, DEFAULT_PATH};
+use crate::{context, DEFAULT_PATH, get_token};
 use rocket::Request;
 use rocket_dyn_templates::Template;
 
@@ -16,11 +16,12 @@ pub fn not_login(req: &Request<'_>) -> Template {
 
 #[catch(404)]
 pub fn not_found(req: &Request<'_>) -> Template {
+    let path = get_path_img(req);
     Template::render(
         "error/404",
         context!(
             title: "ERROR 404",
-            path: DEFAULT_PATH,
+            path,
             uri: req.uri(),
         ),
     )
@@ -28,18 +29,19 @@ pub fn not_found(req: &Request<'_>) -> Template {
 
 #[catch(405)]
 pub fn method_not_allowed(req: &Request<'_>) -> Template {
+    let path = get_path_img(req);
     Template::render(
         "error/405",
         context!(
             title: "ERROR 405",
-            path: DEFAULT_PATH,
+            path,
             uri: req.uri(),
         ),
     )
 }
 
 #[catch(417)]
-pub fn token_match_none(_req: &Request<'_>) -> Template {
+pub fn token_match_none() -> Template {
     Template::render(
         "error/417",
         context!(
@@ -50,23 +52,33 @@ pub fn token_match_none(_req: &Request<'_>) -> Template {
 }
 
 #[catch(418)]
-pub fn expired_token(_req: &Request<'_>) -> Template {
+pub fn expired_token(req: &Request<'_>) -> Template {
+    let path = get_path_img(req);
     Template::render(
         "error/418",
         context!(
             title: "ERROR 418",
-            path: DEFAULT_PATH,
+            path
         ),
     )
 }
 
 #[catch(500)]
-pub fn internal_error(_req: &Request<'_>) -> Template {
+pub fn internal_error(req: &Request<'_>) -> Template {
+    let path = get_path_img(req);
     Template::render(
         "error/500",
         context!(
             title: "ERROR 500",
-            path: DEFAULT_PATH,
+            path,
         ),
     )
+}
+
+
+fn get_path_img(req: &Request<'_>) -> String {
+    match get_token(req.cookies()) {
+        Ok(user) => { user.get_path() }
+        Err(_) => { DEFAULT_PATH.to_string() }
+    }
 }
