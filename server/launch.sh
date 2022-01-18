@@ -3,8 +3,12 @@ source .env
 
 echo "You can change the mode by changing the value of LAUNCH_MODE in the .env file"
 echo "'r' -> release" 
+echo "'a' -> all (fmt, clippy, test, release)"
 echo "'d' -> debug"
 echo "'t' -> test"
+echo "'c' -> clippy (upgrade code)"
+echo "'f' -> fmt (syntax format)"
+echo "'rd' -> recreate the database"
 
 # if database doesn't exist launch the creation
 if [ ! -f database  ]

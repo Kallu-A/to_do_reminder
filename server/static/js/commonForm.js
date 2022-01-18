@@ -34,7 +34,7 @@ function isMatch(passFirst, passSecond, errorDisplay) {
 }
 
 function isEmail(email, error_email) {
-    const mailformat = /^w+[+.w-]*@([w-]+.)*w+[w-]*.([a-z]{2,4}|d+)$/i;
+    const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,4})+$/;
     if (!email.val().match(mailformat)) {
         console.log("invalide email");
         email.parent().removeClass().addClass("form_err");

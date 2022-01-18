@@ -174,10 +174,13 @@ pub fn register_post(
         return Result::Ok(Flash::error(Redirect::to("register"), "eneed an email"));
     }
 
-    let regex = Regex::new("/^w+[+.w-]*@([w-]+.)*w+[w-]*.([a-z]{2,4}|d+)$/i").unwrap();
+    let regex = Regex::new(
+        r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,4})+$",
+    )
+    .unwrap();
     if !regex.is_match(form.email_x) {
         create_cookie();
-        return Result::Ok(Flash::error(Redirect::to("register"), "einvalid email"))
+        return Result::Ok(Flash::error(Redirect::to("register"), "einvalid email"));
     }
 
     // password_x.first not empty
@@ -436,7 +439,7 @@ pub async fn upload_picture(
 
                     if fs::copy(path, pa).is_ok() {
                         let username = user.username.clone();
-                        set_picture(user, true);
+                        set_picture(user.username.as_str(), true);
                         // needed to get the new value in the token
                         remove_token(jar);
                         create_token(jar, &get_by_username(username.as_str()).unwrap());

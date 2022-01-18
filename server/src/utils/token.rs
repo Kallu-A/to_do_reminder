@@ -72,7 +72,7 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
             perm: token.perm,
             picture: token.picture,
             email: token.email,
-            confirm_email: token.confirm_email
+            confirm_email: token.confirm_email,
         })
     } else if if test {
         jar.get_pending(TOKEN_DATE)
@@ -176,7 +176,7 @@ mod tests {
             perm: false,
             picture: false,
             email: "test@gmail.com".to_string(),
-            confirm_email: true
+            confirm_email: true,
         };
 
         create_token(jar, &admin);
@@ -208,7 +208,7 @@ mod tests {
             perm: true,
             picture: false,
             email: "test@gmail.com".to_string(),
-            confirm_email: true
+            confirm_email: true,
         };
         let token = new_token(&user);
         assert!(token.is_ok());

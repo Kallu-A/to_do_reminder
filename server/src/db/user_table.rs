@@ -24,7 +24,7 @@ pub struct UserEntity {
     pub perm: bool,
     pub picture: bool,
     pub email: String,
-    pub confirm_email: bool
+    pub confirm_email: bool,
 }
 
 impl UserEntity {
@@ -49,7 +49,7 @@ pub struct NewUserEntity<'a> {
     pub perm: bool,
     pub picture: bool,
     pub email: &'a str,
-    pub confirm_email: bool
+    pub confirm_email: bool,
 }
 
 /// Struct used to create a new User by form with 2 password to make user confirm is password
@@ -150,7 +150,6 @@ pub fn create_user_perm(username_x: &str, password_x: &str, email_x: &str, admin
         perm: admin_x,
         picture: false,
         confirm_email: admin_x,
-
     };
 
     diesel::insert_into(user::table)
@@ -163,14 +162,18 @@ pub fn create_user_perm(username_x: &str, password_x: &str, email_x: &str, admin
 /// but without the need of specifying a boolean
 /// value for perm default value will be false
 pub fn create_user(username_a: &str, password_a: &str, email_x: &str) -> usize {
-    create_user_perm(username_a, password_a,  email_x, false)
+    create_user_perm(username_a, password_a, email_x, false)
 }
 
 /// Allow to change the value of a user picture book to change if he as a profile picture or not
-pub fn set_picture(mut user_x: UserEntity, pic: bool) -> bool {
-    let con = &mut handler::establish_connection();
-    user_x.picture = pic;
-    user_x.save_changes::<UserEntity>(con).is_ok()
+pub fn set_picture(user_x: &str, pic: bool) -> bool {
+    if let Some(mut us) = get_by_username(user_x) {
+        let con = &mut establish_connection();
+        us.picture = pic;
+        us.save_changes::<UserEntity>(con).is_ok()
+    } else {
+        false
+    }
 }
 
 /// Try to change the password of user_x
@@ -229,25 +232,27 @@ mod tests {
             get_by_username("test/user_table").is_none(),
             "reserved username"
         );
-        assert_eq!(create_user_perm("test/user_table", "1", "yo@gmail.com", true), 1);
+        assert_eq!(
+            create_user_perm("test/user_table", "1", "yo@gmail.com", true),
+            1
+        );
         let userx = get_by_username("test/user_table");
         assert!(userx.is_some(), "just create");
         let userx = userx.unwrap();
         assert!(is_password(&userx, "1"));
-        assert!(userx.email, "yo@gmail.com");
-        assert!(userx.confirm_email, true);
+        assert_eq!(userx.email, "yo@gmail.com");
+        assert_eq!(userx.confirm_email, true);
         assert!(!is_password(&userx, "4"));
         assert_eq!(userx.picture, false, "default value");
         assert_eq!(set_password(userx.username.as_str(), "5"), true);
         assert_eq!(set_password("test/user_table2", "2"), false);
-        let userx = get_by_username("test/user_table").unwrap();
-        set_picture(userx, true);
         set_email(userx.username.as_str(), "ya@gmail.com");
+        set_picture(userx.username.as_str(), true);
         let userx = get_by_username("test/user_table").unwrap();
         assert!(userx.picture, "value change by set_picture");
         assert!(is_password(&userx, "5"));
         assert!(!is_password(&userx, "4"));
-        assert!(userx.confirm_email, false);
+        assert_eq!(userx.confirm_email, false);
         assert_eq!(
             delete_user("test/user_table".to_string()),
             true,

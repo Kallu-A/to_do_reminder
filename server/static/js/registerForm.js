@@ -16,8 +16,7 @@ $(document).ready(function() {
     });
 
     $('#input_email').keyup(function () {
-        isEmail("#input_email", "#error_email");
-        isFill("#input_email", "#error_email", "need an email");
+        isEmail($('#input_email'), $('#error_email'));
     });
 });
 
@@ -26,10 +25,9 @@ function isSame() {
 }
 
 function init() {
+    isEmail($('#input_email'), $('#error_email'));
     isFill("#input_username", "#error_username", "need a username");
     isFill("#input_passwordFirst", "#error_passwordFirst", "need a password");
     isFill("#input_passwordSecond", "#error_passwordSecond", "need to confirm password");
-    isFill("#input_email", "#error_email", "need an email");
-    isEmail("#input_email", "#error_email");
     isSame();
 }

@@ -42,17 +42,19 @@ at the beginning you should see something like that :
 ```
 server_1  | You can change the mode by changing the value of LAUNCH_MODE in the .env file
 server_1  | 'r' -> release
+server_1  | 'a' -> all (fmt, clippy, test, release)
 server_1  | 'd' -> debug
 server_1  | 't' -> test
-server_1  | Creation of the database: success
-server_1  | Mode is: debug 'd'
+server_1  | 'c' -> clippy (upgrade code)
+server_1  | 'f' -> fmt (syntax format)
+server_1  | 'rd' -> recreate the database
+server_1  | Link to the database: success
+server_1  | Mode is: all verif 'a'
 ```
 Everything has been explain you just need to go to the `server/.env` file and change the value of `LAUNCH_MODE` to the mode you want
 - `'r' release` launch the test before to make sure everything should work: better performance in runtime, `log level is critical`, so only important message are displayed in the terminal
 - `'d' debug` use for full data display to the terminal `log level normal`
 - `'t' test` launch the test of the server
-#### hidden mode
-*this mode is here only for development purpose to them are not displayed in the possible mode but they exist*
 - `'c' clippy` launch the clippy functionality of cargo *(test if their better syntax solution)*
 - `'f' fmt` launch the fmt functionality of cargo *(reformat the code with the rust convention)*
 - `'rd' diesel redo` recreate the database if you change the structure

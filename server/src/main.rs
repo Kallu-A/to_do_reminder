@@ -90,7 +90,15 @@ fn rocket() -> Rocket<Build> {
     // Create a Admin account with perm if he doesn't exist
     if get_by_username("admin").is_none() {
         println!("Admin doesn't exist ! Creation of it ");
-        if create_user_perm("admin", "password", env::var("ADRESS_SMTP").expect("ADRESS_SMTP must be set").as_str(), true) == 0 {
+        if create_user_perm(
+            "admin",
+            "password",
+            env::var("ADRESS_SMTP")
+                .expect("ADRESS_SMTP must be set")
+                .as_str(),
+            true,
+        ) == 0
+        {
             println!("Error at creation of the admin");
         };
     }
