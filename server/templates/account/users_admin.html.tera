@@ -19,6 +19,8 @@
         <td class="td_header">Username</td>
         <td class="td_header">Perm</td>
         <td class="td_header">Picture</td>
+        <td class="td_header">Email</td>
+        <td class="td_header">Confirm Email</td>
     </tr>
     {% for user in users %}
     <tr>
@@ -32,6 +34,8 @@
         <td> <b>{{ user.username }}</b> </td>
         <td> {{ user.perm }}</td>
         <td> {{ user.picture }}</td>
+        <td> {{ user.email }}</td>
+        <td> {{ user.confirm_email }}</td>
     </tr>
     {% endfor %}
 </table>

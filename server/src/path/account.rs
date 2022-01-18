@@ -97,12 +97,14 @@ pub fn register(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Temp
             let username_x = cookie_handler(jar, "username_x".to_string());
             let password_first = cookie_handler(jar, "password_x.first".to_string());
             let password_second = cookie_handler(jar, "password_x.second".to_string());
+            let email_x = cookie_handler(jar, "email_x".to_string());
             Result::Ok(Template::render(
                 "account/register",
                 context!(
                     title: "Register",
                     path: DEFAULT_PATH,
                     username_x,
+                    email_x,
                     password_first,
                     password_second,
                     form_field,
@@ -169,7 +171,13 @@ pub fn register_post(
 
     if form.email_x.is_empty() {
         create_cookie();
-        return Result::Ok(Flash::error(Redirect::to("register"), "eneed an email"))
+        return Result::Ok(Flash::error(Redirect::to("register"), "eneed an email"));
+    }
+
+    let regex = Regex::new("/^w+[+.w-]*@([w-]+.)*w+[w-]*.([a-z]{2,4}|d+)$/i").unwrap();
+    if !regex.is_match(form.email_x) {
+        create_cookie();
+        return Result::Ok(Flash::error(Redirect::to("register"), "einvalid email"))
     }
 
     // password_x.first not empty
@@ -207,7 +215,7 @@ pub fn register_post(
             ))
         }
         None => {
-            create_user(form.username_x, form.password_x.first);
+            create_user(form.username_x, form.password_x.first, form.email_x);
             create_token(jar, &get_by_username(form.username_x).unwrap());
             Result::Ok(Flash::success(
                 Redirect::to("home"),

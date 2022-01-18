@@ -23,6 +23,8 @@ pub struct UserEntity {
     pub password: String,
     pub perm: bool,
     pub picture: bool,
+    pub email: String,
+    pub confirm_email: bool
 }
 
 impl UserEntity {
@@ -46,6 +48,8 @@ pub struct NewUserEntity<'a> {
     pub password: &'a str,
     pub perm: bool,
     pub picture: bool,
+    pub email: &'a str,
+    pub confirm_email: bool
 }
 
 /// Struct used to create a new User by form with 2 password to make user confirm is password
@@ -121,8 +125,10 @@ pub fn delete_user(username_delete: String) -> bool {
 /// if admin_x is true create the user even if the pattern match '^test*`
 /// username: &str a primary key
 /// password will be hashed
+/// email
 /// admin for the permission
-pub fn create_user_perm(username_x: &str, password_x: &str, admin_x: bool) -> usize {
+/// the confirm_email value will be the same as admin
+pub fn create_user_perm(username_x: &str, password_x: &str, email_x: &str, admin_x: bool) -> usize {
     let conn = &handler::establish_connection();
 
     let regex = Regex::new("^test*").unwrap();
@@ -140,8 +146,11 @@ pub fn create_user_perm(username_x: &str, password_x: &str, admin_x: bool) -> us
     let new_user = NewUserEntity {
         username: username_x,
         password: password_hash.as_str(),
+        email: email_x,
         perm: admin_x,
         picture: false,
+        confirm_email: admin_x,
+
     };
 
     diesel::insert_into(user::table)
@@ -153,8 +162,8 @@ pub fn create_user_perm(username_x: &str, password_x: &str, admin_x: bool) -> us
 /// Allow to also create a user,
 /// but without the need of specifying a boolean
 /// value for perm default value will be false
-pub fn create_user(username_a: &str, password_a: &str) -> usize {
-    create_user_perm(username_a, password_a, false)
+pub fn create_user(username_a: &str, password_a: &str, email_x: &str) -> usize {
+    create_user_perm(username_a, password_a,  email_x, false)
 }
 
 /// Allow to change the value of a user picture book to change if he as a profile picture or not
@@ -181,6 +190,19 @@ pub fn set_password(user_x: &str, password_x: &str) -> bool {
     }
 }
 
+/// allow change of a new email and set active to false
+pub fn set_email(user_x: &str, email_x: &str) -> bool {
+    if let Some(mut us) = get_by_username(user_x) {
+        let con = &mut establish_connection();
+        dotenv().ok();
+        us.email = email_x.to_string();
+        us.confirm_email = false;
+        us.save_changes::<UserEntity>(con).is_ok()
+    } else {
+        false
+    }
+}
+
 /// Test if password_x not hashed is the same as the password of the user
 pub fn is_password(us: &UserEntity, password_x: &str) -> bool {
     let parsed_hash = PasswordHash::new(us.password.as_str()).unwrap();
@@ -191,7 +213,7 @@ pub fn is_password(us: &UserEntity, password_x: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::db::user_table::{delete_user, is_password, set_password, set_picture};
+    use crate::db::user_table::{delete_user, is_password, set_email, set_password, set_picture};
     use crate::{create_user_perm, get_by_username};
     use std::panic;
 
@@ -207,21 +229,25 @@ mod tests {
             get_by_username("test/user_table").is_none(),
             "reserved username"
         );
-        assert_eq!(create_user_perm("test/user_table", "1", true), 1);
+        assert_eq!(create_user_perm("test/user_table", "1", "yo@gmail.com", true), 1);
         let userx = get_by_username("test/user_table");
         assert!(userx.is_some(), "just create");
         let userx = userx.unwrap();
         assert!(is_password(&userx, "1"));
+        assert!(userx.email, "yo@gmail.com");
+        assert!(userx.confirm_email, true);
         assert!(!is_password(&userx, "4"));
         assert_eq!(userx.picture, false, "default value");
         assert_eq!(set_password(userx.username.as_str(), "5"), true);
         assert_eq!(set_password("test/user_table2", "2"), false);
         let userx = get_by_username("test/user_table").unwrap();
         set_picture(userx, true);
+        set_email(userx.username.as_str(), "ya@gmail.com");
         let userx = get_by_username("test/user_table").unwrap();
         assert!(userx.picture, "value change by set_picture");
         assert!(is_password(&userx, "5"));
         assert!(!is_password(&userx, "4"));
+        assert!(userx.confirm_email, false);
         assert_eq!(
             delete_user("test/user_table".to_string()),
             true,

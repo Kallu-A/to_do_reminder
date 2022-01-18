@@ -32,3 +32,16 @@ function isMatch(passFirst, passSecond, errorDisplay) {
         }
     }
 }
+
+function isEmail(email, error_email) {
+    const mailformat = /^w+[+.w-]*@([w-]+.)*w+[w-]*.([a-z]{2,4}|d+)$/i;
+    if (!email.val().match(mailformat)) {
+        console.log("invalide email");
+        email.parent().removeClass().addClass("form_err");
+        error_email.text("invalid email");
+    } else {
+        console.log("valide email");
+        email.parent().removeClass().addClass("form_ok");
+        error_email.text("");
+    }
+}

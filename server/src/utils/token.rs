@@ -17,6 +17,8 @@ struct TokenEntity {
     id: i32,
     username: String,
     password: String,
+    email: String,
+    confirm_email: bool,
     picture: bool,
     perm: bool,
 }
@@ -69,6 +71,8 @@ fn get_token_spec(jar: &CookieJar<'_>, test: bool) -> Result<UserEntity, Status>
             password: token.password,
             perm: token.perm,
             picture: token.picture,
+            email: token.email,
+            confirm_email: token.confirm_email
         })
     } else if if test {
         jar.get_pending(TOKEN_DATE)
@@ -107,6 +111,8 @@ fn new_token(user_x: &UserEntity) -> Result<String, String> {
         id: user_x.id,
         username: user_x.username.clone(),
         password: user_x.password.clone(),
+        email: user_x.email.clone(),
+        confirm_email: user_x.confirm_email,
         picture: user_x.picture,
         perm: user_x.perm,
     };
@@ -169,6 +175,8 @@ mod tests {
             password: "1".to_string(),
             perm: false,
             picture: false,
+            email: "test@gmail.com".to_string(),
+            confirm_email: true
         };
 
         create_token(jar, &admin);
@@ -199,6 +207,8 @@ mod tests {
             password: "pass".to_string(),
             perm: true,
             picture: false,
+            email: "test@gmail.com".to_string(),
+            confirm_email: true
         };
         let token = new_token(&user);
         assert!(token.is_ok());
@@ -213,5 +223,7 @@ mod tests {
         assert_eq!(token.perm, true);
         assert_eq!(token.picture, false);
         assert_eq!(token.id, 10);
+        assert_eq!(token.confirm_email, true);
+        assert_eq!(token.email, "test@gmail.com");
     }
 }

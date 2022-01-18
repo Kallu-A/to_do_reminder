@@ -26,6 +26,8 @@ use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
+use dotenv::dotenv;
+
 mod db;
 mod path;
 mod schema;
@@ -79,6 +81,7 @@ fn status(jar: &CookieJar<'_>, code: u16) -> Result<Status, Template> {
 
 #[launch]
 fn rocket() -> Rocket<Build> {
+    dotenv().ok();
     if !verif_env() {
         println!("FATAL-ERROR: Your .env as incorrect SMTP value (HELP: maybe your relay doesn't allow the connection?)");
         exit(1);
@@ -87,7 +90,7 @@ fn rocket() -> Rocket<Build> {
     // Create a Admin account with perm if he doesn't exist
     if get_by_username("admin").is_none() {
         println!("Admin doesn't exist ! Creation of it ");
-        if create_user_perm("admin", "password", true) == 0 {
+        if create_user_perm("admin", "password", env::var("ADRESS_SMTP").expect("ADRESS_SMTP must be set").as_str(), true) == 0 {
             println!("Error at creation of the admin");
         };
     }

@@ -55,6 +55,7 @@ Everything has been explain you just need to go to the `server/.env` file and ch
 *this mode is here only for development purpose to them are not displayed in the possible mode but they exist*
 - `'c' clippy` launch the clippy functionality of cargo *(test if their better syntax solution)*
 - `'f' fmt` launch the fmt functionality of cargo *(reformat the code with the rust convention)*
+- `'rd' diesel redo` recreate the database if you change the structure
 - `'a' all` launch fmt, clippy, test, and server in release use this before a commit to make sure everything works fine
 # Tests
 ### Option 1
@@ -103,7 +104,7 @@ the token and as a `expire_date of 2 hours` and a cookie to set the expired_toke
 
 ## Account 
 *First the server will always have an admin account 
-with a default password `password` (you can change it)*
+with a default password `password` (you can change it) and email value same as the smtp email*
 ### Path 
 - `GET` : [`/account/home`](http://0.0.0.0:8000/account/home) Send to login if not login else display user personal page
 - `GET` : [`/account/users`](http://0.0.0.0:8000/account/users) Allows to see every member of the website (if you're connected as admin get state of the database)

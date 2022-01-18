@@ -40,6 +40,10 @@ case $LAUNCH_MODE in
         cargo fmt;
         exit 0;;
 
+  "rd")  echo "Mode is: redo databse 'rd'"
+        diesel migration redo;
+        exit 0;;
+
   "a")  echo "Mode is: all verif 'a'"
         echo -n "launch fmt: "
         cargo fmt
