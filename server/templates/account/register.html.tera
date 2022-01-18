@@ -19,6 +19,12 @@
         </tr>
         <tr class="separator"></tr>
         <tr>
+            <td>Email</td>
+            <td><input id="input_email" class="fields" type="email" size="10" maxlength="50" value="{{email_x}}"/> <br>
+            <span class="error_form" id="error_email"></span></td>
+        </tr>
+        <tr class="separator"></tr>
+        <tr>
             <td>Password</td>
             <td><input id="input_passwordFirst" class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/>  <br>
             <span class="error_form" id="error_passwordFirst"></span></td>
@@ -53,6 +59,12 @@
     init();
     let message = $('#message').text();
     set_err("#input_passwordSecond", "#error_passwordSecond", message )
+</script>
+{% elif form_field == 'e' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_email", "#error_email", message )
 </script>
 {% endif %}
 {% endblock content %}

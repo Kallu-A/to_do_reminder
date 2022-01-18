@@ -137,6 +137,7 @@ pub fn register_post(
     // Allow to not create cookie unnecessary
     let create_cookie = || {
         create_field_cookie(jar, "username_x", form.username_x);
+        create_field_cookie(jar, "email_x", form.email_x);
         create_field_cookie(jar, "password_x.first", form.password_x.first);
         create_field_cookie(jar, "password_x.second", form.password_x.second);
     };
@@ -164,6 +165,11 @@ pub fn register_post(
             Redirect::to("register"),
             "uusername is reserved",
         ));
+    }
+
+    if form.email_x.is_empty() {
+        create_cookie();
+        return Result::Ok(Flash::error(Redirect::to("register"), "eneed an email"))
     }
 
     // password_x.first not empty

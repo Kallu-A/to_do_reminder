@@ -52,6 +52,7 @@ pub struct NewUserEntity<'a> {
 #[derive(Debug, FromForm, Serialize)]
 pub struct UserRegister<'a> {
     pub(crate) username_x: &'a str,
+    pub(crate) email_x: &'a str,
     pub(crate) password_x: Password<'a>,
 }
 
