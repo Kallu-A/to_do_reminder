@@ -119,4 +119,7 @@ with a default password `password` (you can change it) and email value same as t
 - `GET` : [`/account/edit`](http://0.0.0.0:8000/account/edit) Show form to change password or profile picture
 - `POST` : `/account/edit` Handle the change password
 - `POST` : `/account/set/picture` Handle the new picture
-
+- `PUT` :  `/account/send_code` send a code to confirm the email
+- `POST` : `/account/confirm` form to enable the email 
+- `GET` : `/account/code_password` form when you forget your password
+- `PUT` : `/account/code_password` change the password and send the new value per email 

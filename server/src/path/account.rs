@@ -1,11 +1,10 @@
-use crate::db::user_table::{
-    create_user, delete_user, get_all, is_password, set_confirm_email, set_password, set_picture,
-    UserRegister, UsersLogin, DEFAULT_PATH,
-};
+use crate::db::user_table::{create_user, delete_user, get_all, is_password, set_confirm_email, set_password, set_picture, UserRegister, UsersLogin, DEFAULT_PATH, UserEditPassowrd};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
-use crate::utils::email::{send_email_code, Code};
+use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
+use rand::distributions::Alphanumeric;
+use rand::{thread_rng, Rng};
 use regex::Regex;
 use rocket::form::Form;
 use rocket::http::{ContentType, CookieJar, Status};
@@ -370,14 +369,14 @@ pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
 /// else test for every form if is not empty and password match else redirect to `edit with message`
 /// else change the password
 #[post("/edit", data = "<form>")]
-pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<Redirect>, Status> {
+pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserEditPassowrd>) -> Result<Flash<Redirect>, Status> {
     let create_cookie = || {
         create_field_cookie(jar, "password_x.first", form.password_x.first);
         create_field_cookie(jar, "password_x.second", form.password_x.second);
     };
 
     match get_token(jar) {
-        Ok(user) => {
+        Ok(mut user) => {
             if form.password_x.first.is_empty() {
                 create_cookie();
                 return Ok(Flash::error(Redirect::to("edit"), "1need a password"));
@@ -400,6 +399,9 @@ pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserRegister>) -> Result<Flash<
             }
 
             if set_password(user.username.as_str(), form.password_x.first) {
+                remove_token(jar);
+                user.password = form.password_x.first.to_string();
+                create_token(jar, &user);
                 Ok(Flash::success(Redirect::to("edit"), "gPassword changed"))
             } else {
                 Ok(Flash::error(
@@ -474,6 +476,8 @@ pub async fn upload_picture(
 
 /// Allow to send the code to confirm the email
 /// Try the token return error of `get_token`
+/// if user already have is email enable redirect to home
+/// else send him the code
 #[put("/send_code")]
 pub fn send_code(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
@@ -499,6 +503,9 @@ pub fn send_code(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
 
 /// Try a code to see if the email is good
 /// Try the token return error of `get_token`
+/// if user already enable is email, send him to `home`
+/// else compare the form and the code and redirect him to `home`
+/// with the appropriate message
 #[post("/confirm", data = "<code>")]
 pub fn confirm_code(jar: &CookieJar<'_>, code: Form<Code>) -> Result<Flash<Redirect>, Status> {
     let create_cookie = || {
@@ -526,6 +533,113 @@ pub fn confirm_code(jar: &CookieJar<'_>, code: Form<Code>) -> Result<Flash<Redir
             }
         }
         Err(e) => Err(e),
+    }
+}
+
+/// Form to send a new password to the email and username
+/// if user is already login, redirect him to `login`
+/// show the form and the message
+#[get("/code_password")]
+pub fn form_password_change(
+    jar: &CookieJar<'_>,
+    flash: Option<FlashMessage>,
+) -> Result<Template, Flash<Redirect>> {
+    let (form_field, message) = handler_flash(flash);
+    let username_x = cookie_handler(jar, "username_x".to_string());
+    let email_x = cookie_handler(jar, "email_x".to_string());
+
+    if get_token(jar).is_ok() {
+        Err(Flash::error(
+            Redirect::to("login"),
+            "rYou can change your password here",
+        ))
+    } else {
+        Ok(Template::render(
+            "account/forgot_password",
+            context!(
+                title: "Forgot Password",
+                path: DEFAULT_PATH,
+                form_field,
+                message,
+                username_x,
+                email_x
+            ),
+        ))
+    }
+}
+
+/// Change the password of the user and send to the email associate
+/// if user is already login return `code 405`
+/// if email not valid regex show him the error
+/// else try to find the user with the email and the username, if not found show him a `message of error`
+/// if email is not enable show him a `message of error`
+/// else change the password to a random code and send the code to the email
+#[put("/code_password", data = "<data>")]
+pub fn password_code(
+    jar: &CookieJar<'_>,
+    data: Form<ForgetPassword>,
+) -> Result<Flash<Redirect>, Status> {
+    if get_token(jar).is_ok() {
+        return Err(Status::MethodNotAllowed);
+    }
+
+    let create_cookie = || {
+        create_field_cookie(jar, "username_x", data.username);
+        create_field_cookie(jar, "email_x", data.email);
+    };
+
+    let regex = Regex::new(r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,4})+$").unwrap();
+    if !regex.is_match(data.email) {
+        create_cookie();
+        return Ok(Flash::error(
+            Redirect::to("code_password"),
+            "einvalid email",
+        ));
+    }
+
+    if let Some(user) = get_by_username(data.username) {
+
+        if user.email != data.email {
+            create_cookie();
+            return Ok(Flash::error(
+                Redirect::to("code_password"),
+                "enot the email you're using",
+            ));
+        }
+
+        if !user.confirm_email {
+            create_cookie();
+            Ok(Flash::error(
+                Redirect::to("code_password"),
+                "rYour email is not verified",
+            ))
+        } else {
+            let new_password: String = thread_rng()
+                .sample_iter(&Alphanumeric)
+                .take(10)
+                .map(char::from)
+                .collect();
+
+            set_password(user.username.as_str(), new_password.as_str());
+            if !send_email_password(&user, new_password.as_str()) {
+                create_cookie();
+                return Ok(Flash::error(
+                    Redirect::to("code_password"),
+                    "rError unable to send the email",
+                ));
+            }
+
+            Ok(Flash::error(
+                Redirect::to("code_password"),
+                "gNew password sends please login with it",
+            ))
+        }
+    } else {
+        create_cookie();
+        Ok(Flash::error(
+            Redirect::to("code_password"),
+            "uunable to find your account",
+        ))
     }
 }
 

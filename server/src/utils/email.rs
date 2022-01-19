@@ -12,6 +12,12 @@ pub struct Code<'a> {
     pub confirm_code: &'a str,
 }
 
+#[derive(Serialize, FromForm)]
+pub struct ForgetPassword<'a> {
+    pub email: &'a str,
+    pub username: &'a str,
+}
+
 /// method to test if the env var allow to send email or not use to kill the server before the launch if he can't send email
 pub fn verif_env() -> bool {
     let mailer = create_mailer();
@@ -55,6 +61,30 @@ fn create_email(username: &str, adress: &str) -> MessageBuilder {
             .unwrap_or_else(|_e| format!("user <{0}>", adress).parse::<Mailbox>().unwrap()))
 }
 
+/// Allow to create html mail more easily
+fn create_email_html(
+    mail: MessageBuilder,
+    html: String,
+    subject: String,
+    guard: String,
+) -> Message {
+    mail.subject(subject)
+        .multipart(
+            MultiPart::alternative()
+                .singlepart(
+                    SinglePart::builder()
+                        .header(header::ContentType::TEXT_PLAIN)
+                        .body(guard),
+                )
+                .singlepart(
+                    SinglePart::builder()
+                        .header(header::ContentType::TEXT_HTML)
+                        .body(html),
+                ),
+        )
+        .expect("failed to build the email")
+}
+
 /// Send a email to the user and return
 /// a bool who tell if the send was successfull or not
 pub fn send_email_code(user: &UserEntity) -> bool {
@@ -71,31 +101,48 @@ pub fn send_email_code(user: &UserEntity) -> bool {
                         <title>Code to confirm your email</title>
                     </head>
                     <body>
-                        <div style="text-align: center">
-                            The code to confirm your email is: <b style="color: #407899; font-size: 20px">{}</b>
+                        <div>
+                            The code to confirm your email is: <b style="color: #407899; font-size: 17px">{}</b>
                         </div>
                     </body>
                     </html>"#,
         code
     );
+    let mail = create_email_html(
+        mail,
+        html,
+        "CODE: confirm email".to_string(),
+        format!("The code to confirm your email is: {}", code),
+    );
+    mailer.send(&mail).is_ok()
+}
 
-    let mail = mail
-        .subject("CODE: confirm email")
-        .multipart(
-            MultiPart::alternative()
-                .singlepart(
-                    SinglePart::builder()
-                        .header(header::ContentType::TEXT_PLAIN)
-                        .body(format!("The code to confirm your email is: {}", code)),
-                )
-                .singlepart(
-                    SinglePart::builder()
-                        .header(header::ContentType::TEXT_HTML)
-                        .body(html),
-                ),
-        )
-        .expect("failed to build the email");
-
+/// Send a email to the person with their new password
+pub fn send_email_password(user: &UserEntity, password: &str) -> bool {
+    let mailer = create_mailer();
+    let mail = create_email(user.username.as_str(), user.email.as_str());
+    let html = format!(
+        r#"<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Request: Forgot Password</title>
+                    </head>
+                    <body>
+                        <div>
+                            The new password is: <b style="color: #407899; font-size: 17px">{}</b>
+                        </div>
+                    </body>
+                    </html>"#,
+        password
+    );
+    let mail = create_email_html(
+        mail,
+        html,
+        "REQUEST: Forgot Password".to_string(),
+        format!("The new password is: {}", password),
+    );
     mailer.send(&mail).is_ok()
 }
 

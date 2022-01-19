@@ -17,8 +17,8 @@ use path::account::{home, users};
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
 use crate::path::account::{
-    confirm_code, delete, edit, edit_post, home_logout, login, login_put, register, register_post,
-    send_code, upload_picture,
+    confirm_code, delete, edit, edit_post, form_password_change, home_logout, login, login_put,
+    password_code, register, register_post, send_code, upload_picture,
 };
 use crate::path::errors::{
     expired_token, internal_error, method_not_allowed, not_found, not_login, token_match_none,
@@ -133,7 +133,9 @@ fn rocket() -> Rocket<Build> {
                 edit_post,
                 upload_picture,
                 send_code,
-                confirm_code
+                confirm_code,
+                password_code,
+                form_password_change
             ],
         )
 }

@@ -1990,6 +1990,7 @@ dependencies = [
  "jwt",
  "lettre",
  "pbkdf2",
+ "rand",
  "regex",
  "rocket",
  "rocket-multipart-form-data",

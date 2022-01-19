@@ -1,18 +1,18 @@
-// Script for the form login
+// Script for the form forgot_password
 $(document).ready(function() {
 
     $('#input_username').keyup(function () {
         isFill("#input_username", "#error_username", "need a username");
     });
 
-    $('#input_password').keyup(function () {
-        isFill("#input_password", "#error_password", "need a password")
+    $('#input_email').keyup(function () {
+        isEmail($('#input_email'), $('#error_email'));
     });
 });
 
 
 
 function init() {
+    isEmail($('#input_email'), $('#error_email'));
     isFill("#input_username", "#error_username", "need a username");
-    isFill("#input_password", "#error_password", "need a password");
 }

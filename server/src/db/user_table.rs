@@ -77,6 +77,12 @@ pub struct UserRegister<'a> {
     pub(crate) password_x: Password<'a>,
 }
 
+#[derive(FromForm, Serialize)]
+pub struct UserEditPassowrd<'a> {
+    pub(crate) username_x: &'a str,
+    pub(crate) password_x: Password<'a>,
+}
+
 /// Struct to let the user try to login
 #[derive(FromForm, Deserialize)]
 pub struct UsersLogin<'a> {

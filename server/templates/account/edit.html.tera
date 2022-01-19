@@ -19,7 +19,7 @@
     <input type="file" id="file" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
 </form>
 <h1>Change password</h1>
-<form method="post" enctype="multipart/form-data">
+<form method="post" action="/account/edit" enctype="multipart/form-data">
     <input type="hidden" name="username_x" value="{{user.username}}">
     <table class = row>
         <tr>

@@ -20,7 +20,9 @@
             </tr>
             <tr class="separator"></tr>
             <tr>
-                <td>Password</td>
+                <td>Password <br>
+                    <a href="/account/code_password" style="font-size: 18px; position:absolute; display: flex">Forgot Password?</a>
+                </td>
                 <td>
                     <input id="input_password" type="password" size="10" maxlength="20" name="password_x" value="{{password_x}}"/> <br>
                     <span class="error_form" id="error_password"></span>
