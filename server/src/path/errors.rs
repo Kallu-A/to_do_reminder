@@ -1,4 +1,4 @@
-use crate::{context, DEFAULT_PATH, get_token};
+use crate::{context, get_token, DEFAULT_PATH};
 use rocket::Request;
 use rocket_dyn_templates::Template;
 
@@ -75,10 +75,9 @@ pub fn internal_error(req: &Request<'_>) -> Template {
     )
 }
 
-
 fn get_path_img(req: &Request<'_>) -> String {
     match get_token(req.cookies()) {
-        Ok(user) => { user.get_path() }
-        Err(_) => { DEFAULT_PATH.to_string() }
+        Ok(user) => user.get_path(),
+        Err(_) => DEFAULT_PATH.to_string(),
     }
 }

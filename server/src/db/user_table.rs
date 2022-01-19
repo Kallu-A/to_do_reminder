@@ -30,7 +30,7 @@ pub struct UserEntity {
 impl UserEntity {
     /// Return the path of the file of the profile picture if has it or else default.png
     pub fn get_path(&self) -> String {
-        let mut path = "../static/image/profil/".to_string();
+        let mut path = "/static/image/profil/".to_string();
         // set picture to the user if is has one else default
         if self.picture {
             path.push_str(self.id.to_string().as_str());
@@ -45,9 +45,13 @@ impl UserEntity {
         let mut code = "".to_string();
         code.push_str(self.username.len().to_string().as_str());
         code.push_str(self.id.to_string().drain(0..1).as_str());
-        code.push_str(self.username.chars().map(|c| {
-            (c.to_ascii_lowercase() as u32).to_string()
-        }).collect::<String>().as_str());
+        code.push_str(
+            self.username
+                .chars()
+                .map(|c| (c.to_ascii_lowercase() as u32).to_string())
+                .collect::<String>()
+                .as_str(),
+        );
 
         code.truncate(10);
         code
@@ -241,7 +245,9 @@ pub fn is_password(us: &UserEntity, password_x: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::db::user_table::{delete_user, is_password, set_confirm_email, set_email, set_password, set_picture};
+    use crate::db::user_table::{
+        delete_user, is_password, set_confirm_email, set_email, set_password, set_picture,
+    };
     use crate::{create_user_perm, get_by_username};
     use std::panic;
 

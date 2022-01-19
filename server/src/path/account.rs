@@ -1,5 +1,9 @@
-use crate::db::user_table::{create_user, delete_user, get_all, is_password, set_password, set_picture, UserRegister, UsersLogin, DEFAULT_PATH, set_confirm_email};
+use crate::db::user_table::{
+    create_user, delete_user, get_all, is_password, set_confirm_email, set_password, set_picture,
+    UserRegister, UsersLogin, DEFAULT_PATH,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
+use crate::utils::email::{send_email_code, Code};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use regex::Regex;
@@ -14,7 +18,6 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
-use crate::utils::email::{Code, send_email_code};
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
@@ -175,10 +178,7 @@ pub fn register_post(
         return Result::Ok(Flash::error(Redirect::to("register"), "eneed an email"));
     }
 
-    let regex = Regex::new(
-        r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,4})+$",
-    )
-    .unwrap();
+    let regex = Regex::new(r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,4})+$").unwrap();
     if !regex.is_match(form.email_x) {
         create_cookie();
         return Result::Ok(Flash::error(Redirect::to("register"), "einvalid email"));
@@ -472,7 +472,6 @@ pub async fn upload_picture(
     }
 }
 
-
 /// Allow to send the code to confirm the email
 /// Try the token return error of `get_token`
 #[put("/send_code")]
@@ -480,12 +479,18 @@ pub fn send_code(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(user) => {
             if user.confirm_email {
-                return Ok(Flash::error(Redirect::to("home"), "rEmail is already confirmed"));
+                return Ok(Flash::error(
+                    Redirect::to("home"),
+                    "rEmail is already confirmed",
+                ));
             }
             if send_email_code(&user) {
                 Ok(Flash::success(Redirect::to("home"), "gCode send"))
             } else {
-                Ok(Flash::error(Redirect::to("home"), "rError while sending the code"))
+                Ok(Flash::error(
+                    Redirect::to("home"),
+                    "rError while sending the code",
+                ))
             }
         }
         Err(e) => Err(e),
@@ -494,8 +499,8 @@ pub fn send_code(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
 
 /// Try a code to see if the email is good
 /// Try the token return error of `get_token`
-#[post("/confirm", data="<code>")]
-pub fn confirm_code<'a>(jar: &CookieJar<'_>, code: Form<Code>) -> Result<Flash<Redirect>, Status> {
+#[post("/confirm", data = "<code>")]
+pub fn confirm_code(jar: &CookieJar<'_>, code: Form<Code>) -> Result<Flash<Redirect>, Status> {
     let create_cookie = || {
         create_field_cookie(jar, "code_confirm", code.confirm_code);
     };
@@ -503,7 +508,10 @@ pub fn confirm_code<'a>(jar: &CookieJar<'_>, code: Form<Code>) -> Result<Flash<R
         Ok(mut user) => {
             if user.confirm_email {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("home"), "rEmail is already confirmed"));
+                return Ok(Flash::error(
+                    Redirect::to("home"),
+                    "rEmail is already confirmed",
+                ));
             }
             println!("{}, {}", code.confirm_code, user.get_code());
             if code.confirm_code == user.get_code().as_str() {
