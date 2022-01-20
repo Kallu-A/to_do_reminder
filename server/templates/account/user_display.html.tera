@@ -38,9 +38,10 @@
 <div class="email">
     <form action="/account/confirm" method="post" style="margin-top: 0">
         <label for="confirm_code" style="margin-bottom: 10px">enter your code email:</label> <br>
-        <input id="confirm_code" type="text" name="confirm_code" value="{{code_confirm}}" size="10" maxlength="10" style="margin-top: 7px"/>
-        <input type="submit"class="submit" value="Submit"/>
+        <input id="confirm_code" type="text" name="confirm_code" value="{{code_confirm}}" size="10" maxlength="10" style="margin-top: 7px"/> <br>
+        <input type="submit"class="submit" id="submit_code" value="Submit"/>
     </form>
+    <hr>
     <form action="/account/send_code" method="post">
         <input type="hidden" name="_method" value="put" />
         <label for="send_new">Don't receive a code ?</label> <br>
