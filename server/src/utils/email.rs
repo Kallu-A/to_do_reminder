@@ -102,17 +102,21 @@ pub fn send_email_code(user: &UserEntity) -> bool {
                     </head>
                     <body>
                         <div>
+                            Hi <b>{}</b><br>
                             The code to confirm your email is: <b style="color: #407899; font-size: 17px">{}</b>
                         </div>
                     </body>
                     </html>"#,
-        code
+        user.username, code
     );
     let mail = create_email_html(
         mail,
         html,
         "CODE: confirm email".to_string(),
-        format!("The code to confirm your email is: {}", code),
+        format!(
+            "Hi {}. The code to confirm your email is: {}",
+            user.username, code
+        ),
     );
     mailer.send(&mail).is_ok()
 }
