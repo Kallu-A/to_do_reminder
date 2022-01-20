@@ -32,7 +32,8 @@
             <span class="error_form" id="error_password2"></span></td>
         </tr>
         <tr class="separator"></tr>
-        <td colspan="2"><input type="submit" class="submit" value="Submit"/></td>
+        <input type="submit" class="submit" value="Submit" id="submit_pswd" style="visibility: hidden; position: absolute"/>
+        <td colspan="2"><input type="button" onclick="confirm_pop_up('This action will change your password', 'submit_pswd')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
     </table>
 </form>
 
