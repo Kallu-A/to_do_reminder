@@ -1,4 +1,7 @@
-use crate::db::user_table::{create_user, delete_user, get_all, is_password, set_confirm_email, set_password, set_picture, UserRegister, UsersLogin, DEFAULT_PATH, UserEditPassowrd};
+use crate::db::user_table::{
+    create_user, delete_user, get_all, is_password, set_confirm_email, set_password, set_picture,
+    UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
@@ -369,7 +372,10 @@ pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
 /// else test for every form if is not empty and password match else redirect to `edit with message`
 /// else change the password
 #[post("/edit", data = "<form>")]
-pub fn edit_post(jar: &CookieJar<'_>, form: Form<UserEditPassowrd>) -> Result<Flash<Redirect>, Status> {
+pub fn edit_post(
+    jar: &CookieJar<'_>,
+    form: Form<UserEditPassowrd>,
+) -> Result<Flash<Redirect>, Status> {
     let create_cookie = || {
         create_field_cookie(jar, "password_x.first", form.password_x.first);
         create_field_cookie(jar, "password_x.second", form.password_x.second);
@@ -598,7 +604,6 @@ pub fn password_code(
     }
 
     if let Some(user) = get_by_username(data.username) {
-
         if user.email != data.email {
             create_cookie();
             return Ok(Flash::error(
