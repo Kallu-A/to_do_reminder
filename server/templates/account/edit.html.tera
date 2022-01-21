@@ -37,18 +37,38 @@
     </table>
 </form>
 
+<h1>Change email</h1>
+<form method="post" action="/account/new_email">
+    <input type="hidden" name="_method" value="put" />
+    <table class = row>
+        <tr>
+            <td>New Email</td><td><input id="input_email" class="fields" type="text" size="15" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
+            <span class="error_form" id="error_email"></span> </td>
+        </tr>
+        <tr class="separator"></tr>
+        <input type="submit" class="submit" value="Submit" id="submit_email" style="visibility: hidden; position: absolute"/>
+        <td colspan="2"><input type="button" onclick="confirm_pop_up('This action will change your email', 'submit_email')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
+    </table>
+</form>
+
 <p id="message">{{message}}</p>
 {% if form_field == '1' %}
 <script>
-    init();
+    init_pswd();
     let message = $('#message').text();
     set_err("#input_password1", "#error_password1", message )
 </script>
 {% elif form_field == '2' %}
 <script>
-    init();
+    init_pswd();
     let message = $('#message').text();
     set_err("#input_password2", "#error_password2", message )
+</script>
+{% elif form_field == 'e' %}
+<script>
+    init_email();
+    let message = $('#message').text();
+    set_err("#input_email", "#error_email", message )
 </script>
 {% elif message != "" %}
 <div id="close_button">

@@ -1,6 +1,6 @@
 use crate::db::user_table::{
-    create_user, delete_user, get_all, is_password, set_confirm_email, set_password, set_picture,
-    UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH,
+    create_user, delete_user, get_all, is_password, set_confirm_email, set_email, set_password,
+    set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH,
 };
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
@@ -347,6 +347,7 @@ pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
     let (form_field, message) = handler_flash(flash);
     let password_first = cookie_handler(jar, "password_x.first".to_string());
     let password_second = cookie_handler(jar, "password_x.second".to_string());
+    let email_x = cookie_handler(jar, "email_x".to_string());
     match get_token(jar) {
         Ok(user) => Ok(Template::render(
             "account/edit",
@@ -357,7 +358,8 @@ pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template
                 password_first,
                 password_second,
                 form_field,
-                message
+                message,
+                email_x
             ),
         )),
         Err(e) => Err(e),
@@ -648,6 +650,57 @@ pub fn password_code(
     }
 }
 
+/// Change the email ans set the new email to confirm_email = false
+/// if user not login `return the error get by get_token()`
+/// if field email not fill or invalid email redirect to form with appropriate message
+/// else change the email send the new code of confirm and show the success message ahd change the token
+#[put("/new_email", data = "<data>")]
+pub fn new_email(jar: &CookieJar<'_>, data: Form<NewEmail>) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(mut user) => {
+            let create_cookie = || {
+                create_field_cookie(jar, "email_x", data.email_x);
+            };
+
+            if data.email_x.is_empty() {
+                create_cookie();
+                return Result::Ok(Flash::error(Redirect::to("edit"), "efill a new email"));
+            }
+
+            let regex = Regex::new(r"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,4})+$").unwrap();
+            if !regex.is_match(data.email_x) {
+                create_cookie();
+                return Result::Ok(Flash::error(Redirect::to("edit"), "einvalid email"));
+            }
+
+            if !set_email(user.username.as_str(), data.email_x) {
+                create_cookie();
+                return Result::Ok(Flash::error(
+                    Redirect::to("edit"),
+                    "rError saving the new email",
+                ));
+            }
+
+            user.email = data.email_x.to_string();
+            remove_token(jar);
+            create_token(jar, &user);
+            if !send_email_code(&user) {
+                create_cookie();
+                return Result::Ok(Flash::error(
+                    Redirect::to("edit"),
+                    "rCan't send the confirm code",
+                ));
+            }
+
+            Result::Ok(Flash::error(
+                Redirect::to("edit"),
+                "gEmail successfully change, please look your email",
+            ))
+        }
+        Err(status) => Err(status),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use rocket::http::Status;
@@ -677,6 +730,13 @@ mod tests {
         assert_eq!(
             client.get(uri!("/account/edit")).dispatch().status(),
             Status::Forbidden
+        );
+        assert_eq!(
+            client
+                .get(uri!("/account/code_password"))
+                .dispatch()
+                .status(),
+            Status::Ok
         );
     }
 }

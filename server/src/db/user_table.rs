@@ -92,9 +92,14 @@ pub struct UsersLogin<'a> {
 
 /// Needed in the creation to ensure their is no typo in the password
 #[derive(Debug, FromForm, Serialize)]
-pub struct Password<'v> {
-    pub(crate) first: &'v str,
-    pub(crate) second: &'v str,
+pub struct Password<'a> {
+    pub(crate) first: &'a str,
+    pub(crate) second: &'a str,
+}
+
+#[derive(FromForm, Serialize)]
+pub struct NewEmail<'a> {
+    pub(crate) email_x: &'a str,
 }
 
 /// Return the username with the name in param or None if he doesn't exist
