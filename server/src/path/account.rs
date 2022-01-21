@@ -682,6 +682,7 @@ pub fn new_email(jar: &CookieJar<'_>, data: Form<NewEmail>) -> Result<Flash<Redi
             }
 
             user.email = data.email_x.to_string();
+            user.confirm_email = false;
             remove_token(jar);
             create_token(jar, &user);
             if !send_email_code(&user) {
