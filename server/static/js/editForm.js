@@ -33,10 +33,14 @@ function init_email() {
 
 function toogle_email() {
     const email = $('#form_email');
+    $('#form_password').removeClass().addClass("inactive");
+    $('#title_password').removeClass()
     email.toggle(function () {
+        $('#title_email').removeClass().addClass("selected_title");
         email.removeClass().addClass("active");
     }, function () {
         email.removeClass().addClass("inactive");
+        $('#title_email').removeClass();
     });
 
 
@@ -44,10 +48,14 @@ function toogle_email() {
 
 function toogle_password() {
     const password = $('#form_password');
+    $('#form_email').removeClass().addClass("inactive");
+    $('#title_email').removeClass()
     password.toggle(function () {
         password.removeClass().addClass("active");
+        $('#title_password').removeClass().addClass("selected_title");
     }, function () {
         password.removeClass().addClass("inactive");
+        $('#title_password').removeClass()
     });
 
 }

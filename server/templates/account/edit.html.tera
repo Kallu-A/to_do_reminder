@@ -18,9 +18,14 @@
     <input type="file" id="file" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
 </form>
 
-<div id="container_forms">
+<div class="container_forms">
+    <button id="title_password" onclick="toogle_password()">Password</button>
+    <button id="title_email" style="margin-left: 10px" onclick="toogle_email()">Email</button>
+</div>
+
+<div class="container_forms">
     <div id="password_container">
-        <button class="title_section" onclick="toogle_password()">Password</button>
+
         <form method="post" action="/account/edit" enctype="multipart/form-data" id="form_password" class="inactive">
             <input type="hidden" name="username_x" value="{{user.username}}">
             <table class = row>
@@ -41,7 +46,7 @@
     </div>
 
     <div id="email_container">
-        <button class="title_section" onclick="toogle_email()">Email</button>
+
         <form method="post" action="/account/new_email" id="form_email" class="inactive">
             <input type="hidden" name="_method" value="put" />
             <span class="txt"> Current email is: <wbr> <span class="value"> {{user.email}} </span> </span>

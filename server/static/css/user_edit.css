@@ -32,7 +32,7 @@
     cursor: pointer;
 }
 
-.title_section {
+.container_forms button {
     font-size: 30px;
     border: none;
     color: var(--blue);
@@ -41,7 +41,7 @@
     border-radius: 7px;
 }
 
-.title_section:hover {
+.container_forms button:hover {
     cursor: pointer;
 }
 
@@ -54,12 +54,11 @@
 }
 
 #email_container {
-    margin: 5px auto 0;
+    margin: 5px auto;
 }
 
-#container_forms {
+.container_forms {
     display: flex;
-    #flex-direction: column;
     flex-wrap: wrap;
 }
 
@@ -68,6 +67,20 @@
     display: block;
 }
 
+#form_password {
+    border: 1px inset var(--grey);
+    border-radius: 14px;
+}
+
+#form_email {
+    border: 1px inset var(--grey);
+    border-radius: 14px;
+}
+
 .inactive {
     display: none;
+}
+
+.selected_title {
+    border-bottom: 1px solid var(--orange);
 }
