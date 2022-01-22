@@ -18,9 +18,9 @@
     <input type="file" id="file" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
 </form>
 
-<div class="container_forms">
-    <button id="title_password" onclick="toogle_password()">Password</button>
-    <button id="title_email" style="margin-left: 10px" onclick="toogle_email()">Email</button>
+<div>
+    <button id="title_password" class="not_selected" onclick="toogle_password()">Password</button>
+    <button id="title_email" class="not_selected" style="margin-left: 10px;" onclick="toogle_email()">Email</button>
 </div>
 
 <div class="container_forms">

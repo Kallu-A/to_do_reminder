@@ -33,29 +33,37 @@ function init_email() {
 
 function toogle_email() {
     const email = $('#form_email');
-    $('#form_password').removeClass().addClass("inactive");
-    $('#title_password').removeClass()
-    email.toggle(function () {
-        $('#title_email').removeClass().addClass("selected_title");
-        email.removeClass().addClass("active");
-    }, function () {
-        email.removeClass().addClass("inactive");
-        $('#title_email').removeClass();
-    });
+    const password = $('#form_password');
+    const title_password = $('#title_password');
+    const title_email = $('#title_email');
 
+    if (email.hasClass("inactive")) {
+        email.removeClass().addClass("active");
+        password.removeClass().addClass("inactive");
+        title_email.removeClass().addClass("selected_title");
+        title_password.removeClass().addClass("not_selected");
+    } else {
+        email.removeClass().addClass("inactive");
+        title_email.removeClass().addClass("not_selected");
+    }
 
 }
 
 function toogle_password() {
     const password = $('#form_password');
-    $('#form_email').removeClass().addClass("inactive");
-    $('#title_email').removeClass()
-    password.toggle(function () {
+    const email = $('#form_email');
+    const title_password = $('#title_password');
+    const title_email = $('#title_email');
+
+    if (password.hasClass("inactive")) {
         password.removeClass().addClass("active");
-        $('#title_password').removeClass().addClass("selected_title");
-    }, function () {
+        email.removeClass().addClass("inactive")
+        title_password.removeClass().addClass("selected_title");
+        title_email.removeClass().addClass("not_selected");
+
+    } else {
         password.removeClass().addClass("inactive");
-        $('#title_password').removeClass()
-    });
+        title_password.removeClass().addClass("not_selected");
+    }
 
 }

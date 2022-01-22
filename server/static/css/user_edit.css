@@ -32,19 +32,6 @@
     cursor: pointer;
 }
 
-.container_forms button {
-    font-size: 30px;
-    border: none;
-    color: var(--blue);
-    background: var(--bg-dark-transp);
-    padding: 10px;
-    border-radius: 7px;
-}
-
-.container_forms button:hover {
-    cursor: pointer;
-}
-
 #button_pswd:hover {
     cursor: pointer;
 }
@@ -82,5 +69,29 @@
 }
 
 .selected_title {
+    border: none;
     border-bottom: 1px solid var(--orange);
+    background: red;
+    font-size: 30px;
+    color: var(--blue);
+    background: var(--bg-dark-transp);
+    padding: 10px;
+    border-radius: 7px;
+}
+
+.selected_title:hover {
+    cursor: pointer;
+}
+
+.not_selected {
+    font-size: 30px;
+    border: none;
+    color: var(--blue);
+    background: var(--bg-dark-transp);
+    padding: 10px;
+    border-radius: 7px;
+}
+
+.not_selected:hover {
+    cursor: pointer;
 }
