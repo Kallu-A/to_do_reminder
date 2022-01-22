@@ -57,7 +57,7 @@ function toogle_password() {
 
     if (password.hasClass("inactive")) {
         password.removeClass().addClass("active");
-        email.removeClass().addClass("inactive")
+        email.removeClass().addClass("inactive");
         title_password.removeClass().addClass("selected_title");
         title_email.removeClass().addClass("not_selected");
 
