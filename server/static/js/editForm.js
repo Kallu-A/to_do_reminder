@@ -37,13 +37,15 @@ function toogle_email() {
     const title_password = $('#title_password');
     const title_email = $('#title_email');
 
-    if (email.hasClass("inactive")) {
-        email.removeClass().addClass("active");
-        password.removeClass().addClass("inactive");
+    if (email.is(":hidden")) {
+        email.show("mid");
+        password.hide("mid");
+
         title_email.removeClass().addClass("selected_title");
         title_password.removeClass().addClass("not_selected");
     } else {
-        email.removeClass().addClass("inactive");
+        email.hide("mid");
+        //email.removeClass().addClass("inactive");
         title_email.removeClass().addClass("not_selected");
     }
 
@@ -55,14 +57,18 @@ function toogle_password() {
     const title_password = $('#title_password');
     const title_email = $('#title_email');
 
-    if (password.hasClass("inactive")) {
-        password.removeClass().addClass("active");
-        email.removeClass().addClass("inactive");
+    if (password.is(":hidden")) {
+        //password.removeClass().addClass("active");
+        //email.removeClass().addClass("inactive");
+        password.show("mid");
+        email.hide("mid");
+
         title_password.removeClass().addClass("selected_title");
         title_email.removeClass().addClass("not_selected");
 
     } else {
-        password.removeClass().addClass("inactive");
+        password.hide("mid");
+        //password.removeClass().addClass("inactive");
         title_password.removeClass().addClass("not_selected");
     }
 

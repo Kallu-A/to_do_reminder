@@ -49,11 +49,6 @@
     flex-wrap: wrap;
 }
 
-
-.active {
-    display: block;
-}
-
 #form_password {
     border: 1px inset var(--grey);
     border-radius: 14px;
