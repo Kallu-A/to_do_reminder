@@ -673,6 +673,11 @@ pub fn new_email(jar: &CookieJar<'_>, data: Form<NewEmail>) -> Result<Flash<Redi
                 return Result::Ok(Flash::error(Redirect::to("edit"), "einvalid email"));
             }
 
+            if data.email_x == user.email {
+                create_cookie();
+                return Result::Ok(Flash::error(Redirect::to("edit"), "eit's already your email"));
+            }
+
             if !set_email(user.username.as_str(), data.email_x) {
                 create_cookie();
                 return Result::Ok(Flash::error(

@@ -30,3 +30,24 @@ function init_pswd() {
 function init_email() {
     isEmail($('#input_email'), $('#error_email'));
 }
+
+function toogle_email() {
+    const email = $('#form_email');
+    email.toggle(function () {
+        email.removeClass().addClass("active");
+    }, function () {
+        email.removeClass().addClass("inactive");
+    });
+
+
+}
+
+function toogle_password() {
+    const password = $('#form_password');
+    password.toggle(function () {
+        password.removeClass().addClass("active");
+    }, function () {
+        password.removeClass().addClass("inactive");
+    });
+
+}

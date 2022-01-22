@@ -19,3 +19,55 @@
 .sub_picture {
     margin-left: 20px;
 }
+
+.value {
+    color: var(--grey);
+}
+
+.txt {
+    font-size: 20px;
+}
+
+#button_email:hover {
+    cursor: pointer;
+}
+
+.title_section {
+    font-size: 30px;
+    border: none;
+    color: var(--blue);
+    background: var(--bg-dark-transp);
+    padding: 10px;
+    border-radius: 7px;
+}
+
+.title_section:hover {
+    cursor: pointer;
+}
+
+#button_pswd:hover {
+    cursor: pointer;
+}
+
+#password_container {
+    margin: 5px auto 0;
+}
+
+#email_container {
+    margin: 5px auto 0;
+}
+
+#container_forms {
+    display: flex;
+    #flex-direction: column;
+    flex-wrap: wrap;
+}
+
+
+.active {
+    display: block;
+}
+
+.inactive {
+    display: none;
+}
