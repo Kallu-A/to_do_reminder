@@ -35,7 +35,7 @@ Easily create <wbr>and manage<wbr> your to-do-list
     </div>
     <div id="not_log">
         <h4>Still not logged ?</h4>
-        Log before you can start create your to-do-list<br><a href="/account/logind">Log here</a><br><br>
+        Log before you can start create your to-do-list<br><a href="/account/login">Log here</a><br><br>
         Don't have an account ?<br> <a href="/account/register">Register here</a>
     </div>
 </div>
