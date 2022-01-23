@@ -28,7 +28,19 @@
     justify-content: center;
 }
 
-@media (max-width: 600px) {
+#log {
+    border-radius: 14px;
+    background: var(--bg-dark-transp);
+    width: 300px;
+}
+
+#not_log {
+    border-radius: 14px;
+    background: var(--bg-dark-transp);
+    width: 300px;
+}
+
+@media (max-width: 700px) {
     #container_data {
         flex-direction: column;
     }
@@ -39,5 +51,13 @@
 
     #container_option {
         flex-direction: column;
+    }
+
+    #log {
+        width: 500px;
+    }
+
+    #not_log {
+        width: 500px;
     }
 }
