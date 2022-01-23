@@ -239,7 +239,7 @@ pub fn register_post(
 /// if the user was already trying to login and also `display the error message`
 #[get("/login")]
 pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
-    // input : u -> username , p -> password, ' ' -> nothing
+    // input : u -> username , p -> password, ' ' -> nothing else 'r' and 'g'
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(_) => Err(Status::MethodNotAllowed),

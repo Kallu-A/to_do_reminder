@@ -47,5 +47,14 @@
     let message = $('#message').text();
     set_err("#input_password", "#error_password", message )
 </script>
+{% elif message != "" %}
+<div id="close_button">
+    <p class="message" id="{% if form_field == 'r' %}display_red{% elif form_field == 'g'%}display_green{% endif %}">
+        {{ message }}
+    </p>
+</div>
+<SCRIPT>
+    hide_after_time()
+</SCRIPT>
 {% endif %}
 {% endblock content %}

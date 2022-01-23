@@ -1,8 +1,0 @@
-{% extends "common" %}
-{% block content %}
-<link rel="stylesheet" href="/static/css/errors.css">
-
-<h1>Error 405: Method Not Allowed</h1>
-<h3> The link: <b>{{uri}}</b> can't be accessed when you're already logged</h3>
-
-{% endblock content %}
