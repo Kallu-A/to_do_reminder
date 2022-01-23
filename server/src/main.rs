@@ -15,7 +15,7 @@ use rocket_dyn_templates::Template;
 
 use path::account::{home, users};
 
-use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
+use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH, get_all};
 use crate::path::account::{
     confirm_code, delete, edit, edit_post, form_password_change, home_logout, login, login_put,
     new_email, password_code, register, register_post, send_code, upload_picture,
@@ -46,13 +46,16 @@ fn index(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
         DEFAULT_PATH.to_string()
     };
 
+    let count_user = get_all().len();
+
     Template::render(
         "home",
         context!(
             title: "Home",
             path,
             color,
-            message
+            message,
+            count_user
         ),
     )
 }

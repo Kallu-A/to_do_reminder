@@ -3,7 +3,33 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
 
-Home of website <br>
+<link rel="stylesheet" href="/static/css/home.css">
+
+<h2 id="title">To-Do Reminder </h2>
+
+Easily create <wbr>and manage<wbr> your to-do-list
+<hr style="margin-top: 10px">
+
+<div id="container_data">
+    <div>
+        <h5>{{count_user}} users</h5>
+        already use this website
+    </div>
+
+    <div>
+        <h5>10 to-do create</h5>
+        since the beginning
+    </div>
+
+    <div>
+        <h5>more than 4 list</h5>
+    </div>
+</div>
+
+<div id="container_option">
+
+</div>
+
 
 {% if message != "" %}
 <div id="close_button">
