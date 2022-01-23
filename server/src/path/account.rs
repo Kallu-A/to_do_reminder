@@ -675,7 +675,10 @@ pub fn new_email(jar: &CookieJar<'_>, data: Form<NewEmail>) -> Result<Flash<Redi
 
             if data.email_x == user.email {
                 create_cookie();
-                return Result::Ok(Flash::error(Redirect::to("edit"), "eit's already your email"));
+                return Result::Ok(Flash::error(
+                    Redirect::to("edit"),
+                    "eit's already your email",
+                ));
             }
 
             if !set_email(user.username.as_str(), data.email_x) {
@@ -735,7 +738,7 @@ mod tests {
         );
         assert_eq!(
             client.get(uri!("/account/edit")).dispatch().status(),
-            Status::Forbidden
+            Status::SeeOther
         );
         assert_eq!(
             client
