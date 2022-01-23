@@ -23,7 +23,7 @@
     <button id="title_email" class="not_selected" style="margin-left: 10px;" onclick="toogle_email()">Email</button>
 </div>
 
-<div class="container_forms">
+<div style="display: flex; flex-direction: row">
     <div id="password_container">
 
         <form method="post" action="/account/edit" enctype="multipart/form-data" id="form_password" class="inactive">

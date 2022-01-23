@@ -44,11 +44,6 @@
     margin: 5px auto;
 }
 
-.container_forms {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 #form_password {
     border: 1px inset var(--grey);
     border-radius: 14px;
