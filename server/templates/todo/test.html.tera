@@ -2,4 +2,9 @@
 {% block content %}
 <link rel="stylesheet" href="/static/css/todo/todo.css">
 
+<p style="font-size: var(--small-txt)"> Yo salut C EST MOI</p>
+<p style="font-size: var(--medium-txt)"> Yo salut C EST MOI</p>
+<p style="font-size: var(--large-txt)"> Yo salut C EST MOI</p>
+<p style="font-size: var(--big-txt)"> Yo salut C EST MOI</p>
+
 {% endblock content %}

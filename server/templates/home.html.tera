@@ -28,22 +28,23 @@ Easily create <wbr>and manage<wbr> your to-do-list
 </div>
 
 <div id="container_option">
-    <div id="log">
-        <h4>Already logged ?</h4>
-        See your to-do:<br><a>To-Do</a><br><br>
+    <div id="log" class="opt_div">
+        <h4>Already logged</h4>
+        See your to-do:<br><a href="/to-do/home">To-Do</a><br><br>
         See your account:<br><a href="/account/home">Account</a>
     </div>
-    <div id="not_log">
-        <h4>Still not logged ?</h4>
+    <div id="not_log" class="opt_div">
+        <h4>Still not logged</h4>
         Log before you can start create your to-do-list<br><a href="/account/login">Log here</a><br><br>
         Don't have an account ?<br> <a href="/account/register">Register here</a>
     </div>
 </div>
 <br>
-<span style="font-size: 22px">Still have a question ?<wbr> Please let us know <a href="https://github.com/Kallu-A/to_do_reminder/issues">here</a></span>
+<span style="font-size: var(--small-txt)">Still have a question ?<wbr> Please let us know <a href="https://github.com/Kallu-A/to_do_reminder/issues">here</a></span>
 
 <SCRIPT>
     $("#log").height($("#not_log").height());
+    $("#log").width($("#not_log").width());
 </SCRIPT>
 
 {% if message != "" %}

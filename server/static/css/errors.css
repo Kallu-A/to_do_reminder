@@ -1,9 +1,9 @@
 h1 {
-    color: var(--red);
+    color: var(--error_color);
 }
 
 b {
-    color: var(--orange);
+    color: var(--secondary_color);
 }
 
 #content {

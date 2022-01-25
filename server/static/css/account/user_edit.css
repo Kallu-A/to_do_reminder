@@ -21,11 +21,11 @@
 }
 
 .value {
-    color: var(--grey);
+    color: var(--link_secondary_color);
 }
 
 .txt {
-    font-size: 20px;
+    font-size: var(--medium-txt);
 }
 
 #button_email:hover {
@@ -41,17 +41,19 @@
 }
 
 #email_container {
-    margin: 5px auto;
+    margin: 5px auto 0;
 }
 
 #form_password {
-    border: 1px inset var(--grey);
+    border: 1px inset var(--link_secondary_color);
     border-radius: 14px;
+    padding: 10px;
 }
 
 #form_email {
-    border: 1px inset var(--grey);
+    border: 1px inset var(--link_secondary_color);
     border-radius: 14px;
+    padding: 10px;
 }
 
 .inactive {
@@ -60,11 +62,11 @@
 
 .selected_title {
     border: none;
-    border-bottom: 1px solid var(--orange);
+    border-bottom: 1px solid var(--secondary_color);
     background: red;
-    font-size: 30px;
-    color: var(--blue);
-    #background: var(--bg-dark-transp);
+    font-size: var(--large-txt);
+    color: var(--link_color);
+    #background: var(--background_transp);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background: transparent;
     padding: 10px;
@@ -76,12 +78,12 @@
 }
 
 .not_selected {
-    font-size: 30px;
+    font-size: var(--large-txt);
     border: none;
-    color: var(--blue);
+    color: var(--link_color);
     background: transparent;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    #background: var(--bg-dark-transp);
+    #background: var(--background_transp);
     padding: 10px;
     border-radius: 7px;
 }

@@ -1,5 +1,5 @@
 #title {
-    color: var(--orange);
+    color: var(--secondary_color);
 }
 
 #container_data {
@@ -12,12 +12,12 @@
 #container_data div {
     margin-left: 30px;
     margin-right: 30px;
-    color: var(--grey);
-    font-size: 20px;
+    color: var(--link_secondary_color);
+    font-size: var(--small-txt);
 }
 
 #container_data h5 {
-    font-size: 27px;
+    font-size: var(--large-txt);
     color: var(--text-color);
 }
 
@@ -30,7 +30,7 @@
 
 #container_option div h4 {
     margin-bottom: 15px;
-    font-size: 28px;
+    font-size: var(--large-txt);
 }
 
 #container_option div {
@@ -41,16 +41,10 @@
     align-self: center;
 }
 
-#log {
+.opt_div {
     border-radius: 14px;
-    width: 300px;
-    font-size: 20px;
-}
-
-#not_log {
-    border-radius: 14px;
-    width: 300px;
-    font-size: 20px;
+    width: fit-content;
+    font-size: var(--small-txt);
 }
 
 @media (max-width: 760px) {
@@ -72,13 +66,5 @@
         margin-top: 30px;
         margin-left: 0;
         margin-right: 0;
-    }
-
-    #log {
-        max-width: 500px;
-    }
-
-    #not_log {
-        max-width: 500px;
     }
 }

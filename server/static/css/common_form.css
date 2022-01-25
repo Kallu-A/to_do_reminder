@@ -9,16 +9,16 @@
 .error_form {
     position: absolute;
     display: flex;
-    color: var(--red);
-    font-size: 18px;
+    color: var(--error_color);
+    font-size: var(--mini-txt);
 }
 
 .form_ok input {
-    border-color: var(--fg-green);
+    border-color: var(--primary_color);
 }
 
 .form_err input {
-    border-color: var(--red);
+    border-color: var(--error_color);
 }
 
 .separator {

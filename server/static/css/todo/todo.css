@@ -1,10 +1,10 @@
 #nav-todo {
-    border-bottom: 2px solid var(--orange);
+    border-bottom: 2px solid var(--secondary_color);
 }
 
 @media (max-width: 700px) {
     #nav-todo {
         border-bottom: none;
-        color: var(--orange);
+        color: var(--secondary_color);
     }
 }

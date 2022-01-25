@@ -34,7 +34,7 @@
 <body>
 
 <!-- Here will be the child -->
-<div id="child_div" style="padding-top: 30px; font-size: 30px;">
+<div id="child_div" style="padding-top: 30px; font-size: var(--medium-txt);">
     <div id="content">
         {% block content %}
         {% endblock content %}
