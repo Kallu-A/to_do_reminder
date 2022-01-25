@@ -4,7 +4,8 @@
     --bg-dark-transp_low: #242423b0;
     --bg-light: #333533;
     --fg-green: #04AA6D;
-    --text-color: #fff;
+    #--text-color: #fff;
+    --text-color: #232324;
     --orange: #d26839;
     --red: crimson;
     --blue: #407899;
@@ -14,11 +15,17 @@
 }
 
 body {
-    background:
+    #background:
             linear-gradient(to top, rgba(36, 36, 35, 0.9), rgba(4, 170, 109, 0.25)),
             linear-gradient(to bottom, rgba(36, 36, 35, 0.85), rgba(4, 170, 109, 0.25)),
             linear-gradient(to right, rgba(36, 36, 35, 0.4), rgba(4, 170, 109, 0.66)),
             linear-gradient(to right, rgba(36, 36, 35, 0.4), rgba(4, 170, 109, 0.66));
+
+    background:
+            linear-gradient(to top, rgba(223, 199, 165, 0.9), rgba(223, 199, 165, 0.25)),
+            linear-gradient(to bottom, rgba(223, 199, 165, 0.85), rgba(223, 199, 165, 0.25)),
+            linear-gradient(to right, rgba(223, 199, 165, 0.4), rgba(223, 199, 165, 0.66)),
+            linear-gradient(to right, rgba(223, 199, 165, 0.4), rgba(223, 199, 165, 0.66));
     background-attachment: fixed;
     background-size: cover;
 }
@@ -29,7 +36,8 @@ body {
     margin: 20px auto 0;
     padding: 20px;
     border-radius: 15px;
-    background: var(--bg-dark-transp);
+    #background: var(--bg-dark-transp);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 form {
@@ -106,7 +114,7 @@ a {
 
 input {
     font-size: 25px;
-    box-shadow: 0 0 20px var(--bg-dark);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background: none;
     color: var(--text-color);
     border-radius: 7px;

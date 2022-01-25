@@ -1,5 +1,5 @@
 {% extends "common" %}
 {% block content %}
-
+<link rel="stylesheet" href="/static/css/todo/todo.css">
 
 {% endblock content %}

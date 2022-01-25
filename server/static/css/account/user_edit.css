@@ -64,7 +64,9 @@
     background: red;
     font-size: 30px;
     color: var(--blue);
-    background: var(--bg-dark-transp);
+    #background: var(--bg-dark-transp);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background: transparent;
     padding: 10px;
     border-radius: 7px;
 }
@@ -77,7 +79,9 @@
     font-size: 30px;
     border: none;
     color: var(--blue);
-    background: var(--bg-dark-transp);
+    background: transparent;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    #background: var(--bg-dark-transp);
     padding: 10px;
     border-radius: 7px;
 }

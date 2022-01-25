@@ -8,7 +8,7 @@ pub fn test() -> Template {
         "todo/test",
         context!(
             path: DEFAULT_PATH,
-            title: "Account",
+            title: "To-Do test",
         ),
     )
 }

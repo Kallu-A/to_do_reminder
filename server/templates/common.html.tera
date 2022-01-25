@@ -27,7 +27,7 @@
         </a>
         <ul>
             <li><a id="nav-member" href="/account/users">Members</a></li>
-            <li><a id="unimplemented" href="#">Index2</a></li>
+            <li><a id="nav-todo" href="/to-do/home">To-Do</a></li>
         </ul>
     </nav>
 </head>
