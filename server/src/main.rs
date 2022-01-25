@@ -14,6 +14,7 @@ use rocket::{routes, Build, Rocket};
 use rocket_dyn_templates::Template;
 
 use path::account::{home, users};
+use path::todo::test;
 
 use crate::db::user_table::{create_user_perm, get_all, get_by_username, DEFAULT_PATH};
 use crate::path::account::{
@@ -142,6 +143,7 @@ fn rocket() -> Rocket<Build> {
                 new_email
             ],
         )
+        .mount("/to-do/", routes![test])
 }
 
 #[cfg(test)]
