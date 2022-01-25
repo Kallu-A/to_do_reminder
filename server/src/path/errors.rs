@@ -73,3 +73,46 @@ fn get_path_img(req: &Request<'_>) -> String {
         Err(_) => DEFAULT_PATH.to_string(),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use rocket::http::Status;
+
+    #[test]
+    fn check_good() {
+        use crate::rocket;
+        use rocket::local::blocking::Client;
+
+        let client = Client::tracked(rocket()).unwrap();
+
+        assert_ne!(
+            client.get(uri!("/status/403")).dispatch().status(),
+            Status::InternalServerError
+        );
+
+        assert_ne!(
+            client.get(uri!("/status/404")).dispatch().status(),
+            Status::InternalServerError
+        );
+
+        assert_ne!(
+            client.get(uri!("/status/405")).dispatch().status(),
+            Status::InternalServerError
+        );
+
+        assert_ne!(
+            client.get(uri!("/status/417")).dispatch().status(),
+            Status::InternalServerError
+        );
+
+        assert_ne!(
+            client.get(uri!("/status/418")).dispatch().status(),
+            Status::InternalServerError
+        );
+
+        assert_eq!(
+            client.get(uri!("/status/500")).dispatch().status(),
+            Status::InternalServerError
+        );
+    }
+}
