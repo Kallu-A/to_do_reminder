@@ -1,8 +1,8 @@
 {% extends "common" %}
 {% block content %}
 
-<link rel="stylesheet" href="/static/css/member.css">
-<link rel="stylesheet" href="/static/css/user_display.css">
+<link rel="stylesheet" href="/static/css/account/member.css">
+<link rel="stylesheet" href="/static/css/account/user_display.css">
 
 <h1> Members on the website : </h1>
 <div id="users_container" class="message">

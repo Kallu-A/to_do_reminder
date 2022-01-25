@@ -3,8 +3,8 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="/static/css/user_personal.css">
-<link rel="stylesheet" href="/static/css/account.css">
+<link rel="stylesheet" href="/static/css/account/user_personal.css">
+<link rel="stylesheet" href="/static/css/account/account.css">
 
 <style>
     .email .submit {
