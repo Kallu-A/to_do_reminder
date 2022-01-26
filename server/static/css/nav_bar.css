@@ -1,9 +1,9 @@
 nav {
     #background: var(--background_nav);
-    background: linear-gradient( to left, var(--background_nav), var(--primary_color));
+    background: linear-gradient( to bottom, var(--background_nav), var(--primary_color));
     height: 80px;
     width: 100%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    #box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 nav .logo {
