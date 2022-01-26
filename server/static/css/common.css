@@ -9,14 +9,18 @@
 }
 
 :root {
-    --background: #333333;
+    --background: #0F2027;
+    --background_first: #2C5364;
+    --background_secondary: #203A43;
     --background_transp: rgba(51, 51, 51, 0.8);
     --background_transp_high: rgba(51, 51, 51, 0.6);
-    --background_secondary: rgba(36, 36, 35, 0.2);
     --background_nav_el: rgba(246, 246, 246, 0.05);
+    --background_nav: rgba(210, 104, 57, 0.9);
+    #--background_nav: rgba(251, 148, 91, 0.9);
 
-    --text-color: #EEEBE4;
-    --primary_color: #d26839;
+    --text-color: #d9d5ce;
+    #--primary_color: #FFAD69;
+    --primary_color: #FB945B;
     --text_litle_color: #838c86;
     --error_color: crimson;
     --ok_color: #04AA6D;
@@ -31,15 +35,9 @@
 }
 
 body {
-    #background: var(--background);
-    background:
-            linear-gradient(to top, var(--background), var(--background_secondary)),
-            linear-gradient(to bottom, var(--background), var(--background_secondary)),
-            linear-gradient(to right, var(--background), var(--background_secondary));
-
-
-    background-attachment: fixed;
-    background-size: cover;
+    background: var(--background);
+    background: -webkit-linear-gradient(to right, var(--background_first), var(--background_secondary), var(--background));
+    background: linear-gradient(to right, var(--background_first), var(--background_secondary), var(--background));
 }
 
 #content {
