@@ -4,6 +4,7 @@ use crate::db::user_table::{
 };
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
+use crate::utils::json::{decr_members, incr_connexion, incr_members};
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use rand::distributions::Alphanumeric;
@@ -223,6 +224,8 @@ pub fn register_post(
         None => {
             create_user(form.username_x, form.password_x.first, form.email_x);
             create_token(jar, &get_by_username(form.username_x).unwrap());
+            incr_connexion();
+            incr_members();
             send_email_code(&get_by_username(form.username_x).unwrap());
             Result::Ok(Flash::success(
                 Redirect::to("home"),
@@ -293,6 +296,7 @@ pub fn login_put(jar: &CookieJar<'_>, form: Form<UsersLogin>) -> Result<Flash<Re
         // and password match
         return if is_password(&s, form.password_x) {
             create_token(jar, &get_by_username(form.username_x).unwrap());
+            incr_connexion();
             Result::Ok(Flash::success(Redirect::to("home"), "gYou'r logged"))
         } else {
             create_cookie();
@@ -327,6 +331,7 @@ pub fn delete(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
         Ok(user) => {
             if delete_user(user.username) {
                 remove_token(jar);
+                decr_members();
                 Result::Ok(Flash::success(Redirect::to("/"), "gSuccessfully delete"))
             } else {
                 Result::Err(Status::NotFound)
