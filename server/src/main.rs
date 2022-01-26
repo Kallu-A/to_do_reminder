@@ -4,7 +4,7 @@ extern crate diesel;
 extern crate rocket;
 extern crate lettre;
 
-use std::{env, fs};
+use std::env;
 use std::process::exit;
 
 use rocket::fs::{relative, FileServer};
@@ -15,8 +15,6 @@ use rocket_dyn_templates::Template;
 
 use path::account::{home, users};
 use path::todo::test;
-
-use serde::Deserialize;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
 use crate::path::account::{
@@ -30,22 +28,13 @@ use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
+use crate::utils::json::Data;
 use dotenv::dotenv;
 
 mod db;
 mod path;
 mod schema;
 mod utils;
-
-
-
-/// Struct to parse the data.json
-#[derive(Debug, Deserialize)]
-struct Data {
-    members: i32,
-    to_do: i32,
-    connexion: i32
-}
 
 /// Home of the website
 /// handle flash message
@@ -59,12 +48,14 @@ fn index(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
         DEFAULT_PATH.to_string()
     };
 
-    let file = fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/", "data.json")).expect("Unable to read file");
-    let data: Data = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
-
+    let data = Data::get_json();
     let count_user = data.members;
     let count_todo = data.to_do;
-    let average = if count_user == 0 { 0f64 } else { count_todo as f64 / count_user as f64 };
+    let average = if count_user == 0 {
+        0f64
+    } else {
+        count_todo as f64 / count_user as f64
+    };
 
     Template::render(
         "home",
@@ -168,8 +159,7 @@ fn rocket() -> Rocket<Build> {
 #[cfg(test)]
 mod tests {
     use dotenv::dotenv;
-    use std::{env, fs};
-    use crate::Data;
+    use std::env;
 
     #[test]
     fn test_env() {
@@ -181,12 +171,5 @@ mod tests {
         assert!(env::var("PASSWORD_SMTP").is_ok());
         assert!(env::var("RELAY_SMTP").is_ok());
         assert!(env::var("LAUNCH_MODE").is_ok());
-    }
-
-    #[test]
-    fn test_data_json() {
-        let file = fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/", "data.json")).expect("Unable to read file");
-        let test: Data = serde_json::from_str(file.as_str()).expect("JSON was not well-formatted");
-
     }
 }
