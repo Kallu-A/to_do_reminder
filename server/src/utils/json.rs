@@ -44,7 +44,7 @@ pub fn incr_connexion() {
 /// Decrement the value of connexion
 pub fn decr_members() {
     let mut data = Data::get_json();
-    data.connexion -= 1;
+    data.members -= 1;
     data.update_json();
 }
 
