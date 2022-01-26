@@ -67,7 +67,7 @@
     font-size: var(--large-txt);
     color: var(--link_color);
     #background: var(--background_transp);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: var(--shadow);
     background: transparent;
     padding: 10px;
     border-radius: 7px;
@@ -82,7 +82,7 @@
     border: none;
     color: var(--link_color);
     background: transparent;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: var(--shadow);
     #background: var(--background_transp);
     padding: 10px;
     border-radius: 7px;
