@@ -3,7 +3,7 @@ h1 {
 }
 
 b {
-    color: var(--secondary_color);
+    color: var(--primary_color);
 }
 
 #content {

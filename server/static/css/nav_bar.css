@@ -1,14 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style: none;
-    text-decoration: none;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-
 nav {
-    background: var(--background_transp);
+    background: var(--background_transp_high);
     height: 80px;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -36,14 +27,14 @@ nav ul li a {
     font-size: var(--small-txt);
     padding: 15px 25px;
     border-radius: 50px;
-    background: var(--background_nav);
+    background: var(--background_nav_el);
     transition: 0.2s;
     clip-path: polygon( 100% 0, 100% 35%, 100% 50%, 100% 65%, 100% 100%, 0 100%, 0 60%, 0 50%, 0 35%, 0 0);
 }
 
 nav ul li a:hover {
-    color: var(--secondary_color);
-    border-bottom: 1px solid var(--secondary_color);
+    color: var(--primary_color);
+    border-bottom: 1px solid var(--primary_color);
     clip-path: polygon( 100% 0, 100% 35%, 100% 50%, 100% 65%, 100% 100%, 0 100%, 0 60%, 10% 50%, 0 35%, 0 0);
 }
 
@@ -51,7 +42,7 @@ nav ul li a:hover {
     display: none;
     float: right;
     font-size: var(--large-txt);
-    color: var(--text-color);
+    color: var(--link_secondary_color);
     line-height: 80px;
     margin-right: 20px;
     cursor: pointer;
@@ -71,7 +62,6 @@ nav ul li a:hover {
 @media (max-width: 700px) {
 
     nav {
-        background: var(--background);
         z-index: 1000;
         position: sticky;
         top: 0;
@@ -104,7 +94,7 @@ nav ul li a:hover {
         width: 250px;
         height: 60px;
         margin: 20px auto;
-        background-color: var(--background_transp);
+        background-color: var(--background_nav_el);
         border-radius: 50px;
         transition: 0.3s;
         clip-path: polygon( 100% 0, 100% 35%, 100% 50%, 100% 65%, 100% 100%, 0 100%, 0 60%, 0 50%, 0 35%, 0 0);

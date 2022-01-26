@@ -1,5 +1,5 @@
 #title {
-    color: var(--secondary_color);
+    color: var(--primary_color);
 }
 
 #container_data {
@@ -12,7 +12,7 @@
 #container_data div {
     margin-left: 30px;
     margin-right: 30px;
-    color: var(--link_secondary_color);
+    color: var(--text_litle_color);
     font-size: var(--small-txt);
 }
 

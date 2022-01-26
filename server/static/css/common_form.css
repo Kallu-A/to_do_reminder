@@ -14,7 +14,7 @@
 }
 
 .form_ok input {
-    border-color: var(--primary_color);
+    border-color: var(--ok_color);
 }
 
 .form_err input {
