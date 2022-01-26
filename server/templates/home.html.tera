@@ -23,7 +23,7 @@ Easily create <wbr>and manage<wbr> your to-do-list
     </div>
 
     <div>
-        <h5>{{average}} connexion</h5>
+        <h5>{{connexion}} connexion</h5>
         Since the day one
     </div>
 </div>

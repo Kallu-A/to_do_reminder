@@ -4,3 +4,4 @@ server.iml
 /static/image/profil
 database
 .env
+data.json

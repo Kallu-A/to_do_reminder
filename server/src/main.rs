@@ -51,11 +51,7 @@ fn index(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
     let data = Data::get_json();
     let count_user = data.members;
     let count_todo = data.to_do;
-    let average = if count_user == 0 {
-        0f64
-    } else {
-        count_todo as f64 / count_user as f64
-    };
+    let connexion = data.connexion;
 
     Template::render(
         "home",
@@ -66,7 +62,7 @@ fn index(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
             message,
             count_user,
             count_todo,
-            average
+            connexion
         ),
     )
 }
