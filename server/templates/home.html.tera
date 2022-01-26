@@ -18,13 +18,13 @@ Easily create <wbr>and manage<wbr> your to-do-list
     </div>
 
     <div>
-        <h5>10 to-do </h5>
+        <h5>{{count_todo}} to-do </h5>
         Create since the beginning
     </div>
 
     <div>
-        <h5>4 list</h5>
-        to-do per user
+        <h5>{{average}} average</h5>
+        list per user
     </div>
 </div>
 

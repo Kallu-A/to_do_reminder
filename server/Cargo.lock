@@ -1996,6 +1996,7 @@ dependencies = [
  "rocket-multipart-form-data",
  "rocket_dyn_templates",
  "serde",
+ "serde_json",
  "sha2 0.10.1",
  "time",
 ]
