@@ -24,9 +24,13 @@ impl Data {
     /// Update the value in the file to the one of the struct
     /// the value can't be set to < 0
     pub fn update_json(&mut self) {
-        self.members = if self.members < 0 { 0 } else { self.members};
-        self.connexion = if self.connexion < 0 { 0 } else { self.connexion};
-        self.to_do = if self.to_do < 0 { 0 } else { self.to_do};
+        self.members = if self.members < 0 { 0 } else { self.members };
+        self.connexion = if self.connexion < 0 {
+            0
+        } else {
+            self.connexion
+        };
+        self.to_do = if self.to_do < 0 { 0 } else { self.to_do };
 
         ::serde_json::to_writer(&File::create(PATH).unwrap(), &self).unwrap();
     }
@@ -68,7 +72,7 @@ mod test {
 
     #[test]
     fn test_data_json() {
-        let data = Data::get_json();
+        let mut data = Data::get_json();
         data.update_json();
     }
 }
