@@ -57,7 +57,7 @@ Everything has been explain you just need to go to the `server/.env` file and ch
 - `'t' test` launch the test of the server
 - `'c' clippy` launch the clippy functionality of cargo *(test if their better syntax solution)*
 - `'f' fmt` launch the fmt functionality of cargo *(reformat the code with the rust convention)*
-- `'rd' diesel redo` recreate the database if you change the structure
+- `'rd' diesel redo` recreate the database *(erase all data)* if you change the structure and also reset the value in the `data.json`
 - `'a' all` launch fmt, clippy, test, and server in release use this before a commit to make sure everything works fine
 # Tests
 ### Option 1

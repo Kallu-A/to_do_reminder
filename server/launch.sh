@@ -13,6 +13,9 @@ echo "'rd' -> recreate the database"
 # if database doesn't exist launch the creation
 if [ ! -f database  ]
 then
+  # set the json file to the default value
+  echo "{\"members\":0,\"to_do\":0,\"connexion\":0}" > data.json
+
   diesel migration run
   echo "Creation of the database: success"
 else
@@ -44,7 +47,10 @@ case $LAUNCH_MODE in
         cargo fmt;
         exit 0;;
 
-  "rd")  echo "Mode is: redo databse 'rd'"
+  "rd") echo "Mode is: redo databse 'rd'"
+        # set the json file to the default value
+        echo "{\"members\":0,\"to_do\":0,\"connexion\":0}" > data.json
+
         diesel migration run;
         diesel migration redo;
         exit 0;;

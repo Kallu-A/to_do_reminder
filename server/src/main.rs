@@ -28,7 +28,7 @@ use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
-use crate::utils::json::Data;
+use crate::utils::json::{Data, incr_members};
 use dotenv::dotenv;
 
 mod db;
@@ -111,7 +111,9 @@ fn rocket() -> Rocket<Build> {
         ) == 0
         {
             println!("Error at creation of the admin");
-        };
+        } else {
+            incr_members();
+        }
     }
     rocket::build()
         .attach(Template::fairing())
