@@ -1,5 +1,28 @@
 {% extends "common" %}
 {% block content %}
 <link rel="stylesheet" href="/static/css/todo/todo.css">
+<link rel= "stylesheet" href= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel= "stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+
+<form>
+    Date using attribute: <input id="date" type= "text" style="width: 200px" data-provide= "datepicker" placeholder= "dd/mm/yyyy">
+</form>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        const date = $("#date");
+        date.datepicker({
+            "format": "dd/mm/yyyy",
+            "startDate": "-0d",
+        });
+    });
+</script>
+
 
 {% endblock content %}
