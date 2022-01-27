@@ -20,4 +20,7 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(todo, user,);
+allow_tables_to_appear_in_same_query!(
+    todo,
+    user,
+);
