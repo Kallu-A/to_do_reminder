@@ -50,7 +50,7 @@ case $LAUNCH_MODE in
   "rd") echo "Mode is: redo databse 'rd'"
         # set the json file to the default value
         echo "{\"members\":1,\"to_do\":0,\"connexion\":0}" > data.json
-        diesel migration redo;
+        diesel migration run;
         exit 0;;
 
   "a")  echo "Mode is: all verif 'a'"

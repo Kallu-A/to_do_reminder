@@ -165,10 +165,6 @@ mod tests {
         let client = Client::tracked(rocket()).unwrap();
         let jar = &client.cookies();
 
-        assert!(
-            get_by_username("admin").is_some(),
-            "Should have an admin account !"
-        );
         let admin = UserEntity {
             id: 0,
             username: "admin".to_string(),
