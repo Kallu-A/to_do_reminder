@@ -22,7 +22,12 @@ impl Data {
     }
 
     /// Update the value in the file to the one of the struct
-    pub fn update_json(&self) {
+    /// the value can't be set to < 0
+    pub fn update_json(&mut self) {
+        self.members = if self.members < 0 { 0 } else { self.members};
+        self.connexion = if self.connexion < 0 { 0 } else { self.connexion};
+        self.to_do = if self.to_do < 0 { 0 } else { self.to_do};
+
         ::serde_json::to_writer(&File::create(PATH).unwrap(), &self).unwrap();
     }
 }
@@ -41,11 +46,13 @@ pub fn incr_connexion() {
     data.update_json();
 }
 
-/// Decrement the value of connexion
+/// Decrement the value of connexion until it's value 0
 pub fn decr_members() {
     let mut data = Data::get_json();
-    data.members -= 1;
-    data.update_json();
+    if data.members > 0 {
+        data.members -= 1;
+        data.update_json();
+    }
 }
 
 ///  Increment the value of to-do
