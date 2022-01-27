@@ -45,6 +45,7 @@ case $LAUNCH_MODE in
         exit 0;;
 
   "rd")  echo "Mode is: redo databse 'rd'"
+        diesel migration run;
         diesel migration redo;
         exit 0;;
 

@@ -1,0 +1,7 @@
+CREATE TABLE todo (
+    id INTEGER NOT NULL PRIMARY KEY,
+    owner INTEGER NOT NULL,
+    title VARCHAR NOT NULL,
+    date VARCHAR NOT NULL,
+    importance INTEGER NOT NULL DEFAULT 0
+)
