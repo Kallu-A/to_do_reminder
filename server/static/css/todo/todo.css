@@ -2,11 +2,6 @@
     border-bottom: 2px solid var(--primary_color);
 }
 
-.date {
-    background: var(--background_secondary);
-    color: var(--text-color);
-}
-
 @media (max-width: 700px) {
     #nav-todo {
         border-bottom: none;
