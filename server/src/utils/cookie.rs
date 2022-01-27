@@ -44,7 +44,7 @@ mod tests {
     fn cookie() {
         use crate::rocket;
         use rocket::local::blocking::Client;
-        let client = Client::tracked(rocket()).unwrap();
+        let client = Client::tracked(rocket(true)).unwrap();
         let jar = &client.cookies();
 
         assert_eq!(

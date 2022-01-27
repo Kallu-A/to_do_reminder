@@ -717,13 +717,14 @@ pub fn new_email(jar: &CookieJar<'_>, data: Form<NewEmail>) -> Result<Flash<Redi
 
 #[cfg(test)]
 mod tests {
+    use crate::rocket;
     use rocket::http::Status;
 
     #[test]
     fn test_account() {
         use crate::rocket;
         use rocket::local::blocking::Client;
-        let client = Client::tracked(rocket()).unwrap();
+        let client = Client::tracked(rocket(true)).unwrap();
 
         assert_eq!(
             client.get(uri!("/account/home")).dispatch().status(),

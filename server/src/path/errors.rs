@@ -83,7 +83,7 @@ mod tests {
         use crate::rocket;
         use rocket::local::blocking::Client;
 
-        let client = Client::tracked(rocket()).unwrap();
+        let client = Client::tracked(rocket(true)).unwrap();
 
         assert_ne!(
             client.get(uri!("/status/403")).dispatch().status(),

@@ -44,13 +44,14 @@ case $LAUNCH_MODE in
 
         # mode for developers so not display
   "f")  echo "Mode is: fmt 'f'"
-        cargo fmt;
+        cargo fmt
         exit 0;;
 
   "rd") echo "Mode is: redo databse 'rd'"
         # set the json file to the default value
         echo "{\"members\":1,\"to_do\":0,\"connexion\":0}" > data.json
-        diesel migration run;
+        diesel migration redo
+        echo "database redo ... done"
         exit 0;;
 
   "a")  echo "Mode is: all verif 'a'"

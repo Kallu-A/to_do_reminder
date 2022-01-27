@@ -162,7 +162,7 @@ mod tests {
     fn token() {
         use crate::rocket;
         use rocket::local::blocking::Client;
-        let client = Client::tracked(rocket()).unwrap();
+        let client = Client::tracked(rocket(true)).unwrap();
         let jar = &client.cookies();
 
         let admin = UserEntity {

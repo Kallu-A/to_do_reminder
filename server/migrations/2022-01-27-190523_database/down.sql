@@ -1,2 +1,2 @@
-DROP TABLE todo;
 DROP TABLE user;
+DROP TABLE todo;

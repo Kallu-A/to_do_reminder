@@ -1,10 +1,10 @@
 table! {
-    todo (id) {
-        id -> Integer,
+    todo (id_todo) {
+        id_todo -> Integer,
         owner -> Text,
         title -> Text,
         date -> Text,
-        importance -> Integer,
+        priority -> Integer,
     }
 }
 
@@ -20,7 +20,4 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(
-    todo,
-    user,
-);
+allow_tables_to_appear_in_same_query!(todo, user,);

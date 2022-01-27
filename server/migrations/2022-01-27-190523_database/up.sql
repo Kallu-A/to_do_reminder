@@ -9,9 +9,9 @@ CREATE TABLE user (
 );
 
 CREATE TABLE todo (
-                      id INTEGER NOT NULL PRIMARY KEY,
+                      id_todo INTEGER NOT NULL PRIMARY KEY,
                       owner VARCHAR NOT NULL,
                       title VARCHAR NOT NULL,
                       date VARCHAR NOT NULL,
-                      importance INTEGER NOT NULL DEFAULT 0
+                      priority INTEGER NOT NULL DEFAULT 0
 );

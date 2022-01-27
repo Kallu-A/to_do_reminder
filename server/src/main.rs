@@ -91,7 +91,12 @@ fn status(jar: &CookieJar<'_>, code: u16) -> Result<Status, Template> {
 }
 
 #[launch]
-fn rocket() -> Rocket<Build> {
+fn rocket_launcher() -> Rocket<Build> {
+    rocket(false)
+}
+
+/// use to do test before even the need to launch the server once
+pub fn rocket(test: bool) -> Rocket<Build> {
     dotenv().ok();
     if !verif_env() {
         println!("FATAL-ERROR: Your .env as incorrect SMTP value (HELP: maybe your relay doesn't allow the connection?)");
@@ -99,7 +104,7 @@ fn rocket() -> Rocket<Build> {
     }
 
     // Create a Admin account with perm if he doesn't exist
-    if get_by_username("admin").is_none() {
+    if get_by_username("admin").is_none() && !test {
         println!("Admin doesn't exist ! Creation of it ");
         if create_user_perm(
             "admin",
