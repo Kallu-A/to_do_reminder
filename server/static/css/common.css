@@ -70,7 +70,6 @@ td {
 .td_header {
     border: none;
     font-size: var(--medium-txt);
-    border-left: 2px solid var(--);
     background: var(--background);
 }
 

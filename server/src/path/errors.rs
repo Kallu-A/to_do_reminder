@@ -3,7 +3,6 @@ use rocket::response::{Flash, Redirect};
 use rocket::Request;
 use rocket_dyn_templates::Template;
 
-
 /// Status code who tell the user this action is for admin acccount
 #[catch(401)]
 pub fn unauthorize(req: &Request<'_>) -> Template {
@@ -14,7 +13,7 @@ pub fn unauthorize(req: &Request<'_>) -> Template {
             title: "Unauthorize action",
             path,
             uri: req.uri(),
-        )
+        ),
     )
 }
 

@@ -102,13 +102,28 @@ pub struct NewEmail<'a> {
     pub(crate) email_x: &'a str,
 }
 
-/// Return the username with the name in param or None if he doesn't exist
+/// Return the user with the username in param or None if he doesn't exist
 pub fn get_by_username(username_find: &str) -> Option<UserEntity> {
     let conn = &mut handler::establish_connection();
     match user
         .filter(username.eq(username_find))
         .load::<UserEntity>(conn)
     {
+        Ok(mut res) => {
+            if !res.is_empty() {
+                res.drain(0..1).next()
+            } else {
+                None
+            }
+        }
+        Err(_) => None,
+    }
+}
+
+/// Return the user with the id in param or None if he doesn't exist
+pub fn get_by_id(id_find: i32) -> Option<UserEntity> {
+    let conn = &mut handler::establish_connection();
+    match user.filter(id.eq(id_find)).load::<UserEntity>(conn) {
         Ok(mut res) => {
             if !res.is_empty() {
                 res.drain(0..1).next()
@@ -257,7 +272,8 @@ pub fn is_password(us: &UserEntity, password_x: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use crate::db::user_table::{
-        delete_user, is_password, set_confirm_email, set_email, set_password, set_picture,
+        delete_user, get_by_id, is_password, set_confirm_email, set_email, set_password,
+        set_picture,
     };
     use crate::{create_user_perm, get_by_username};
     use std::panic;
@@ -280,6 +296,7 @@ mod tests {
         );
         let userx = get_by_username("test/user_table");
         assert!(userx.is_some(), "just create");
+        assert!(get_by_id(-1).is_none());
         let userx = userx.unwrap();
         assert!(is_password(&userx, "1"));
         assert_eq!(userx.email, "yo@gmail.com");
@@ -291,6 +308,7 @@ mod tests {
         set_email(userx.username.as_str(), "ya@gmail.com");
         set_picture(userx.username.as_str(), true);
         let userx = get_by_username("test/user_table").unwrap();
+        assert!(get_by_id(userx.id).is_some());
         assert!(userx.picture, "value change by set_picture");
         assert!(is_password(&userx, "5"));
         assert!(!is_password(&userx, "4"));

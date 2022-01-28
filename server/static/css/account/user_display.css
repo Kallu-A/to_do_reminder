@@ -6,14 +6,24 @@
 }
 
 .content_table td {
-    border-left: 2px solid var(--background);
-    border-right: 2px solid var(--background);
+    border: 2px solid var(--background);
 }
 
 .remove_picture {
     cursor: pointer;
+    position: absolute;
+    display: flex;
+    margin-top: -33px;
+    margin-left: 30px;
+    width: 35px;
+    height: 35px;
 }
 
-.content_table {
+.remove_user {
+    cursor: pointer;
+}
 
+
+.img_align {
+    vertical-align: middle;
 }

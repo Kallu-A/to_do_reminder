@@ -13,5 +13,6 @@ CREATE TABLE todo (
                       owner VARCHAR NOT NULL,
                       title VARCHAR NOT NULL,
                       date VARCHAR NOT NULL,
-                      priority INTEGER NOT NULL DEFAULT 0
+                      priority INTEGER NOT NULL DEFAULT 0,
+                      content VARCHAR NOT NULL
 );

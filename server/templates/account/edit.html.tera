@@ -10,7 +10,8 @@
 <link rel="stylesheet" href="/static/css/account/account.css">
 
 {% if user.picture %}
-<form action="/account/edit/remove_picture/{{user.id}}" method="post" enctype="multipart/form-data">
+<form action="/account/edit/remove_picture/{{user.id}}" method="post">
+    <input type="hidden" name="_method" value="delete" />
     <input type="submit" class="submit" value="Submit" id="remove_picture" style="visibility: hidden; position: absolute"/>
 </form>
 <div class="container_remove_pic">

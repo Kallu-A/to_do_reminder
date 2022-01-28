@@ -1,6 +1,6 @@
 use crate::db::user_table::{
-    create_user, delete_user, get_all, is_password, set_confirm_email, set_email, set_password,
-    set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH,
+    create_user, delete_user, get_all, get_by_id, is_password, set_confirm_email, set_email,
+    set_password, set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH,
 };
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
@@ -63,7 +63,8 @@ pub fn home(
 /// If not login or not an admin show a nice display of the user
 /// if login as admin show more a state of the database with extra data like password
 #[get("/users")]
-pub fn users(jar: &CookieJar<'_>) -> Template {
+pub fn users(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
+    let (color, message) = handler_flash(flash);
     let users = get_all();
     let path;
     if let Ok(user) = get_token(jar) {
@@ -75,6 +76,8 @@ pub fn users(jar: &CookieJar<'_>) -> Template {
                 title: "Database user",
                 path,
                 users,
+                color,
+                    message
                 ),
             );
         }
@@ -347,20 +350,23 @@ pub fn delete(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
 /// try to delete the user
 /// if successful redirect to `users with message` else `code 404`
 /// if get_token return an error display the code status
-#[delete("/delete_admin/<username>")]
-pub fn delete_as_admin(jar: &CookieJar<'_>, username: String) -> Result<Flash<Redirect>, Status> {
+#[delete("/delete_admin/<id>")]
+pub fn delete_as_admin(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(user) => {
-            if !user.perm  {
+            if !user.perm {
                 return Err(Status::Unauthorized);
             }
-            if username == user.username {
+            if id == user.id {
                 return Err(Status::MethodNotAllowed);
             }
 
-            if delete_user(username) {
+            if delete_user(get_by_id(id).unwrap().username) {
                 decr_members();
-                Result::Ok(Flash::success(Redirect::to("/account/users"), "gSuccessfully delete"))
+                Result::Ok(Flash::success(
+                    Redirect::to("/account/users"),
+                    "gSuccessfully delete",
+                ))
             } else {
                 Result::Err(Status::NotFound)
             }
@@ -456,18 +462,15 @@ pub fn edit_post(
 }
 
 /// A post method to remove the picture of the user
+/// change the functionnement if the user has the perm and allow him to remove anyone picture
 /// first look if id is the token.id if not return `status 405`
 /// else if user already don't have a picture redirect him to `edit with message`
 /// else remove and show him successful message
 #[delete("/edit/remove_picture/<id>")]
-pub fn remove_picture(
-    jar: &CookieJar<'_>,
-    id: i32,
-) -> Result<Flash<Redirect>, Status> {
+pub fn remove_picture(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(mut user) => {
-            let redirect =
-            if user.perm {
+            let redirect = if user.perm && user.id != id {
                 Redirect::to("/account/users")
             } else {
                 if id != user.id {
@@ -481,19 +484,22 @@ pub fn remove_picture(
             }
 
             let root = concat!(env!("CARGO_MANIFEST_DIR"), "/", "static/image/profil");
-            let pa = Path::new(root).join(user.id.to_string().as_str());
+            let pa = Path::new(root).join(id.to_string().as_str());
 
             if fs::remove_file(pa).is_ok() {
-                user.picture = false;
-                remove_token(jar);
-                create_token(jar, &user);
-                set_picture(user.username.as_str(), false);
-                Ok(Flash::error(redirect, "gSuccessfully remove"))
+                if id == user.id {
+                    user.picture = false;
+                    remove_token(jar);
+                    create_token(jar, &user);
+                }
+                set_picture(get_by_id(id).unwrap().username.as_str(), false);
+                Ok(Flash::error(redirect, "gPicture successfully remove"))
             } else {
-                Ok(Flash::error(redirect, "rOops. Internal error, pleasy try again"))
+                Ok(Flash::error(
+                    redirect,
+                    "rOops. Internal error, pleasy try again",
+                ))
             }
-
-
         }
         Err(e) => Err(e),
     }

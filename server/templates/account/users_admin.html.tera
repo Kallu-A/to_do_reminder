@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/static/css/account/user_display.css">
 
 <script src="/static/js/script.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
 <style>
     td {
@@ -29,23 +30,23 @@
     <tr class="content_table">
         <td>
             {% if user.username != "admin" %}
-                <form action="/account/delete_admin/{{user.username}}" method="post">
+                <form action="/account/delete_admin/{{user.id}}" method="post">
                     <input type="hidden" name="_method" value="delete" />
                     <input type="submit" class="submit" value="Submit" id="remove{{user.id}}" style="visibility: hidden; position: absolute"/>
                 </form>
-                <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the user', 'remove{{user.id}}')" class="remove"></image>
+                <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the user', 'remove{{user.id}}')" class="remove_user img_align"></image>
             {% endif %}
         </td>
         <td>
             {% if user.picture == true %}
                 {% if user.username != "admin" %}
-                <form action="/account/edit/remove_picture/{{user.id}}" method="post">
-                    <input type="hidden" name="_method" value="delete" />
-                    <input type="submit" class="submit" value="Submit" id="remove_picture{{user.id}}" style="visibility: hidden; position: absolute"/>
-                </form>
-                <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove the picture of the user', 'remove_picture{{user.id}}')" class="remove_picture"></image>
+                    <form action="/account/edit/remove_picture/{{user.id}}" method="post">
+                        <input type="hidden" name="_method" value="delete" />
+                        <input type="submit" class="submit" value="Submit" id="remove_picture{{user.id}}" style="visibility: hidden; position: absolute"/>
+                    </form>
+                    <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove the picture of the user', 'remove_picture{{user.id}}')" class="remove_picture"></image>
                 {% endif %}
-                <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
+            <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
             {% else %}
                 <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
             {% endif %}
@@ -59,4 +60,14 @@
     {% endfor %}
 </table>
 
+{% if message != "" %}
+<div id="close_button">
+    <p class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">
+        {{ message }}
+    </p>
+</div>
+<SCRIPT>
+    hide_after_time()
+</SCRIPT>
+{% endif %}
 {% endblock content %}
