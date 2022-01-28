@@ -17,6 +17,7 @@
 <h1> Database of users : </h1>
 <table id="users_container" class="message" style="display: flex">
     <tr style="border: 2px inset var(--background)">
+        <td class="td_header"> </td>
         <td class="td_header">Picture</td>
         <td class="td_header">Username</td>
         <td class="td_header">Perm</td>
@@ -26,16 +27,27 @@
     </tr>
     {% for user in users %}
     <tr class="content_table">
-
+        <td>
+            {% if user.username != "admin" %}
+                <form action="/account/delete_admin/{{user.username}}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <input type="submit" class="submit" value="Submit" id="remove{{user.id}}" style="visibility: hidden; position: absolute"/>
+                </form>
+                <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the user', 'remove{{user.id}}')" class="remove"></image>
+            {% endif %}
+        </td>
         <td>
             {% if user.picture == true %}
-            <form action="/account/delete_admin/{{user.id}}" method="post" enctype="multipart/form-data">
-                <input type="submit" class="submit" value="Submit" id="remove_picture{{user.id}}" style="visibility: hidden; position: absolute"/>
-            </form>
+                {% if user.username != "admin" %}
+                <form action="/account/edit/remove_picture/{{user.id}}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <input type="submit" class="submit" value="Submit" id="remove_picture{{user.id}}" style="visibility: hidden; position: absolute"/>
+                </form>
                 <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove the picture of the user', 'remove_picture{{user.id}}')" class="remove_picture"></image>
-            <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
+                {% endif %}
+                <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
             {% else %}
-            <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
+                <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
             {% endif %}
         </td>
         <td> <b>{{ user.username }}</b> </td>

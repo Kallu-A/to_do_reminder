@@ -459,7 +459,7 @@ pub fn edit_post(
 /// first look if id is the token.id if not return `status 405`
 /// else if user already don't have a picture redirect him to `edit with message`
 /// else remove and show him successful message
-#[post("/edit/remove_picture/<id>")]
+#[delete("/edit/remove_picture/<id>")]
 pub fn remove_picture(
     jar: &CookieJar<'_>,
     id: i32,
