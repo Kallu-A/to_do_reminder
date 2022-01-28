@@ -44,14 +44,38 @@
     margin: 5px auto 0;
 }
 
+.container_remove_pic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove_picture {
+    position: absolute;
+    margin-top: 45px;
+    margin-right: 200px;
+    width: 50px;
+    height: 50px;
+}
+
+.save_change_btn {
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.remove_picture:hover {
+    cursor: pointer;
+}
 #form_password {
     border: 1px inset var(--link_secondary_color);
     border-radius: 14px;
+    width: fit-content;
     padding: 10px;
 }
 
 #form_email {
     border: 1px inset var(--link_secondary_color);
+    width: fit-content;
     border-radius: 14px;
     padding: 10px;
 }
@@ -62,11 +86,9 @@
 
 .selected_title {
     border: none;
-    border-bottom: 1px solid var(--primary_color);
-    background: red;
+    border-bottom: 2px solid var(--primary_color);
     font-size: var(--large-txt);
     color: var(--link_color);
-    #background: var(--background_transp);
     box-shadow: var(--shadow);
     background: transparent;
     padding: 10px;
@@ -83,11 +105,15 @@
     color: var(--link_color);
     background: transparent;
     box-shadow: var(--shadow);
-    #background: var(--background_transp);
     padding: 10px;
     border-radius: 7px;
 }
 
 .not_selected:hover {
     cursor: pointer;
+}
+
+.hide {
+    position: absolute;
+    visibility: hidden;
 }

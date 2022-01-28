@@ -118,6 +118,7 @@ with a default password `password` (you can change it) and email value same as t
 - `DELETE` : `/account/delete` Try to delete the user
 - `GET` : [`/account/edit`](http://0.0.0.0:8000/account/edit) Show form to change password or profile picture
 - `POST` : `/account/edit` Handle the change password
+- `POST` : `/account/edit/remove_picture/<id>` allow to remove the picture
 - `POST` : `/account/set/picture` Handle the new picture
 - `PUT` :  `/account/send_code` send a code to confirm the email
 - `POST` : `/account/confirm` form to enable the email 

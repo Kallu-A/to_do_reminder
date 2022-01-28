@@ -427,6 +427,42 @@ pub fn edit_post(
     }
 }
 
+/// A post method to remove the picture of the user
+/// first look if id is the token.id if not return `status 405`
+/// else if user already don't have a picture redirect him to `edit with message`
+#[post("/edit/remove_picture/<id>")]
+pub fn remove_picture(
+    jar: &CookieJar<'_>,
+    id: i32,
+) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(mut user) => {
+            if id != user.id {
+                return Err(Status::MethodNotAllowed);
+            }
+            if !user.picture {
+                return Ok(Flash::error(Redirect::to("/account/edit"), "rYou already don't have a picture"));
+            }
+
+            let root = concat!(env!("CARGO_MANIFEST_DIR"), "/", "static/image/profil");
+            let pa = Path::new(root).join(user.id.to_string().as_str());
+
+            if fs::remove_file(pa).is_ok() {
+                user.picture = false;
+                remove_token(jar);
+                create_token(jar, &user);
+                set_picture(user.username.as_str(), false);
+                Ok(Flash::error(Redirect::to("/account/edit"), "gSuccessfully remove"))
+            } else {
+                Ok(Flash::error(Redirect::to("/account/edit"), "rOops. Internal error, pleasy try again"))
+            }
+
+
+        }
+        Err(e) => Err(e),
+    }
+}
+
 /// If `get_token` return an error display the `status code`
 /// If picture is too large `size limite of : 1MB` to avoid attack with large image then send an `appropriate message`
 /// else try to save the picture then redirect to `account with an appropriate message`

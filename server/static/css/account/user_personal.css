@@ -42,9 +42,8 @@
 }
 
 #username {
-    margin-top: 15px;
+    margin-top: 25px;
     font-size: var(--big-txt);
-    margin-bottom: 15px;
 }
 
 .img_align {

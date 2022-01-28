@@ -29,7 +29,7 @@ function preview_img() {
             }
             let saveBtn = document.getElementById("save_change_btn");
             saveBtn.style.visibility = "visible";
-            saveBtn.style.width = "fit-content";
+            saveBtn.style.position = "relative";
             reader.readAsDataURL(file);
         }
     });

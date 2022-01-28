@@ -9,13 +9,25 @@
 <link rel="stylesheet" href="/static/css/common_form.css">
 <link rel="stylesheet" href="/static/css/account/account.css">
 
+{% if user.picture %}
+<form action="/account/edit/remove_picture/{{user.id}}" method="post" enctype="multipart/form-data">
+    <input type="submit" class="submit" value="Submit" id="remove_picture" style="visibility: hidden; position: absolute"/>
+</form>
+<div class="container_remove_pic">
+    <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove your picture', 'remove_picture')" class="remove_picture"></image>
+</div>
+{% endif %}
+
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
     <label for="file" class="sub_picture">
         <img id="preview" class="profile_pic" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user"/>
         <img src="/static/image/edit.png" class="edit_img">
     </label>
-    <p id="username" style="text-align: center; margin-left: 20px">{{ user.username}} <input type="submit" id="save_change_btn" class="submit" value="Save" style="width: 0; visibility: hidden"/> </p>
+    <p id="username">{{user.username}}</p>
     <input type="file" id="file" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
+    <div style="margin: -35px auto 10px;">
+        <input type="submit" id="save_change_btn" class="submit hide" value="Save"/>
+    </div>
 </form>
 
 <div>
@@ -52,7 +64,7 @@
             <span class="txt"> Current email is: <wbr> <span class="value"> {{user.email}} </span> </span>
             <table class = row>
                 <tr>
-                    <td>New Email</td><td><input id="input_email" class="fields" type="text" size="14" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
+                    <td>New Email</td><td><input id="input_email" class="fields" type="text" size="13" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
                     <span class="error_form" id="error_email"></span> </td>
                 </tr>
                 <tr class="separator"></tr>

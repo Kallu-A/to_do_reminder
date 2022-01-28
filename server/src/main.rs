@@ -17,10 +17,7 @@ use path::account::{home, users};
 use path::todo::test;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
-use crate::path::account::{
-    confirm_code, delete, edit, edit_post, form_password_change, home_logout, login, login_put,
-    new_email, password_code, register, register_post, send_code, upload_picture,
-};
+use crate::path::account::{confirm_code, delete, edit, edit_post, form_password_change, home_logout, login, login_put, new_email, password_code, register, register_post, remove_picture, send_code, upload_picture};
 use crate::path::errors::{
     expired_token, internal_error, method_not_allowed, not_found, not_login, token_match_none,
 };
@@ -151,7 +148,8 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 confirm_code,
                 password_code,
                 form_password_change,
-                new_email
+                new_email,
+                remove_picture
             ],
         )
         .mount("/to-do/", routes![test])
