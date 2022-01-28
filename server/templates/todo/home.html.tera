@@ -1,0 +1,5 @@
+{% extends "common" %}
+{% block content %}
+Welcome home of todo !
+
+{% endblock content %}

@@ -17,7 +17,7 @@ pub fn unauthorize(req: &Request<'_>) -> Template {
     )
 }
 
-/// Tell that for this you need to be login
+/// For this you need to be login
 #[catch(403)]
 pub fn not_login() -> Flash<Redirect> {
     Flash::success(

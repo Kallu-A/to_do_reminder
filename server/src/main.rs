@@ -14,7 +14,7 @@ use rocket::{routes, Build, Rocket};
 use rocket_dyn_templates::Template;
 
 use path::account::{home, users};
-use path::todo_list::test;
+use path::todo_list::home_t;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
 use crate::path::account::{
@@ -30,6 +30,7 @@ use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
+use crate::path::todo_list::create_todo;
 use crate::utils::json::Data;
 use dotenv::dotenv;
 
@@ -159,7 +160,7 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 delete_as_admin,
             ],
         )
-        .mount("/to-do/", routes![test])
+        .mount("/to-do/", routes![home_t, create_todo])
 }
 
 #[cfg(test)]
