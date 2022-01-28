@@ -341,6 +341,34 @@ pub fn delete(jar: &CookieJar<'_>) -> Result<Flash<Redirect>, Status> {
     }
 }
 
+/// DELETE a user for admin
+/// if user not a admin return `code 401`
+/// if admin try to delete himself return `code 405`
+/// try to delete the user
+/// if successful redirect to `users with message` else `code 404`
+/// if get_token return an error display the code status
+#[delete("/delete_admin/<username>")]
+pub fn delete_as_admin(jar: &CookieJar<'_>, username: String) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            if !user.perm  {
+                return Err(Status::Unauthorized);
+            }
+            if username == user.username {
+                return Err(Status::MethodNotAllowed);
+            }
+
+            if delete_user(username) {
+                decr_members();
+                Result::Ok(Flash::success(Redirect::to("/account/users"), "gSuccessfully delete"))
+            } else {
+                Result::Err(Status::NotFound)
+            }
+        }
+        Err(statut) => Err(statut),
+    }
+}
+
 /// GET edit  for a user
 /// if get_token exist,
 /// show form to change value
@@ -430,6 +458,7 @@ pub fn edit_post(
 /// A post method to remove the picture of the user
 /// first look if id is the token.id if not return `status 405`
 /// else if user already don't have a picture redirect him to `edit with message`
+/// else remove and show him successful message
 #[post("/edit/remove_picture/<id>")]
 pub fn remove_picture(
     jar: &CookieJar<'_>,
@@ -437,11 +466,18 @@ pub fn remove_picture(
 ) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(mut user) => {
-            if id != user.id {
-                return Err(Status::MethodNotAllowed);
-            }
+            let redirect =
+            if user.perm {
+                Redirect::to("/account/users")
+            } else {
+                if id != user.id {
+                    return Err(Status::MethodNotAllowed);
+                }
+                Redirect::to("/account/edit")
+            };
+
             if !user.picture {
-                return Ok(Flash::error(Redirect::to("/account/edit"), "rYou already don't have a picture"));
+                return Ok(Flash::error(redirect, "rYou already don't have a picture"));
             }
 
             let root = concat!(env!("CARGO_MANIFEST_DIR"), "/", "static/image/profil");
@@ -452,9 +488,9 @@ pub fn remove_picture(
                 remove_token(jar);
                 create_token(jar, &user);
                 set_picture(user.username.as_str(), false);
-                Ok(Flash::error(Redirect::to("/account/edit"), "gSuccessfully remove"))
+                Ok(Flash::error(redirect, "gSuccessfully remove"))
             } else {
-                Ok(Flash::error(Redirect::to("/account/edit"), "rOops. Internal error, pleasy try again"))
+                Ok(Flash::error(redirect, "rOops. Internal error, pleasy try again"))
             }
 
 

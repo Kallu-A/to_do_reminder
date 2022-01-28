@@ -4,3 +4,12 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.content_table td {
+    border-left: 2px solid var(--background);
+    border-right: 2px solid var(--background);
+}
+
+.remove_picture {
+    cursor: pointer;
+}
