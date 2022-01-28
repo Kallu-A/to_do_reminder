@@ -14,7 +14,7 @@ use pbkdf2::Pbkdf2;
 
 pub const DEFAULT_PATH: &str = "/static/image/profil/default.png";
 
-/// Struct get by all the getter of the database with 5 fields of the table
+/// Struct who represent a user
 #[derive(Queryable, Serialize, AsChangeset, Identifiable, Insertable)]
 #[table_name = "user"]
 pub struct UserEntity {

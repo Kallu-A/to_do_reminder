@@ -1,6 +1,6 @@
 table! {
-    todo (id_todo) {
-        id_todo -> Integer,
+    todo (id) {
+        id -> Integer,
         owner -> Text,
         title -> Text,
         date -> Text,
@@ -21,4 +21,7 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(todo, user,);
+allow_tables_to_appear_in_same_query!(
+    todo,
+    user,
+);
