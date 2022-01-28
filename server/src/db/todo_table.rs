@@ -10,7 +10,7 @@ use crate::schema::todo::dsl::*;
 pub struct TodoEntity {
     pub id: i32,
     pub progress: i32,
-    pub owner: String,
+    pub id_owner: i32,
     pub title: String,
     pub date: String,
     pub priority: i32,
@@ -33,9 +33,9 @@ pub fn get_by_id(id_find: i32) -> Option<TodoEntity> {
 }
 
 /// Return all the to-do of the owner, none if he doesn't exist
-pub fn get_by_owner(owner_find: &str) -> Vec<TodoEntity> {
+pub fn get_by_owner(owner_find: &i32) -> Vec<TodoEntity> {
     let con = &mut handler::establish_connection();
-    todo.filter(owner.eq(owner_find)).load::<TodoEntity>(con)
+    todo.filter(id_owner.eq(owner_find)).load::<TodoEntity>(con)
         .expect("error loading the user todo")
 }
 
@@ -51,9 +51,9 @@ pub fn delete_by_id(id_delete: i32) -> bool {
 }
 
 /// Try to delete all the to-do a a user
-pub fn delete_by_owner(owner_delete: &str) -> usize {
+pub fn delete_by_owner(owner_delete: i32) -> usize {
     let con = &mut handler::establish_connection();
-    let num_deleted = diesel::delete(todo.filter(owner.eq(owner_delete)))
+    let num_deleted = diesel::delete(todo.filter(id_owner.eq(owner_delete)))
         .execute(con)
         .expect("Error deleting todo");
 

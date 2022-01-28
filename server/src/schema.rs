@@ -2,7 +2,7 @@ table! {
     todo (id) {
         id -> Integer,
         progress -> Integer,
-        owner -> Text,
+        id_owner -> Integer,
         title -> Text,
         date -> Text,
         priority -> Integer,
