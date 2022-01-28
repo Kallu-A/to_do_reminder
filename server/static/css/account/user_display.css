@@ -13,14 +13,15 @@
     cursor: pointer;
     position: absolute;
     display: flex;
-    margin-top: -33px;
-    margin-left: 30px;
+    margin-top: -20px;
+    margin-left: -12px;
     width: 35px;
     height: 35px;
 }
 
 .remove_user {
     cursor: pointer;
+    margin-top: -25px;
 }
 
 

@@ -124,6 +124,6 @@ with a default password `password` (you can change it) and email value same as t
 - `POST` : `/account/set/picture` Handle the new picture
 - `PUT` :  `/account/send_code` send a code to confirm the email
 - `POST` : `/account/confirm` form to enable the email 
-- `GET` : `/account/code_password` form when you forget your password
+- `GET` : [`/account/code_password`](http://0.0.0.0:8000/account/code_password) form when you forget your password
 - `PUT` : `/account/code_password` change the password and send the new value per email 
 - `PUT` : `/account/new_email` change the email and send a confirm code to enable the email
