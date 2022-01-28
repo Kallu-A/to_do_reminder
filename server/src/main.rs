@@ -14,7 +14,7 @@ use rocket::{routes, Build, Rocket};
 use rocket_dyn_templates::Template;
 
 use path::account::{home, users};
-use path::todo::test;
+use path::todo_list::test;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
 use crate::path::account::{

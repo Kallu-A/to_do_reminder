@@ -1,20 +1,20 @@
-use rocket::serde::{Deserialize, Serialize};
-use diesel::prelude::*;
+use rocket::serde::Serialize;
 use crate::db::handler;
+use diesel::prelude::*;
 use crate::schema::todo;
 use crate::schema::todo::dsl::*;
-
 
 /// Struct who represent a to-do
 #[derive(Queryable, Serialize, AsChangeset, Identifiable, Insertable)]
 #[table_name = "todo"]
 pub struct TodoEntity {
     pub id: i32,
+    pub progress: i32,
     pub owner: String,
     pub title: String,
     pub date: String,
-    pub content: String,
     pub priority: i32,
+    pub content: String,
 }
 
 /// Return the to-do of the id, none if he doesn't exist
@@ -39,6 +39,7 @@ pub fn get_by_owner(owner_find: &str) -> Vec<TodoEntity> {
         .expect("error loading the user todo")
 }
 
+
 /// Try to delete a to-do with is id
 pub fn delete_by_id(id_delete: i32) -> bool {
     let con = &mut handler::establish_connection();
@@ -49,14 +50,19 @@ pub fn delete_by_id(id_delete: i32) -> bool {
     num_deleted > 0
 }
 
+/// Try to delete all the to-do a a user
+pub fn delete_by_owner(owner_delete: &str) -> usize {
+    let con = &mut handler::establish_connection();
+    let num_deleted = diesel::delete(todo.filter(owner.eq(owner_delete)))
+        .execute(con)
+        .expect("Error deleting todo");
+
+    num_deleted
+}
+
+
 #[cfg(test)]
 mod tests {
-    use crate::db::user_table::{
-        delete_user, get_by_id, is_password, set_confirm_email, set_email, set_password,
-        set_picture,
-    };
-    use crate::{create_user_perm, get_by_username};
-    use std::panic;
 
     #[test]
     pub fn check() {

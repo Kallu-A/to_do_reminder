@@ -48,7 +48,6 @@ server_1  | 't' -> test
 server_1  | 'c' -> clippy (upgrade code)
 server_1  | 'f' -> fmt (syntax format)
 server_1  | 'rd' -> recreate the database
-server_1  | 'doc' -> generate the documentation
 server_1  | Link to the database: success
 server_1  | Mode is: all verif 'a'
 ```
@@ -59,8 +58,7 @@ Everything has been explain you just need to go to the `server/.env` file and ch
 - `'c' clippy` launch the clippy functionality of cargo *(test if their better syntax solution)*
 - `'f' fmt` launch the fmt functionality of cargo *(reformat the code with the rust convention)*
 - `'rd' diesel redo` recreate the database *(erase all data)* if you change the structure and also reset the value in the `data.json`
-- `'doc' cargo doc ` generate the documentation
-- `'a' all` launch fmt, clippy, test, doc,  and server in release use this before a commit to make sure everything works fine
+- `'a' all` launch fmt, clippy, test, and server in release use this before a commit to make sure everything works fine
 # Tests
 ### Option 1
 **To see if the server passes all the tests you need to:**

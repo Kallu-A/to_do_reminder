@@ -9,7 +9,6 @@ echo "'t' -> test"
 echo "'c' -> clippy (upgrade code)"
 echo "'f' -> fmt (syntax format)"
 echo "'rd' -> recreate the database"
-echo "'doc' -> generate the documentation"
 
 # if database doesn't exist launch the creation
 if [ ! -f database  ]
@@ -65,16 +64,9 @@ case $LAUNCH_MODE in
         echo "launch test: "
         cargo test
         echo "-- finish --"
-        echo "launch documentation"
-        cargo doc --no-deps --open --document-private-items --open-browser
-        echo "-- finish --"
         echo "launch server: "
         cargo run --release src/main.rs
         exit 0;;
-
-  "doc")  echo "Generate the documentation"
-          cargo doc --no-deps --document-private-items --open-browser
-          exit 0;;
 
 
   *) echo "LAUNCH_MODE = '$LAUNCH_MODE' incorrect , available option are (r, d, t)";;

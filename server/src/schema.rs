@@ -1,6 +1,7 @@
 table! {
     todo (id) {
         id -> Integer,
+        progress -> Integer,
         owner -> Text,
         title -> Text,
         date -> Text,
