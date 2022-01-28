@@ -60,7 +60,7 @@ impl UserEntity {
 /// Struct to put a new user on the table User
 #[derive(Insertable)]
 #[table_name = "user"]
-pub struct NewUserEntity<'a> {
+struct NewUserEntity<'a> {
     pub username: &'a str,
     pub password: &'a str,
     pub perm: bool,
