@@ -17,10 +17,8 @@ use path::account::{home, users};
 use path::todo::test;
 
 use crate::db::user_table::{create_user_perm, get_by_username, DEFAULT_PATH};
-use crate::path::account::{confirm_code, delete, edit, edit_post, form_password_change, home_logout, login, login_put, new_email, password_code, register, register_post, remove_picture, send_code, upload_picture};
-use crate::path::errors::{
-    expired_token, internal_error, method_not_allowed, not_found, not_login, token_match_none,
-};
+use crate::path::account::{confirm_code, delete, delete_as_admin, edit, edit_post, form_password_change, home_logout, login, login_put, new_email, password_code, register, register_post, remove_picture, send_code, upload_picture};
+use crate::path::errors::{expired_token, internal_error, method_not_allowed, not_found, not_login, token_match_none, unauthorize};
 use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
@@ -120,6 +118,7 @@ pub fn rocket(test: bool) -> Rocket<Build> {
         .register(
             "/",
             catchers![
+                unauthorize,
                 not_found,
                 method_not_allowed,
                 not_login,
@@ -149,7 +148,8 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 password_code,
                 form_password_change,
                 new_email,
-                remove_picture
+                remove_picture,
+                delete_as_admin
             ],
         )
         .mount("/to-do/", routes![test])

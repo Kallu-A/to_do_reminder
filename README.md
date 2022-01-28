@@ -92,6 +92,7 @@ the token and as a `expire_date of 2 hours` and a cookie to set the expired_toke
 # Implemented
 ## Status code
 **You can try every status code by going to [{server}/status/\<code>](http://0.0.0.0:8000/status/404)**
+- [`401`](http://0.0.0.0:8000/status/401) only for admin
 - [`403`](http://0.0.0.0:8000/status/403) not login but action needs to
 - [`404`](http://0.0.0.0:8000/status/404) not found
 - [`405`](http://0.0.0.0:8000/status/405) try to do something only accessible for visitors
@@ -116,6 +117,7 @@ with a default password `password` (you can change it) and email value same as t
 - `POST` : `/account/login` Handle the form and try to login
 - `PUT` : `/account/logout` Disconnect the user
 - `DELETE` : `/account/delete` Try to delete the user
+- `DELETE` : `/delete_admin/<username>` for admin account delete the username put
 - `GET` : [`/account/edit`](http://0.0.0.0:8000/account/edit) Show form to change password or profile picture
 - `POST` : `/account/edit` Handle the change password
 - `POST` : `/account/edit/remove_picture/<id>` allow to remove the picture

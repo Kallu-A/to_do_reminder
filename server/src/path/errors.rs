@@ -3,6 +3,22 @@ use rocket::response::{Flash, Redirect};
 use rocket::Request;
 use rocket_dyn_templates::Template;
 
+
+/// Status code who tell the user this action is for admin acccount
+#[catch(401)]
+pub fn unauthorize(req: &Request<'_>) -> Template {
+    let path = get_path_img(req);
+    Template::render(
+        "error/401",
+        context!(
+            title: "Unauthorize action",
+            path,
+            uri: req.uri(),
+        )
+    )
+}
+
+/// Tell that for this you need to be login
 #[catch(403)]
 pub fn not_login() -> Flash<Redirect> {
     Flash::success(
@@ -11,19 +27,21 @@ pub fn not_login() -> Flash<Redirect> {
     )
 }
 
+/// The link or ressource was not found
 #[catch(404)]
 pub fn not_found(req: &Request<'_>) -> Template {
     let path = get_path_img(req);
     Template::render(
         "error/404",
         context!(
-            title: "ERROR 404",
+            title: "Not found",
             path,
             uri: req.uri(),
         ),
     )
 }
 
+/// This action is only for visitor
 #[catch(405)]
 pub fn method_not_allowed() -> Flash<Redirect> {
     Flash::success(
@@ -32,36 +50,39 @@ pub fn method_not_allowed() -> Flash<Redirect> {
     )
 }
 
+/// Error with the token should not happen in runtime
 #[catch(417)]
 pub fn token_match_none() -> Template {
     Template::render(
         "error/417",
         context!(
-            title: "ERROR 417",
+            title: "Error Wrong Token",
             path: DEFAULT_PATH,
         ),
     )
 }
 
+/// the token is expired and you need to login again
 #[catch(418)]
 pub fn expired_token(req: &Request<'_>) -> Template {
     let path = get_path_img(req);
     Template::render(
         "error/418",
         context!(
-            title: "ERROR 418",
+            title: "Expired Token",
             path
         ),
     )
 }
 
+/// The server encounter a problem should not happen
 #[catch(500)]
 pub fn internal_error(req: &Request<'_>) -> Template {
     let path = get_path_img(req);
     Template::render(
         "error/500",
         context!(
-            title: "ERROR 500",
+            title: "Internal error",
             path,
         ),
     )
