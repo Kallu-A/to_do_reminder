@@ -25,7 +25,7 @@
         <a href="/" class="logo">
             <img src="/static/image/index.svg" width="70px" height="70px" alt="Logo of the website" style="margin-top: 5px"/>
         </a>
-        <ul>
+        <ul class="nav_bar_member">
             <li><a id="nav-member" href="/account/users">Members</a></li>
             <li><a id="nav-calendar" href="/to-do/home">Calendar</a></li>
             <li><a id="nav-todo" href="/to-do/home">To-Do</a></li>

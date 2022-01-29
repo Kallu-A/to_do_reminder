@@ -106,7 +106,7 @@ nav ul li a:hover {
     }
     nav ul li a:hover {
         border: none;
-        color: var(--primary_color);
+        color: var(--background);
     }
     li:hover {
         clip-path: polygon( 100% 0, 100% 35%, 90% 50%, 100% 65%, 100% 100%, 0 100%, 0 60%, 10% 50%, 0 35%, 0 0);

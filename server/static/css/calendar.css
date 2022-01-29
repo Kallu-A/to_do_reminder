@@ -51,3 +51,7 @@
     background: var(--background_first);
     color: var(--text-color);
 }
+
+.nav_bar_member li a:hover {
+    text-decoration: none;
+}
