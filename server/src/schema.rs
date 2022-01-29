@@ -1,7 +1,6 @@
 table! {
     pref (id) {
         id -> Integer,
-        id_user -> Integer,
         sort -> Integer,
         display -> Integer,
     }

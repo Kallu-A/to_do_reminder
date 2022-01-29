@@ -10,24 +10,14 @@ use rocket::serde::Serialize;
 #[table_name = "pref"]
 pub struct PrefEntity {
     pub id: i32,
-    pub id_user: i32,
-    pub sort: i32,
-    pub display: i32,
-}
-
-/// Struct to create a new pref
-#[derive(Insertable)]
-#[table_name = "pref"]
-pub struct NewPrefEntity {
-    pub id_user: i32,
     pub sort: i32,
     pub display: i32,
 }
 
 /// Return the pref of the id if one exist
-pub fn get_pref_from_owner(id_user_x: i32) -> Option<PrefEntity> {
+pub fn get_pref_from_owner(id_x: i32) -> Option<PrefEntity> {
     let con = &mut handler::establish_connection();
-    match pref.filter(id_user.eq(id_user_x)).load::<PrefEntity>(con) {
+    match pref.filter(id.eq(id_x)).load::<PrefEntity>(con) {
         Ok(mut res) => {
             if !res.is_empty() {
                 res.drain(0..1).next()
@@ -40,11 +30,11 @@ pub fn get_pref_from_owner(id_user_x: i32) -> Option<PrefEntity> {
 }
 
 /// Create the pref of a user with the default settings
-pub fn create_pref(id_user_x: i32) -> usize {
+pub fn create_pref(id_x: i32) -> usize {
     let con = &mut handler::establish_connection();
 
-    let new_pref = NewPrefEntity {
-        id_user: id_user_x,
+    let new_pref = PrefEntity {
+        id: id_x,
         sort: DEFAULT_MODE,
         display: DEFAULT_MODE,
     };
@@ -56,11 +46,17 @@ pub fn create_pref(id_user_x: i32) -> usize {
 }
 
 /// Try to the delete the pref of a user
-pub fn delete_pref(id_userx: i32) -> usize {
+pub fn delete_pref(id_x: i32) -> usize {
     let con = &mut handler::establish_connection();
-    diesel::delete(pref.filter(id_user.eq(id_userx)))
+    diesel::delete(pref.filter(id.eq(id_x)))
         .execute(con)
         .expect("Error deleting pref")
+}
+
+/// Update the value from a PrefEntity
+pub fn update_pref(pref_x: &PrefEntity) -> bool {
+    let con = &mut handler::establish_connection();
+    pref_x.save_changes::<PrefEntity>(con).is_ok()
 }
 
 pub const DEFAULT_MODE: i32 = 0;
@@ -88,7 +84,9 @@ impl Mode {
 
 #[cfg(test)]
 mod test {
-    use crate::db::pref_table::{create_pref, delete_pref, get_pref_from_owner, DEFAULT_MODE};
+    use crate::db::pref_table::{
+        create_pref, delete_pref, get_pref_from_owner, update_pref, DEFAULT_MODE,
+    };
     use crate::db::user_table::delete_user;
     use crate::{create_user_perm, get_by_username};
     use std::panic;
@@ -96,21 +94,26 @@ mod test {
     #[test]
     pub fn check() {
         panic::set_hook(Box::new(|err| {
-            delete_pref(-1);
+            delete_pref(-2);
             println!("\n{}", err.to_string());
             println!("{}", err.location().unwrap().to_string());
         }));
 
-        assert!(get_pref_from_owner(-1).is_none());
-        assert_eq!(create_pref(-1), 1);
-        let pref = get_pref_from_owner(-1);
-        assert!(pref.is_some());
-        let pref = pref.unwrap();
-        assert_eq!(pref.id_user, -1);
+        assert!(get_pref_from_owner(-2).is_none());
+        assert_eq!(create_pref(-2), 1);
+        let pref = get_pref_from_owner(-2);
+        let mut pref = pref.unwrap();
+        assert_eq!(pref.id, -2);
         assert_eq!(pref.display, DEFAULT_MODE);
         assert_eq!(pref.sort, DEFAULT_MODE);
-        assert_eq!(delete_pref(-1), 1);
-        assert!(get_pref_from_owner(-1).is_none());
+        pref.display = 2;
+        pref.sort = 3;
+        assert!(update_pref(&pref));
+        let pref = get_pref_from_owner(-2).unwrap();
+        assert_eq!(pref.display, 2);
+        assert_eq!(pref.sort, 3);
+        assert_eq!(delete_pref(-2), 1);
+        assert!(get_pref_from_owner(-2).is_none());
     }
 
     #[test]
