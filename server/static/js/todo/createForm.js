@@ -9,6 +9,14 @@ $(document).ready(function() {
         isFill("#input_priority", "#display_priority", "need a priority");
     });
 
+    $("#input_priority").keyup(function(){
+        handle_selector();
+    })
+
+    $("#input_priority").click(function(){
+        handle_selector();
+    })
+
     $("#input_priority").mousemove(function(){
         handle_selector();
     })

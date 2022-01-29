@@ -140,4 +140,6 @@ with a default password `password` (you can change it) and email value same as t
 - `DELETE` : `/to-do/owner/<id>` delete all the to-do of the account in <id>
 - `DELETE` : `/to-do/owner/done/<id>` delete all the to-do done of the account in <id>
 - `DELETE` : `/to-do/delete/<id>` delete the to-do with the <id>
-- 
+- `GET` : `/to-do/edit/<id>` show the forum to edit a to-do
+- `PUT` : `/to-do/edit/<id>` put to save the new data
+- `PUT` : `/to-do/set_progress/<id>/<value>` allow to just change the progress value

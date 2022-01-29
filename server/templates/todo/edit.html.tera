@@ -31,7 +31,7 @@
             </td>
         </tr>
         <tr>
-            <td>Date | Progress</td>
+            <td>Date * | Progress * </td>
             <td>
                 <span>
                     <input name="date_x" class="field" id="input_date" type= "text" readonly size="7" maxlength="7" data-provide= "datepicker" placeholder= "dd/mm/yyyy" value="{{date_x}}">
