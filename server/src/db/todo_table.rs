@@ -39,6 +39,16 @@ pub struct CreateTodo<'a> {
     pub priority_x: i32,
 }
 
+/// Form for when you want to create a to-do
+#[derive(FromForm, Serialize)]
+pub struct UpdateTodo<'a> {
+    pub title_x: &'a str,
+    pub content_x: &'a str,
+    pub date_x: &'a str,
+    pub priority_x: i32,
+    pub progress_x: i32,
+}
+
 /// Return the to-do of the id, none if he doesn't exist
 pub fn get_by_id(id_find: i32) -> Option<TodoEntity> {
     let con = &mut handler::establish_connection();
@@ -125,12 +135,15 @@ pub fn set_progress(todo_x: &mut TodoEntity, progress_x: i32) -> bool {
     todo_x.save_changes::<TodoEntity>(con).is_ok()
 }
 
+/// Update the value from a UpdateTodo structure
+pub fn set_update_value(todo_x: &mut TodoEntity) -> bool {
+    let con = &mut handler::establish_connection();
+    todo_x.save_changes::<TodoEntity>(con).is_ok()
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::db::todo_table::{
-        create_todo, delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner,
-        set_progress,
-    };
+    use crate::db::todo_table::{create_todo, delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, set_progress, set_update_value};
     use std::panic;
 
     #[test]
@@ -163,6 +176,17 @@ mod tests {
 
         let todo = get_by_id(todos[0].id).unwrap();
         assert_eq!(todo.progress, 100);
+
+        let mut todo = get_by_id(todos[1].id).unwrap();
+        assert_eq!(todo.progress, 0);
+        assert_eq!(todo.title, "test2");
+        todo.progress = 10;
+        todo.title = "change".to_string();
+
+        assert!(set_update_value(&mut todo));
+        let todo = get_by_id(todos[1].id).unwrap();
+        assert_eq!(todo.progress, 10);
+        assert_eq!(todo.title, "change");
 
         assert_eq!(delete_done_by_owner(-1), 1);
         assert_eq!(delete_by_id(todos[0].id), false);
