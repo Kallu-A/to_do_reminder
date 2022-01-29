@@ -24,3 +24,13 @@
 .separator {
     height: 10px;
 }
+
+@media (max-width: 600px) {
+    .field_short {
+        width: 240px;
+    }
+
+    .field {
+        width: 280px;
+    }
+}

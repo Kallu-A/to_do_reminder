@@ -4,18 +4,58 @@
 <link rel= "stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
 <link rel="stylesheet" href="/static/css/todo/todo.css">
 <link rel="stylesheet" href="/static/css/calendar.css">
+<link rel="stylesheet" href="/static/css/common_form.css">
+<link rel="stylesheet" href="/static/css/todo/slider_range.css">
+<link rel="stylesheet" href="/static/css/todo/create.css">
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 
-<form>
-    Limit date: <input id="date" type= "text" readonly style="width: 200px" data-provide= "datepicker" placeholder= "dd/mm/yyyy">
+<h1>Create a to-do</h1>
+<form method="post">
+        <table class = row>
+            <tr>
+                <td>Title</td>
+                <td>
+                    <input class="field" id="input_title" type="text" size="15" maxlength="50"> <br>
+                    <span class="error_form" id="error_title"></span>
+                </td>
+            </tr>
+            <tr class="separator"></tr>
+            <tr>
+                <td>Content</td>
+                <td>
+                    <input class="field" id="input_content" type="text" size="15" maxlength="300"> <br>
+                    <span class="error_form" id="error_content"></span>
+                </td>
+            </tr>
+            <tr class="separator"></tr>
+
+            <tr>
+                <td>Limit date</td>
+                <td>
+                    <input class="field" id="input_date" type= "text" readonly size="15" maxlength="15" data-provide= "datepicker" placeholder= "dd/mm/yyyy"> <br>
+                    <span class="error_form" id="error_date"></span>
+                </td>
+            </tr>
+            <tr class="separator"></tr>
+
+            <tr>
+                <td>Priority</td>
+                <td>
+                    <input class="field" id="input_priority" type="range" size="15" min="0" max="10" step="1" value="0">
+                    <span class="error_form" id="error_priority"></span>
+                </td>
+            </tr>
+            <tr class="separator"></tr>
+        </table>
+    <input type="submit" class="submit" value="Create"/>
 </form>
 
 <script type="text/javascript">
     $(document).ready(function(){
-        const date = $("#date");
+        const date = $("#input_date");
         date.datepicker({
             "format": "dd/mm/yyyy",
             "startDate": "-0d",
