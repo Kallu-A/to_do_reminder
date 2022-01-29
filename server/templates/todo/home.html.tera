@@ -1,7 +1,18 @@
 {% extends "common" %}
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-Welcome home of todo !
+<h1> Your To-Do </h1>
+
+{% for todo in todos %}
+    <div>
+        <hr>
+        <h3>{{todo.title}} </h3>
+        <p style="font-size: var(--mini-txt)">{{todo.content}} </p>
+        {{todo.date}} <br>
+        {{todo.progress}}% <br>
+        {{todo.priority}} <br>
+    </div>
+{% endfor %}
 
 {% if message != "" %}
 <div id="close_button">

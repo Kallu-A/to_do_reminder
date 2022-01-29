@@ -1,5 +1,5 @@
 use crate::db::todo_table;
-use crate::db::todo_table::CreateTodo;
+use crate::db::todo_table::{get_by_owner, CreateTodo};
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
@@ -11,19 +11,25 @@ use rocket_dyn_templates::Template;
 
 /// get method to get the home of the to-do
 /// return the status code if get_token send one
+/// this home is just a display of the to-do of the user with some action like create delete
 #[get("/home")]
 pub fn home_t(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
-        Ok(user) => Ok(Template::render(
-            "todo/home",
-            context!(
-            path: user.get_path(),
-            title: "Home To-Do",
-                form_field,
-                message
-                    ),
-        )),
+        Ok(user) => {
+            let todos = get_by_owner(user.id);
+
+            Ok(Template::render(
+                "todo/home",
+                context!(
+                    path: user.get_path(),
+                    title: "Home To-Do",
+                    todos,
+                    form_field,
+                    message
+                ),
+            ))
+        }
 
         Err(status) => Err(status),
     }

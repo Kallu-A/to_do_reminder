@@ -100,15 +100,19 @@ the token and as a `expire_date of 2 hours` and a cookie to set the expired_toke
 - [`418`](http://0.0.0.0:8000/status/418) expired token
 - [`500`](http://0.0.0.0:8000/status/500) error internal (my bad)
 
-## Home
-- `GET` : [`/`](http://0.0.0.0:8000/) Home of the website
-- `GET` : [`/status/code`](http://0.0.0.0:8000/status/<code>) With `<code>` a response status code 
-  allows to simulate a code to see the template to it 
 
 ## Account 
 *First the server will always have an admin account 
 with a default password `password` (you can change it) and email value same as the smtp email*
-### Path 
+
+# Path 
+
+### Home
+- `GET` : [`/`](http://0.0.0.0:8000/) Home of the website
+- `GET` : [`/status/code`](http://0.0.0.0:8000/status/<code>) With `<code>` a response status code
+  allows to simulate a code to see the template to it
+
+### Account
 - `GET` : [`/account/home`](http://0.0.0.0:8000/account/home) Send to login if not login else display user personal page
 - `GET` : [`/account/users`](http://0.0.0.0:8000/account/users) Allows to see every member of the website (if you're connected as admin get state of the database)
 - `GET` : [`/account/register`](http://0.0.0.0:8000/account/register) Show a form to fill to create a new account
@@ -117,7 +121,7 @@ with a default password `password` (you can change it) and email value same as t
 - `POST` : `/account/login` Handle the form and try to login
 - `PUT` : `/account/logout` Disconnect the user
 - `DELETE` : `/account/delete` Try to delete the user
-- `DELETE` : `/delete_admin/<id>` for admin account delete the username put
+- `DELETE` : `account/delete_admin/<id>` for admin account delete the username put
 - `GET` : [`/account/edit`](http://0.0.0.0:8000/account/edit) Show form to change password or profile picture
 - `POST` : `/account/edit` Handle the change password
 - `delete` : `/account/edit/remove_picture/<id>` allow to remove the picture
@@ -127,3 +131,5 @@ with a default password `password` (you can change it) and email value same as t
 - `GET` : [`/account/code_password`](http://0.0.0.0:8000/account/code_password) form when you forget your password
 - `PUT` : `/account/code_password` change the password and send the new value per email 
 - `PUT` : `/account/new_email` change the email and send a confirm code to enable the email
+
+### To-Do
