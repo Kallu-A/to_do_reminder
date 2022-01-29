@@ -24,13 +24,26 @@
     justify-content: center;
 }
 
+
 #user_container {
+    float: left;
+    flex-direction: unset;
     width: fit-content;
     text-align: center;
     margin-left: 35px;
-    margin-top: 10px;
     padding: 20px;
     border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+}
+
+#todo_container {
+    float: left;
+    margin-left: 50px;
+    text-align: left;
+    background: none;
+    width: fit-content;
+    height: fit-content;
     box-shadow: var(--shadow);
 }
 
@@ -73,9 +86,16 @@
     text-align: center;
 }
 
+
 @media (max-width: 700px) {
     #user_container {
         width: 100%;
         margin: 0;
     }
+
+    #todo_container {
+        margin: 0;
+    }
+
+
 }

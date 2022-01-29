@@ -27,29 +27,35 @@
             <input type="hidden" name="_method" value="put" />
             <input type="submit" class="submit_red" value="Logout"/>
         </form>
-        <form action="/account/delete" method="post">
-            <input type="submit" id="submit" style="visibility: hidden; width: 0">
+        <form action="/account/delete" method="post" style="margin-left: 10px">
             <input type="hidden" name="_method" value="delete"/>
+            <input type="submit" id="submit" style="visibility: hidden; width: 0; position: absolute;">
             <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
         </form>
     </div>
-{% if user.confirm_email == false %}
+    {% if user.confirm_email == false %}
     <p style="width: 100%; height: 3px"></p>
-<div class="email">
-    <form action="/account/confirm" method="post" style="margin-top: 0">
-        <label for="confirm_code" style="margin-bottom: 10px">enter your email code:</label> <br>
-        <input id="confirm_code" type="text" name="confirm_code" value="{{code_confirm}}" size="10" maxlength="10" style="margin-top: 7px"/> <br>
-        <input type="submit"class="submit" id="submit_code" value="Submit"/>
-    </form>
-    <hr>
-    <form action="/account/send_code" method="post">
-        <input type="hidden" name="_method" value="put" />
-        <label for="send_new">Don't receive a code ?</label> <br>
-        <input type="submit" id="send_new" class="submit" value="Send a new one" style="margin-top: 7px"/>
-    </form>
+    <div class="email">
+        <form action="/account/confirm" method="post" style="margin-top: 0">
+            <label for="confirm_code" style="margin-bottom: 10px">enter your email code:</label> <br>
+            <input id="confirm_code" type="text" name="confirm_code" value="{{code_confirm}}" size="10" maxlength="10" style="margin-top: 7px"/> <br>
+            <input type="submit"class="submit" id="submit_code" value="Submit"/>
+        </form>
+        <hr>
+        <form action="/account/send_code" method="post" >
+            <input type="hidden" name="_method" value="put" />
+            <label for="send_new">Don't receive a code ?</label> <br>
+            <input type="submit" id="send_new" class="submit" value="Send a new one" style="margin-top: 7px"/>
+        </form>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
+
+
+<div class="container" id="todo_container">
+    <p>blablafhuzhufzhuhuzfhufzhuzfhufz</p>
 </div>
+
 
 {% if message != "" %}
 <div id="close_button">
