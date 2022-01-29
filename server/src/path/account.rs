@@ -21,6 +21,7 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
+use crate::db::todo_table::{get_by_owner, TodoEntity};
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
@@ -34,19 +35,26 @@ pub fn home(
 ) -> Result<Template, Result<Flash<Redirect>, Status>> {
     let (color, message) = handler_flash(flash);
     let code_confirm = cookie_handler(jar, "code_confirm");
-
     match get_token(jar) {
-        Ok(user) => Ok(Template::render(
-            "account/user_display",
-            context!(
+        Ok(user) => {
+            let to_do = get_by_owner(user.id);
+            let number = to_do.len();
+            let number_not_done = to_do.iter().filter(|c| c.progress != 100).collect::<Vec<&TodoEntity>>().len();
+
+            Ok(Template::render(
+                "account/user_display",
+                context!(
                 path: user.get_path(),
                 title: "Account",
                 color,
                 message,
                 user,
-                code_confirm
+                code_confirm,
+                number,
+                number_not_done
             ),
-        )),
+            ))
+        },
         Err(status) => {
             if status == Status::Forbidden {
                 Err(Ok(Flash::success(

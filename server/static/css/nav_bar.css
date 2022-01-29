@@ -1,6 +1,5 @@
 nav {
-    #background: var(--background_nav);
-    background: linear-gradient( to bottom, var(--background_nav), var(--primary_color));
+    background: var(--background_dark);
     height: 80px;
     width: 100%;
 }

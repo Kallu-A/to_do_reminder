@@ -79,6 +79,17 @@ pub fn delete_by_owner(owner_delete: i32) -> usize {
         .expect("Error deleting todo")
 }
 
+/// Try to delete all the to-do a a user
+pub fn delete_done_by_owner(owner_delete: i32) -> usize {
+    let con = &mut handler::establish_connection();
+    diesel::delete(todo
+        .filter(id_owner.eq(owner_delete))
+        .filter(progress.eq(100)))
+        .execute(con)
+        .expect("Error deleting todo done")
+}
+
+
 /// Create the to-do
 pub fn create_todo(
     id_owner_x: i32,
@@ -106,9 +117,7 @@ pub fn create_todo(
 
 #[cfg(test)]
 mod tests {
-    use crate::db::todo_table::{
-        create_todo, delete_by_id, delete_by_owner, get_by_id, get_by_owner,
-    };
+    use crate::db::todo_table::{create_todo, delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner};
     use std::panic;
 
     #[test]
@@ -135,6 +144,7 @@ mod tests {
             assert!(get_by_id(t.id).is_some());
         });
 
+        assert_eq!(delete_done_by_owner(-1), 0);
         assert!(delete_by_id(todos[0].id));
         assert_eq!(get_by_owner(-1).len(), 2);
         assert_eq!(delete_by_owner(-1), 2);

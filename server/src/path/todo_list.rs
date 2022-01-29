@@ -1,5 +1,5 @@
 use crate::db::todo_table;
-use crate::db::todo_table::{get_by_owner, CreateTodo};
+use crate::db::todo_table::{get_by_owner, CreateTodo, delete_by_owner, delete_done_by_owner};
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
@@ -130,5 +130,66 @@ pub fn create_todo_post(
             }
         }
         Err(status) => Err(status),
+    }
+}
+
+/// delete method to remove all the to-do associate to the id_owner
+/// if get_token return a status code send him to the client
+/// if user admin then :
+/// allow him to remove to anyone and will redirect to home
+/// if not and the id is not him return status code 401
+/// remove the to-do of the id and redirect with success message
+/// if user don't have a to-do show him a error message
+#[delete("/delete/owner/<id>")]
+pub fn delete_owner_todo(jar: &CookieJar<'_>, id: i32) ->  Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            let redirect = if user.perm && user.id != id {
+                Redirect::to("/account/users")
+            } else {
+                if user.id != id {
+                    return Err(Status::Unauthorized);
+                }
+                Redirect::to("/account/home")
+            };
+            if delete_by_owner(id) <= 0 {
+                Ok(Flash::error(redirect, "rDoesn't have some to-do"))
+            } else {
+                Ok(Flash::success(redirect, "gSuccessfully remove all the to-do"))
+            }
+        }
+
+        Err(status) => Err(status)
+    }
+}
+
+/// delete method to remove all the to-do associate to the id_owner
+/// if get_token return a status code send him to the client
+/// if user admin then :
+/// allow him to remove to anyone and will redirect to home
+/// if not and the id is not him return status code 401
+/// remove the to-do of the id who are done  and redirect with success message
+/// if user don't have a to-do done show him a error message
+#[delete("/delete/owner/done/<id>")]
+pub fn delete_owner_done_todo(jar: &CookieJar<'_>, id: i32) ->  Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            let redirect = if user.perm && user.id != id {
+                Redirect::to("/account/users")
+            } else {
+                if user.id != id {
+                    return Err(Status::Unauthorized);
+                }
+                Redirect::to("/account/home")
+            };
+            let number = delete_done_by_owner(id);
+            if  number <= 0 {
+                Ok(Flash::error(redirect, "rDoesn't have some to-do who are done"))
+            } else {
+                Ok(Flash::success(redirect, format!("gSuccessfully remove {} to-do", number)))
+            }
+        }
+
+        Err(status) => Err(status)
     }
 }

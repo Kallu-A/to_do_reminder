@@ -15,7 +15,7 @@
     box-shadow: none;
 }
 
-#container_button {
+.container_button {
     display: flex;
     width: available;
     justify-content: center;
@@ -33,8 +33,14 @@
     margin-left: 20px;
 }
 
+#todo_container p {
+    font-size: var(--medium-txt);
+    text-align: left;
+}
+
 #todo_container h3 {
     text-align: center;
+    font-size: var(--big-txt);
 }
 
 .container {

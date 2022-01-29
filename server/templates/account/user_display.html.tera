@@ -24,7 +24,7 @@
         <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
         <p id="username">{{ user.username}} </p>
         <a href="/account/edit" class="edit">edit profile</a>
-        <div id="container_button">
+        <div class="container_button">
             <form action="/account/logout" method="post">
                 <input type="hidden" name="_method" value="put" />
                 <input type="submit" class="submit_red" value="Logout"/>
@@ -53,12 +53,28 @@
         {% endif %}
     </div>
 
-
     <div class="container" id="todo_container">
         <h3>To-Do
         <a href="/to-do/create" id="create_todo"><span></span></a>
         <img src="/static/image/add.png" onclick="create_todo()" class="button_image">
         </h3>
+        <hr style="margin-bottom: 10px">
+        <p>You have {{number}} to-do </p>
+        <p>You have {{number_not_done}} to-do not done</p>
+        <div class="container_button">
+            <form action="/to-do/delete/owner/{{user.id}}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="submit" id="delete_all_todo" style="visibility: hidden; width: 0; position: absolute;">
+                <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have.', 'delete_all_todo')" class="submit_red" value="delete all" style="width: fit-content"/>
+            </form>
+
+            <form action="/to-do/delete/owner/done/{{user.id}}" method="post" style="margin-left: 10px">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="submit" id="delete_todo_done" style="visibility: hidden; width: 0; position: absolute;">
+                <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have finish.', 'delete_todo_done')" class="submit_red" value="delete done" style="width: fit-content"/>
+            </form>
+        </div>
+
     </div>
 
 </div>
