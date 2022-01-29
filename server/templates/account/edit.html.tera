@@ -41,7 +41,7 @@
 
         <form method="post" action="/account/edit" enctype="multipart/form-data" id="form_password" class="inactive">
             <input type="hidden" name="username_x" value="{{user.username}}">
-            <table class = row>
+            <table>
                 <tr>
                     <td>New Password</td><td><input id="input_password1" class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> <br>
                     <span class="error_form" id="error_password1"></span> </td>
@@ -53,7 +53,7 @@
                 </tr>
                 <tr class="separator"></tr>
                 <input type="submit" class="submit" value="Submit" id="submit_pswd" style="visibility: hidden; position: absolute"/>
-                <td colspan="2"><input type="button" id="button_pswd" onclick="confirm_pop_up('This action will change your password', 'submit_pswd')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
+                <td colspan="2" class="center"><input type="button" id="button_pswd" onclick="confirm_pop_up('This action will change your password', 'submit_pswd')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
             </table>
         </form>
     </div>
@@ -63,14 +63,14 @@
         <form method="post" action="/account/new_email" id="form_email" class="inactive">
             <input type="hidden" name="_method" value="put" />
             <span class="txt"> Current email is: <wbr> <span class="value"> {{user.email}} </span> </span>
-            <table class = row>
+            <table>
                 <tr>
                     <td>New Email</td><td><input id="input_email" class="fields" type="text" size="13" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
                     <span class="error_form" id="error_email"></span> </td>
                 </tr>
                 <tr class="separator"></tr>
                 <input type="submit" class="submit" value="Submit" id="submit_email" style="visibility: hidden; position: absolute"/>
-                <td colspan="2"><input type="button" id="button_email" onclick="confirm_pop_up('This action will change your email', 'submit_email')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
+                <td colspan="2" class="center"><input type="button" id="button_email" onclick="confirm_pop_up('This action will change your email', 'submit_email')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
             </table>
         </form>
     </div>

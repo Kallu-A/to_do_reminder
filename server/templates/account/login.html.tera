@@ -29,7 +29,7 @@
                 </td>
             </tr>
             <tr class="separator"></tr>
-            <td colspan="2"><input type="submit" id="submit" value="Submit"/></td>
+            <td class="center" colspan="2"><input type="submit" id="submit" value="Submit"/></td>
         </table>
         <h5 style="margin-top: 20px"> Don't have an account ? <br> Click here :  <a href="/account/register">Register</a> </h5>
     </form>

@@ -16,7 +16,7 @@
 
 <h1>Create a To-Do</h1>
 <form method="post" enctype="multipart/form-data">
-        <table class = row>
+        <table>
             <tr>
                 <td>Title *</td>
                 <td>

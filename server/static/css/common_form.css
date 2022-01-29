@@ -25,12 +25,23 @@
     height: 10px;
 }
 
+.center {
+    margin: 0 auto;
+    text-align: center;
+    horiz-align: center;
+    alignment: center;
+}
+
+table {
+    text-align: left;
+}
+
 @media (max-width: 600px) {
     .field_short {
-        width: 240px;
+        max-width: 240px;
     }
 
     .field {
-        width: 280px;
+        max-width: 280px;
     }
 }

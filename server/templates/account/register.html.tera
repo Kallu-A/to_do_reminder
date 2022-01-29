@@ -37,7 +37,7 @@
             <span class="error_form" id="error_passwordSecond"></span></td>
         </tr>
         <tr class="separator"></tr>
-        <td colspan="2"><input type="submit" id="submit" value="Submit"/></td>
+        <td class="center" colspan="2"><input type="submit" id="submit" value="Submit"/></td>
     </table>
 </form>
 <h5 style="margin-top: 20px"> Already have an account ? <br> Click here :  <a href="/account/login">Login</a> </h5>

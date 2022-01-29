@@ -1,18 +1,10 @@
-.error_form {
-    margin-left: 20px;
-}
-
 #display_priority {
     position: absolute;
     display: flex;
     margin-top: -15px;
-    font-size: var(--mini-txt);
+    font-size: var(--small-txt);
 }
 
 #input_priority {
     width: 320px;
-}
-
-#display_priority {
-    font-size: var(--small-txt);
 }

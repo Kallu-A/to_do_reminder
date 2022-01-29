@@ -51,7 +51,6 @@ nav ul li a:hover {
     display: none;
 }
 
-/* reduce size of text when screen start to getting realy small */
 @media (max-width: 900px) {
     nav ul li a {
         font-size: var(--mini-txt);

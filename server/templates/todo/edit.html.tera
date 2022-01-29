@@ -15,30 +15,41 @@
 
 <form method="post" style="margin-bottom: 30px">
     <input type="hidden" name="_method" value="put"/>
-
-    <div>
-    <span class="title_todo">
-        Title *<input name="title_x" class="field" id="input_title" type="text" size="15" value="{{title_x}}"> <br>
-        <span class="error_form" id="error_title"></span>
-    </span>
-        <span class="progress_todo">
-        Progress<input name="progress_x" class="field" id="input_progress" type="number" size="3" maxlength="3" min="0" max="100" value="{{progress_x}}">% <br>
-        <span class="error_form" id="error_progress"></span>
-    </span>
-    </div>
-    <div class="content_todo">
-        Content<input name="content_x" class="field" id="input_content" type="text" size="15" maxlength="300" value="{{content_x}}"> <br>
-        <span class="error_form" id="error_content"></span>
-    </div>
-    <div class="date_todo">
-        Date<input name="date_x" class="field" id="input_date" type= "text" readonly size="15" maxlength="15" data-provide= "datepicker" placeholder= "dd/mm/yyyy" value="{{date_x}}"> <br>
-        <span class="error_form" id="error_date"></span>
-    </div>
-    <div class="priority_todo">
-        Priority<input name="priority_x" class="field" id="input_priority" onchange="handle_selector()" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}">
-        <span id="display_priority"></span>
-    </div>
-
+    <table>
+        <tr>
+            <td>Title *</td>
+            <td>
+                <input name="title_x" class="field" id="input_title" type="text" size="30" value="{{title_x}}"> <br>
+                <span class="error_form" id="error_title"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Content</td>
+            <td>
+                <input name="content_x" class="field" id="input_content" type="text" size="30" maxlength="300" value="{{content_x}}"> <br>
+                <span class="error_form" id="error_content"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Date | Progress</td>
+            <td>
+                <span>
+                    <input name="date_x" class="field" id="input_date" type= "text" readonly size="7" maxlength="7" data-provide= "datepicker" placeholder= "dd/mm/yyyy" value="{{date_x}}">
+                    <span class="error_form" id="error_date"></span>
+                    <input name="progress_x" class="field" id="input_progress" type="number" size="3" maxlength="3" min="0" max="100" value="{{progress_x}}">% <br>
+                    <span class="error_form" id="error_progress"></span>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Priority</td>
+            <td>
+                <input name="priority_x" class="field" id="input_priority" onchange="handle_selector()" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}"> <br>
+                <span id="display_priority" class="error_form"></span>
+            </td>
+        </tr>
+    </table>
+    <br>
     <span style="font-size: var(--mini-txt)">field with a * are mandatory </span> <br>
     <input type="submit" class="submit" value="Save Change"/>
 </form>
@@ -48,6 +59,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        handle_selector();
         const date = $("#input_date");
         date.datepicker({
             "format": "dd/mm/yyyy",
