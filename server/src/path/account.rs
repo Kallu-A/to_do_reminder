@@ -33,7 +33,7 @@ pub fn home(
     flash: Option<FlashMessage>,
 ) -> Result<Template, Result<Flash<Redirect>, Status>> {
     let (color, message) = handler_flash(flash);
-    let code_confirm = cookie_handler(jar, "code_confirm".to_string());
+    let code_confirm = cookie_handler(jar, "code_confirm");
 
     match get_token(jar) {
         Ok(user) => Ok(Template::render(
@@ -104,10 +104,10 @@ pub fn register(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Temp
     match get_token(jar) {
         Ok(_) => Err(Status::MethodNotAllowed),
         Err(_) => {
-            let username_x = cookie_handler(jar, "username_x".to_string());
-            let password_first = cookie_handler(jar, "password_x.first".to_string());
-            let password_second = cookie_handler(jar, "password_x.second".to_string());
-            let email_x = cookie_handler(jar, "email_x".to_string());
+            let username_x = cookie_handler(jar, "username_x");
+            let password_first = cookie_handler(jar, "password_x.first");
+            let password_second = cookie_handler(jar, "password_x.second");
+            let email_x = cookie_handler(jar, "email_x");
             Result::Ok(Template::render(
                 "account/register",
                 context!(
@@ -250,8 +250,8 @@ pub fn login(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templat
     match get_token(jar) {
         Ok(_) => Err(Status::MethodNotAllowed),
         Err(_) => {
-            let username_x = cookie_handler(jar, "username_x".to_string());
-            let password_x = cookie_handler(jar, "password_x".to_string());
+            let username_x = cookie_handler(jar, "username_x");
+            let password_x = cookie_handler(jar, "password_x");
 
             Result::Ok(Template::render(
                 "account/login",
@@ -384,9 +384,9 @@ pub fn delete_as_admin(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, 
 #[get("/edit")]
 pub fn edit(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
     let (form_field, message) = handler_flash(flash);
-    let password_first = cookie_handler(jar, "password_x.first".to_string());
-    let password_second = cookie_handler(jar, "password_x.second".to_string());
-    let email_x = cookie_handler(jar, "email_x".to_string());
+    let password_first = cookie_handler(jar, "password_x.first");
+    let password_second = cookie_handler(jar, "password_x.second");
+    let email_x = cookie_handler(jar, "email_x");
     match get_token(jar) {
         Ok(user) => Ok(Template::render(
             "account/edit",
@@ -636,8 +636,8 @@ pub fn form_password_change(
     flash: Option<FlashMessage>,
 ) -> Result<Template, Flash<Redirect>> {
     let (form_field, message) = handler_flash(flash);
-    let username_x = cookie_handler(jar, "username_x".to_string());
-    let email_x = cookie_handler(jar, "email_x".to_string());
+    let username_x = cookie_handler(jar, "username_x");
+    let email_x = cookie_handler(jar, "email_x");
 
     if get_token(jar).is_ok() {
         Err(Flash::error(

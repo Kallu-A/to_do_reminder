@@ -11,14 +11,15 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<script src="/static/js/todo/createForm.js" type="text/javascript"></script>
 
 <h1>Create a to-do</h1>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
         <table class = row>
             <tr>
                 <td>Title</td>
                 <td>
-                    <input class="field" id="input_title" type="text" size="15" maxlength="50"> <br>
+                    <input name="title_x" class="field" id="input_title" type="text" size="15" maxlength="50" value="{{title_x}}"> <br>
                     <span class="error_form" id="error_title"></span>
                 </td>
             </tr>
@@ -26,7 +27,7 @@
             <tr>
                 <td>Content</td>
                 <td>
-                    <input class="field" id="input_content" type="text" size="15" maxlength="300"> <br>
+                    <input name="content_x" class="field" id="input_content" type="text" size="15" maxlength="300" value="{{content_x}}"> <br>
                     <span class="error_form" id="error_content"></span>
                 </td>
             </tr>
@@ -35,7 +36,7 @@
             <tr>
                 <td>Limit date</td>
                 <td>
-                    <input class="field" id="input_date" type= "text" readonly size="15" maxlength="15" data-provide= "datepicker" placeholder= "dd/mm/yyyy"> <br>
+                    <input name="date_x" class="field" id="input_date" type= "text" readonly size="15" maxlength="15" data-provide= "datepicker" placeholder= "dd/mm/yyyy" value="{{date_x}}"> <br>
                     <span class="error_form" id="error_date"></span>
                 </td>
             </tr>
@@ -44,7 +45,7 @@
             <tr>
                 <td>Priority</td>
                 <td>
-                    <input class="field" id="input_priority" type="range" size="15" min="0" max="10" step="1" value="0">
+                    <input name="priority_x" class="field" id="input_priority" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}">
                     <span class="error_form" id="error_priority"></span>
                 </td>
             </tr>
@@ -63,5 +64,30 @@
     });
 </script>
 
-
+<p id="message">{{message}}</p>
+{% if form_field == 't' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_title", "#error_title", message )
+</script>
+{% elif form_field == 'c' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_content", "#error_content", message )
+</script>
+{% elif form_field == 'd' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_date", "#error_date", message )
+</script>
+{% elif form_field == 'p' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_priority", "#error_priority", message )
+</script>
+{% endif %}
 {% endblock content %}

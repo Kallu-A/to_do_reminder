@@ -72,34 +72,34 @@ struct NewUserEntity<'a> {
 /// Struct used to create a new User by form with 2 password to make user confirm is password
 #[derive(Debug, FromForm, Serialize)]
 pub struct UserRegister<'a> {
-    pub(crate) username_x: &'a str,
-    pub(crate) email_x: &'a str,
-    pub(crate) password_x: Password<'a>,
+    pub username_x: &'a str,
+    pub email_x: &'a str,
+    pub password_x: Password<'a>,
 }
 
 #[derive(FromForm, Serialize)]
 pub struct UserEditPassowrd<'a> {
-    pub(crate) username_x: &'a str,
-    pub(crate) password_x: Password<'a>,
+    pub username_x: &'a str,
+    pub password_x: Password<'a>,
 }
 
 /// Struct to let the user try to login
 #[derive(FromForm, Deserialize)]
 pub struct UsersLogin<'a> {
-    pub(crate) username_x: &'a str,
-    pub(crate) password_x: &'a str,
+    pub username_x: &'a str,
+    pub password_x: &'a str,
 }
 
 /// Needed in the creation to ensure their is no typo in the password
 #[derive(Debug, FromForm, Serialize)]
 pub struct Password<'a> {
-    pub(crate) first: &'a str,
-    pub(crate) second: &'a str,
+    pub first: &'a str,
+    pub second: &'a str,
 }
 
 #[derive(FromForm, Serialize)]
 pub struct NewEmail<'a> {
-    pub(crate) email_x: &'a str,
+    pub email_x: &'a str,
 }
 
 /// Return the user with the username in param or None if he doesn't exist

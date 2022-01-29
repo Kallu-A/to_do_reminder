@@ -29,6 +29,15 @@ struct NewTodoEntity {
     pub content: String,
 }
 
+/// Form for when you want to create a to-do
+#[derive(FromForm, Serialize)]
+pub struct CreateTodo<'a> {
+    pub title_x: &'a str,
+    pub content_x: &'a str,
+    pub date_x: &'a str,
+    pub priority_x: i32,
+}
+
 /// Return the to-do of the id, none if he doesn't exist
 pub fn get_by_id(id_find: i32) -> Option<TodoEntity> {
     let con = &mut handler::establish_connection();

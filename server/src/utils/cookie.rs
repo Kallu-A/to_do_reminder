@@ -16,8 +16,8 @@ pub fn handler_flash(flash: Option<FlashMessage>) -> (char, String) {
 
 /// Return the value of the cookie and remove it from the cookiejar
 /// If cookie not set return ""
-pub fn cookie_handler(jar: &CookieJar, name: String) -> String {
-    jar.get_pending(name.as_str()).map_or_else(
+pub fn cookie_handler(jar: &CookieJar, name: &'static str) -> String {
+    jar.get_pending(name).map_or_else(
         || "".to_string(),
         |c| {
             jar.remove(Cookie::named(name));
@@ -60,12 +60,12 @@ mod tests {
         );
 
         assert_eq!(
-            cookie_handler(jar, "test_cookie".to_string()),
+            cookie_handler(jar, "test_cookie"),
             "12",
             "cookie should be a value"
         );
         assert_eq!(
-            cookie_handler(jar, "test_cookie".to_string()),
+            cookie_handler(jar, "test_cookie"),
             "",
             "cookie already use by 'cookie handler' so is destroy and should return default value ''"
         );

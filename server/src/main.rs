@@ -30,7 +30,7 @@ use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
-use crate::path::todo_list::create_todo;
+use crate::path::todo_list::{create_todo, create_todo_post};
 use crate::utils::json::Data;
 use dotenv::dotenv;
 
@@ -160,7 +160,7 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 delete_as_admin,
             ],
         )
-        .mount("/to-do/", routes![home_t, create_todo])
+        .mount("/to-do/", routes![home_t, create_todo, create_todo_post])
 }
 
 #[cfg(test)]
