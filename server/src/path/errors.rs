@@ -3,7 +3,7 @@ use rocket::response::{Flash, Redirect};
 use rocket::Request;
 use rocket_dyn_templates::Template;
 
-/// Status code who tell the user this action is for admin acccount
+/// Status code who tell the user this action is not allowed for him
 #[catch(401)]
 pub fn unauthorize(req: &Request<'_>) -> Template {
     let path = get_path_img(req);

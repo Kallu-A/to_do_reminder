@@ -236,24 +236,33 @@ pub fn delete_todo_id(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, S
 
 /// get method who display the edit form for the to-do in <id>
 /// if get_token return a status show to the client
+/// try to access the to-do if not find in the database return status code `404`
+/// if exist and if the owner is not the owner then  return code `401`
 #[get("/edit/<id>")]
 pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> Result<Template, Status> {
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => {
             let x = cookie_handler(jar, "x");
-
-            Ok(
-                Template::render(
-                    "todo/edit",
-                    context!(
-                        path: user.get_path(),
-                        title: "Edit To-Do",
-                        form_field,
-                        message
+            if let Some(todo) = get_by_id(id) {
+                if todo.id_owner != user.id {
+                  return Err(Status::Unauthorized)
+                }
+                Ok(
+                    Template::render(
+                        "todo/edit",
+                        context!(
+                            path: user.get_path(),
+                            title: "Edit To-Do",
+                            form_field,
+                            message,
+                            todo
+                    )
                     )
                 )
-            )
+            } else {
+                Err(Status::NotFound)
+            }
         }
 
         Err(status) => Err(status)

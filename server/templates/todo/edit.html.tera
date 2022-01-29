@@ -2,6 +2,6 @@
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
-Edit tototo
+<h1>Edit the todo : <span style="color: var(--primary_color)">{{todo.title}}</span> </h1>
 
 {% endblock content %}
