@@ -8,3 +8,11 @@
     margin-top: -15px;
     font-size: var(--mini-txt);
 }
+
+#input_priority {
+    width: 320px;
+}
+
+#display_priority {
+    font-size: var(--small-txt);
+}

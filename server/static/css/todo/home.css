@@ -1,0 +1,82 @@
+.button_image {
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+}
+
+.todo_line {
+    font-size: var(--small-txt);
+    margin-bottom: 7px;
+}
+
+.header_todo {
+    text-align: left;
+    color: var(--primary_color)
+}
+
+.content_todo {
+    font-size: var(--mini-txt);
+    color: var(--text_litle_color);
+    text-align: left;
+}
+
+.date_todo {
+    font-size: var(--small-txt);
+}
+
+.priority_todo {
+    padding-left: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border-radius: 7px;
+}
+
+.legend {
+    font-size: var(--mini-txt);
+    margin-bottom: 10px;
+}
+
+.progress_todo {
+    float: right;
+    border-radius: 7px;
+}
+
+.min {
+    color: var(--mini);
+}
+
+.low {
+    color: var(--low);
+}
+
+.medium {
+    color: var(--medium);
+}
+
+.high {
+    color: var(--high);
+}
+
+.max {
+    color: var(--max);
+}
+
+#min {
+    background: var(--mini);
+}
+
+#low {
+    background: var(--low);
+}
+
+#medium {
+    background: var(--medium);
+}
+
+#high {
+    background: var(--high);
+}
+
+#max {
+    background: var(--max);
+}

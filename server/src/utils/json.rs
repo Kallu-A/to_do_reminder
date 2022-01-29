@@ -59,8 +59,6 @@ pub fn decr_members() {
     }
 }
 
-
-
 ///  Increment the value of to-do
 pub fn incr_to_do() {
     let mut data = Data::get_json();

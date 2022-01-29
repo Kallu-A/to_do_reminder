@@ -1,3 +1,4 @@
+use crate::db::todo_table::get_by_owner;
 use crate::db::user_table::{
     create_user, delete_user, get_all, get_by_id, is_password, set_confirm_email, set_email,
     set_password, set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH,
@@ -21,7 +22,6 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
-use crate::db::todo_table::{get_by_owner, TodoEntity};
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
@@ -39,22 +39,22 @@ pub fn home(
         Ok(user) => {
             let to_do = get_by_owner(user.id);
             let number = to_do.len();
-            let number_not_done = to_do.iter().filter(|c| c.progress != 100).collect::<Vec<&TodoEntity>>().len();
+            let number_not_done = to_do.iter().filter(|c| c.progress != 100).count();
 
             Ok(Template::render(
                 "account/user_display",
                 context!(
-                path: user.get_path(),
-                title: "Account",
-                color,
-                message,
-                user,
-                code_confirm,
-                number,
-                number_not_done
-            ),
+                    path: user.get_path(),
+                    title: "Account",
+                    color,
+                    message,
+                    user,
+                    code_confirm,
+                    number,
+                    number_not_done
+                ),
             ))
-        },
+        }
         Err(status) => {
             if status == Status::Forbidden {
                 Err(Ok(Flash::success(

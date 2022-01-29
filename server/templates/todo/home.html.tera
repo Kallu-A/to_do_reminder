@@ -3,18 +3,45 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="/static/css/todo/todo.css">
+<link rel="stylesheet" href="/static/css/todo/home.css">
 <h1> Your To-Do </h1>
+<div class="legend">
+    The color represent the priority of the to-do: <br>
+    minimum:<span class="priority_todo" id="min"></span>
+    low:<span class="priority_todo" id="low"></span>
+    medium:<span class="priority_todo" id="medium"></span>
+    high:<span class="priority_todo" id="high"></span>
+    maximum:<span class="priority_todo" id="max"></span>
+</div>
 
 {% for todo in todos %}
-    <div>
-        <hr>
-        <h3>{{todo.title}} </h3>
-        <p style="font-size: var(--mini-txt)">{{todo.content}} </p>
-        {{todo.date}} <br>
-        {{todo.progress}}% <br>
-        {{todo.priority}} <br>
+    <div class="todo_line">
+        <hr style="margin-bottom: 7px">
+        <h3 class="header_todo">
+            <span class="date_todo">{{todo.date}}</span>
+            {{todo.title}}
+            <span class="priority_todo"></span>
+            <span class="
+            {% if todo.priority == 0 %}min{% elif todo.priority < 4%}low{% elif todo.priority < 7%}medium{%
+            elif todo.priority < 10 %}high{% else %}max{% endif %}
+            progress_todo"
+            >{{todo.progress}}%</span>
+        </h3>
+        <p class="content_todo">{{todo.content}}</p>
+
+
     </div>
 {% endfor %}
+<hr style="margin-bottom: 3px">
+<a href="/to-do/create" id="create_todo"><span></span></a>
+<img src="/static/image/add.png" onclick="create_todo()" class="button_image">
+
+
+<SCRIPT>
+    function create_todo() {
+        $('#create_todo span').trigger('click');
+    }
+</SCRIPT>
 
 {% if message != "" %}
 <div id="close_button">
