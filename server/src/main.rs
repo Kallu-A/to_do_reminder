@@ -30,7 +30,7 @@ use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
-use crate::path::todo_list::{create_todo, create_todo_post, delete_owner_done_todo, delete_owner_todo, delete_todo_id, edit_to_do, set_value_progress};
+use crate::path::todo_list::{create_todo, create_todo_post, delete_owner_done_todo, delete_owner_todo, delete_todo_id, edit_put_todo, edit_to_do, set_value_progress};
 use crate::utils::json::Data;
 use dotenv::dotenv;
 
@@ -170,7 +170,8 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 delete_owner_done_todo,
                 delete_todo_id,
                 set_value_progress,
-                edit_to_do
+                edit_to_do,
+                edit_put_todo
             ],
         )
 }

@@ -1,5 +1,5 @@
 use crate::db::todo_table;
-use crate::db::todo_table::{delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, CreateTodo, set_progress};
+use crate::db::todo_table::{delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, CreateTodo, set_progress, UpdateTodo, set_update_value};
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
@@ -238,16 +238,34 @@ pub fn delete_todo_id(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, S
 /// if get_token return a status show to the client
 /// try to access the to-do if not find in the database return status code `404`
 /// if exist and if the owner is not the owner then  return code `401`
+/// if all good show the template
 #[get("/edit/<id>")]
 pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> Result<Template, Status> {
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => {
-            let x = cookie_handler(jar, "x");
+            let mut title_x = cookie_handler(jar, "title_x");
+            let mut content_x = cookie_handler(jar, "content_x");
+            let mut date_x = cookie_handler(jar, "date_x");
+            let mut priority_x = cookie_handler(jar, "priority_x");
+            let mut progress_x = cookie_handler(jar, "progress_x");
+
             if let Some(todo) = get_by_id(id) {
                 if todo.id_owner != user.id {
                   return Err(Status::Unauthorized)
                 }
+                let title_todo = todo.title.clone();
+
+                if title_x.is_empty() && content_x.is_empty()
+                    && date_x.is_empty() && priority_x.is_empty()
+                    && progress_x.is_empty(){
+                    title_x = todo.title;
+                    content_x = todo.content;
+                    date_x = todo.date;
+                    priority_x = todo.priority.to_string();
+                    progress_x = todo.progress.to_string();
+                }
+
                 Ok(
                     Template::render(
                         "todo/edit",
@@ -256,7 +274,12 @@ pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> 
                             title: "Edit To-Do",
                             form_field,
                             message,
-                            todo
+                            title_todo,
+                            title_x,
+                            content_x,
+                            date_x,
+                            priority_x,
+                            progress_x
                     )
                     )
                 )
@@ -269,6 +292,74 @@ pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> 
     }
 }
 
+/// put method to update the to-do
+/// if get_token return a status show to the client
+/// try to access the to-do if not find in the database return status code `404`
+/// if exist and if the owner is not the owner then  return code `401`
+/// make sur every fill is valid
+#[put("/edit/<id>", data = "<form>")]
+pub fn edit_put_todo(jar: &CookieJar<'_>, id: i32, form: Form<UpdateTodo>) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            if let Some(mut todo) = get_by_id(id) {
+                if todo.id_owner != user.id {
+                    return Err(Status::Unauthorized)
+                }
+
+                let create_cookie = || {
+                    create_field_cookie(jar, "title_x", form.title_x);
+                    create_field_cookie(jar, "content_x", form.content_x);
+                    create_field_cookie(jar, "date_x", form.date_x);
+                    create_field_cookie(jar, "priority_x", form.priority_x.to_string().as_str());
+                    create_field_cookie(jar, "progress_x", form.progress_x.to_string().as_str());
+                };
+                let redirect = Redirect::to(format!("/to-do/edit/{}", id));
+
+                if form.title_x.is_empty() {
+                    create_cookie();
+                    return Ok(Flash::error(redirect, "tneed a title"));
+                }
+
+                if form.date_x.is_empty() {
+                    create_cookie();
+                    return Ok(Flash::error(redirect, "dneed a date"));
+                }
+
+                if form.date_x.len() != 10 {
+                    create_cookie();
+                    return Ok(Flash::error(redirect, "dinvalid date"));
+                }
+
+                if form.priority_x < 0 || form.priority_x > 10 {
+                    create_cookie();
+                    return Ok(Flash::error(redirect, "pinvalid value"));
+                }
+
+                if form.progress_x < 0 || form.progress_x > 100 {
+                    create_cookie();
+                    return Ok(Flash::error(redirect, "1invalid percentage"));
+                }
+
+                todo.title = form.title_x.to_string();
+                todo.progress = form.progress_x;
+                todo.priority = form.priority_x;
+                todo.content = form.content_x.to_string();
+                todo.date = form.date_x.to_string();
+
+                if set_update_value(&mut todo) {
+                    Ok(Flash::success(redirect, "gSuccessfully changed"))
+                } else {
+                    create_cookie();
+                    Ok(Flash::error(redirect, "rOops. Please try again"))
+                }
+            } else {
+                Err(Status::NotFound)
+            }
+        }
+
+        Err(status) => Err(status)
+    }
+}
 
 /// Put method to set the progress of a to-do
 /// `id` is the id of the to-do

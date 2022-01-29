@@ -75,6 +75,8 @@
         </form>
     </div>
 </div>
+<br>
+<a href="home">Go back</a>
 
 <p id="message">{{message}}</p>
 {% if form_field == '1' %}
@@ -108,6 +110,4 @@
     hide_after_time()
 </SCRIPT>
 {% endif %}
-<br>
-<a href="home">Go back</a>
 {% endblock content %}

@@ -1,0 +1,36 @@
+#content {
+    width: 70%;
+    font-size: var(--large-txt);
+}
+
+.a_unstyled {
+    all: unset;
+    color: var(--link_color);
+    cursor: pointer;
+}
+
+.a_unstyled:hover {
+    all: unset;
+    color: var(--link_color);
+    cursor: pointer;
+}
+
+.progress_todo {
+    float: right;
+}
+
+.content_todo {
+
+}
+
+.title_todo {
+    float: left;
+}
+
+.progress_todo {
+
+}
+
+.priority_todo {
+
+}

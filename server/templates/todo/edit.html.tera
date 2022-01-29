@@ -1,7 +1,100 @@
 {% extends "common" %}
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="/static/js/commonForm.js" type="text/javascript"></script>
+<script src="/static/js/todo/editForm.js" type="text/javascript"></script>
+<script src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 
-<h1>Edit the todo : <span style="color: var(--primary_color)">{{todo.title}}</span> </h1>
+<link rel="stylesheet" href="/static/css/todo/todo.css">
+<link rel= "stylesheet" href= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel= "stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+<link rel="stylesheet" href="/static/css/calendar.css">
+<link rel="stylesheet" href="/static/css/common_form.css">
+<link rel="stylesheet" href="/static/css/todo/slider_range.css">
+<link rel="stylesheet" href="/static/css/todo/edit.css">
 
+<form method="post" style="margin-bottom: 30px">
+    <input type="hidden" name="_method" value="put"/>
+
+    <div>
+    <span class="title_todo">
+        Title *<input name="title_x" class="field" id="input_title" type="text" size="15" value="{{title_x}}"> <br>
+        <span class="error_form" id="error_title"></span>
+    </span>
+        <span class="progress_todo">
+        Progress<input name="progress_x" class="field" id="input_progress" type="number" size="3" maxlength="3" min="0" max="100" value="{{progress_x}}">% <br>
+        <span class="error_form" id="error_progress"></span>
+    </span>
+    </div>
+    <div class="content_todo">
+        Content<input name="content_x" class="field" id="input_content" type="text" size="15" maxlength="300" value="{{content_x}}"> <br>
+        <span class="error_form" id="error_content"></span>
+    </div>
+    <div class="date_todo">
+        Date<input name="date_x" class="field" id="input_date" type= "text" readonly size="15" maxlength="15" data-provide= "datepicker" placeholder= "dd/mm/yyyy" value="{{date_x}}"> <br>
+        <span class="error_form" id="error_date"></span>
+    </div>
+    <div class="priority_todo">
+        Priority<input name="priority_x" class="field" id="input_priority" onchange="handle_selector()" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}">
+        <span id="display_priority"></span>
+    </div>
+
+    <span style="font-size: var(--mini-txt)">field with a * are mandatory </span> <br>
+    <input type="submit" class="submit" value="Save Change"/>
+</form>
+
+<a class="a_unstyled" href="/to-do/home">Go back</a>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        const date = $("#input_date");
+        date.datepicker({
+            "format": "dd/mm/yyyy",
+            "startDate": "-0d",
+        });
+    });
+</script>
+
+<p id="message">{{message}}</p>
+{% if form_field == 't' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_title", "#error_title", message )
+</script>
+{% elif form_field == 'c' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_content", "#error_content", message )
+</script>
+{% elif form_field == 'd' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_date", "#error_date", message )
+</script>
+{% elif form_field == 'p' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_priority", "#display_priority", message )
+</script>
+% elif form_field == '1' %}
+<script>
+    init();
+    let message = $('#message').text();
+    set_err("#input_progress", "#error_progress", message )
+</script>
+{% elif message != "" %}
+<div id="close_button">
+    <p class="message" id="{% if form_field == 'r' %}display_red{% elif form_field == 'g'%}display_green{% endif %}">
+        {{ message }}
+    </p>
+</div>
+<SCRIPT>
+    hide_after_time()
+</SCRIPT>
+{% endif %}
 {% endblock content %}
