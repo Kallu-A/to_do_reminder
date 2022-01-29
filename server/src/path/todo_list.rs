@@ -1,5 +1,7 @@
+use crate::db::todo_table;
 use crate::db::todo_table::CreateTodo;
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
+use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
 use rocket::form::Form;
 use rocket::http::CookieJar;
@@ -10,13 +12,16 @@ use rocket_dyn_templates::Template;
 /// get method to get the home of the to-do
 /// return the status code if get_token send one
 #[get("/home")]
-pub fn home_t(jar: &CookieJar<'_>) -> Result<Template, Status> {
+pub fn home_t(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
+    let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => Ok(Template::render(
             "todo/home",
             context!(
             path: user.get_path(),
-            title: "Home To-Do"
+            title: "Home To-Do",
+                form_field,
+                message
                     ),
         )),
 
@@ -63,18 +68,19 @@ pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<T
 /// post method to create the to-do
 /// if get_token return a status code send him to the client
 /// else try to see that every form is not empty and valid
+/// if everything is good create the to-do incremente the to-do json and redirect to home with message
 #[post("/create", data = "<form>")]
 pub fn create_todo_post(
     jar: &CookieJar<'_>,
     form: Form<CreateTodo>,
 ) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
-        Ok(_) => {
+        Ok(user) => {
             let create_cookie = || {
                 create_field_cookie(jar, "title_x", form.title_x);
                 create_field_cookie(jar, "content_x", form.content_x);
                 create_field_cookie(jar, "date_x", form.date_x);
-                create_field_cookie(jar, "priority", form.priority_x.to_string().as_str());
+                create_field_cookie(jar, "priority_x", form.priority_x.to_string().as_str());
             };
 
             if form.title_x.is_empty() {
@@ -87,7 +93,7 @@ pub fn create_todo_post(
                 return Ok(Flash::error(Redirect::to("create"), "dneed a date"));
             }
 
-            if form.date_x.split('/').collect::<String>().len() != 3 {
+            if form.date_x.len() != 10 {
                 create_cookie();
                 return Ok(Flash::error(Redirect::to("create"), "dinvalid date"));
             }
@@ -97,7 +103,25 @@ pub fn create_todo_post(
                 return Ok(Flash::error(Redirect::to("create"), "pinvalid value"));
             }
 
-            Err(Status::NotFound)
+            if todo_table::create_todo(
+                user.id,
+                form.title_x,
+                form.date_x,
+                form.priority_x,
+                form.content_x,
+            ) > 0
+            {
+                incr_to_do();
+                Ok(Flash::success(
+                    Redirect::to("home"),
+                    "gSuccessfully created",
+                ))
+            } else {
+                Ok(Flash::error(
+                    Redirect::to("create"),
+                    "rOops. Please try again",
+                ))
+            }
         }
         Err(status) => Err(status),
     }

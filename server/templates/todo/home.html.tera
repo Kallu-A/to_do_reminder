@@ -1,5 +1,16 @@
 {% extends "common" %}
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 Welcome home of todo !
 
+{% if message != "" %}
+<div id="close_button">
+    <p class="message" id="{% if form_field == 'r' %}display_red{% elif form_field == 'g'%}display_green{% endif %}">
+        {{ message }}
+    </p>
+</div>
+<SCRIPT>
+    hide_after_time()
+</SCRIPT>
+{% endif %}
 {% endblock content %}
