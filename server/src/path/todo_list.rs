@@ -1,5 +1,7 @@
 use crate::db::todo_table;
-use crate::db::todo_table::{delete_by_owner, delete_done_by_owner, get_by_owner, CreateTodo, delete_by_id, get_by_id};
+use crate::db::todo_table::{
+    delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, CreateTodo,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
@@ -222,20 +224,13 @@ pub fn delete_todo_id(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, S
                     Redirect::to("/to-do/home")
                 };
                 if !delete_by_id(id) {
-                    Ok(Flash::error(
-                        redirect,
-                        "rThis to-do doesn't exist",
-                    ))
+                    Ok(Flash::error(redirect, "rThis to-do doesn't exist"))
                 } else {
-                    Ok(Flash::success(
-                        redirect,
-                        "gSuccessfully remove the to-do",
-                    ))
+                    Ok(Flash::success(redirect, "gSuccessfully remove the to-do"))
                 }
             } else {
                 Err(Status::NotFound)
             }
-
         }
 
         Err(status) => Err(status),

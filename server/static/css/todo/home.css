@@ -14,19 +14,23 @@
 }
 
 .title_todo {
-    width: 100px;
+    margin-left: 15px;
+    width: 60%;
+    display: inline-block;
     color: var(--primary_color);
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .content_todo {
-    word-break: break-all;
+    word-break: break-word;
     font-size: var(--mini-txt);
     color: var(--text_litle_color);
     text-align: left;
 }
 
 .date_todo {
+    margin-top: 5px;
+    float: left;
     font-size: var(--small-txt);
 }
 
@@ -92,4 +96,10 @@
 
 #max {
     background: var(--max);
+}
+
+@media (max-width: 700px) {
+    .title_todo {
+        font-size: var(--small-txt);
+    }
 }

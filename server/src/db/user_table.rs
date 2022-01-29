@@ -6,12 +6,12 @@ use std::{env, fs};
 
 use crate::db::handler;
 use crate::db::handler::establish_connection;
+use crate::db::todo_table::delete_by_owner;
 use crate::schema::user;
 use crate::schema::user::dsl::*;
 use dotenv::dotenv;
 use pbkdf2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier};
 use pbkdf2::Pbkdf2;
-use crate::db::todo_table::delete_by_owner;
 
 pub const DEFAULT_PATH: &str = "/static/image/profil/default.png";
 
