@@ -17,3 +17,11 @@ CREATE TABLE todo (
                       priority INTEGER NOT NULL DEFAULT 0,
                       content VARCHAR NOT NULL
 );
+
+CREATE TABLE pref (
+    id INTEGER NOT NULL PRIMARY KEY,
+    id_user INTEGER NOT NULL,
+    sort INTEGER NOT NULL,
+    display INTEGER NOT NULL
+
+)

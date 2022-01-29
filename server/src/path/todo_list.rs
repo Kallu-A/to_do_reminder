@@ -1,5 +1,8 @@
 use crate::db::todo_table;
-use crate::db::todo_table::{delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, CreateTodo, set_progress, UpdateTodo, set_update_value};
+use crate::db::todo_table::{
+    delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, set_progress,
+    set_update_value, CreateTodo, UpdateTodo,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
@@ -55,15 +58,15 @@ pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<T
             Ok(Template::render(
                 "todo/create",
                 context!(
-                    path: user.get_path(),
-                    title: "Create To-Do",
-                    title_x,
-                    content_x,
-                    date_x,
-                    priority_x,
-                    form_field,
-                    message
-                        ),
+                path: user.get_path(),
+                title: "Create To-Do",
+                title_x,
+                content_x,
+                date_x,
+                priority_x,
+                form_field,
+                message
+                    ),
             ))
         }
 
@@ -240,7 +243,11 @@ pub fn delete_todo_id(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, S
 /// if exist and if the owner is not the owner then  return code `401`
 /// if all good show the template
 #[get("/edit/<id>")]
-pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> Result<Template, Status> {
+pub fn edit_to_do(
+    jar: &CookieJar<'_>,
+    flash: Option<FlashMessage>,
+    id: i32,
+) -> Result<Template, Status> {
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => {
@@ -252,13 +259,16 @@ pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> 
 
             if let Some(todo) = get_by_id(id) {
                 if todo.id_owner != user.id {
-                  return Err(Status::Unauthorized)
+                    return Err(Status::Unauthorized);
                 }
                 let title_todo = todo.title.clone();
 
-                if title_x.is_empty() && content_x.is_empty()
-                    && date_x.is_empty() && priority_x.is_empty()
-                    && progress_x.is_empty(){
+                if title_x.is_empty()
+                    && content_x.is_empty()
+                    && date_x.is_empty()
+                    && priority_x.is_empty()
+                    && progress_x.is_empty()
+                {
                     title_x = todo.title;
                     content_x = todo.content;
                     date_x = todo.date;
@@ -266,10 +276,9 @@ pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> 
                     progress_x = todo.progress.to_string();
                 }
 
-                Ok(
-                    Template::render(
-                        "todo/edit",
-                        context!(
+                Ok(Template::render(
+                    "todo/edit",
+                    context!(
                             path: user.get_path(),
                             title: "Edit To-Do",
                             form_field,
@@ -280,15 +289,14 @@ pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> 
                             date_x,
                             priority_x,
                             progress_x
-                    )
-                    )
-                )
+                    ),
+                ))
             } else {
                 Err(Status::NotFound)
             }
         }
 
-        Err(status) => Err(status)
+        Err(status) => Err(status),
     }
 }
 
@@ -298,12 +306,16 @@ pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> 
 /// if exist and if the owner is not the owner then  return code `401`
 /// make sur every fill is valid
 #[put("/edit/<id>", data = "<form>")]
-pub fn edit_put_todo(jar: &CookieJar<'_>, id: i32, form: Form<UpdateTodo>) -> Result<Flash<Redirect>, Status> {
+pub fn edit_put_todo(
+    jar: &CookieJar<'_>,
+    id: i32,
+    form: Form<UpdateTodo>,
+) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(user) => {
             if let Some(mut todo) = get_by_id(id) {
                 if todo.id_owner != user.id {
-                    return Err(Status::Unauthorized)
+                    return Err(Status::Unauthorized);
                 }
 
                 let create_cookie = || {
@@ -357,7 +369,7 @@ pub fn edit_put_todo(jar: &CookieJar<'_>, id: i32, form: Form<UpdateTodo>) -> Re
             }
         }
 
-        Err(status) => Err(status)
+        Err(status) => Err(status),
     }
 }
 
@@ -371,24 +383,30 @@ pub fn edit_put_todo(jar: &CookieJar<'_>, id: i32, form: Form<UpdateTodo>) -> Re
 pub fn set_value_progress(
     jar: &CookieJar<'_>,
     id: i32,
-    value: i32
+    value: i32,
 ) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(user) => {
             if let Some(mut todo) = get_by_id(id) {
                 if user.id != todo.id_owner {
-                    return Err(Status::Unauthorized)
+                    return Err(Status::Unauthorized);
                 }
                 if set_progress(&mut todo, value) {
-                    Ok(Flash::success(Redirect::to("/to-do/home"), "gProgress save"))
+                    Ok(Flash::success(
+                        Redirect::to("/to-do/home"),
+                        "gProgress save",
+                    ))
                 } else {
-                    Ok(Flash::error(Redirect::to("/to-do/home"), "rOops. Something didn't work please try again"))
+                    Ok(Flash::error(
+                        Redirect::to("/to-do/home"),
+                        "rOops. Something didn't work please try again",
+                    ))
                 }
             } else {
                 Err(Status::NotFound)
             }
         }
 
-        Err(status) => Err(status)
+        Err(status) => Err(status),
     }
 }

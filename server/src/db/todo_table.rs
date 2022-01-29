@@ -143,7 +143,10 @@ pub fn set_update_value(todo_x: &mut TodoEntity) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use crate::db::todo_table::{create_todo, delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, set_progress, set_update_value};
+    use crate::db::todo_table::{
+        create_todo, delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner,
+        set_progress, set_update_value,
+    };
     use std::panic;
 
     #[test]

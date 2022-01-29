@@ -1,2 +1,3 @@
 DROP TABLE user;
 DROP TABLE todo;
+DROP TABLE pref;
