@@ -6,6 +6,7 @@ use std::{env, fs};
 
 use crate::db::handler;
 use crate::db::handler::establish_connection;
+use crate::db::pref_table::{create_pref, delete_pref};
 use crate::db::todo_table::delete_by_owner;
 use crate::schema::user;
 use crate::schema::user::dsl::*;
@@ -159,6 +160,7 @@ pub fn delete_user(username_delete: String) -> bool {
             println!("picture of {} deleted", username_delete);
         }
         delete_by_owner(user_x.id);
+        delete_pref(user_x.id);
 
         true
     } else {
@@ -199,10 +201,16 @@ pub fn create_user_perm(username_x: &str, password_x: &str, email_x: &str, admin
         confirm_email: admin_x,
     };
 
-    diesel::insert_into(user::table)
+    let num = diesel::insert_into(user::table)
         .values(&new_user)
         .execute(conn)
-        .expect("Error saving new user")
+        .expect("Error saving new user");
+
+    if let Some(user_x) = get_by_username(username_x) {
+        create_pref(user_x.id);
+    }
+
+    num
 }
 
 /// Allow to also create a user,
