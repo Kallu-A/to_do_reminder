@@ -23,3 +23,23 @@ input[type=range]::-moz-range-thumb {
     background: var(--background_first);
     cursor: pointer;
 }
+
+.min {
+    color: var(--mini);
+}
+
+.low {
+    color: var(--low);
+}
+
+.medium {
+    color: var(--medium);
+}
+
+.high {
+    color: var(--high);
+}
+
+.max {
+    color: var(--max);
+}

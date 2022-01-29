@@ -2,11 +2,11 @@
 {% block content %}
 <link rel= "stylesheet" href= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel= "stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
-<link rel="stylesheet" href="/static/css/todo/todo.css">
 <link rel="stylesheet" href="/static/css/calendar.css">
 <link rel="stylesheet" href="/static/css/common_form.css">
 <link rel="stylesheet" href="/static/css/todo/slider_range.css">
 <link rel="stylesheet" href="/static/css/todo/create.css">
+<link rel="stylesheet" href="/static/css/todo/todo.css">
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -46,8 +46,8 @@
             <tr>
                 <td>Priority</td>
                 <td>
-                    <input name="priority_x" class="field" id="input_priority" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}">
-                    <span class="error_form" id="error_priority"></span>
+                    <input name="priority_x" class="field" id="input_priority" onchange="handle_selector()" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}">
+                    <span id="display_priority"></span>
                 </td>
             </tr>
             <tr class="separator"></tr>
@@ -89,7 +89,7 @@
 <script>
     init();
     let message = $('#message').text();
-    set_err("#input_priority", "#error_priority", message )
+    set_err("#input_priority", "#display_priority", message )
 </script>
 {% elif message != "" %}
 <div id="close_button">

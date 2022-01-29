@@ -18,44 +18,56 @@
     }
 </style>
 
-<div class="message" id="user_container">
-    <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
-    <p id="username">{{ user.username}} </p>
-    <a href="/account/edit" class="edit">edit profile</a>
-    <div id="container_button">
-        <form action="/account/logout" method="post">
-            <input type="hidden" name="_method" value="put" />
-            <input type="submit" class="submit_red" value="Logout"/>
-        </form>
-        <form action="/account/delete" method="post" style="margin-left: 10px">
-            <input type="hidden" name="_method" value="delete"/>
-            <input type="submit" id="submit" style="visibility: hidden; width: 0; position: absolute;">
-            <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
-        </form>
+<div class="handler_container">
+
+    <div class="container" id="user_container">
+        <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
+        <p id="username">{{ user.username}} </p>
+        <a href="/account/edit" class="edit">edit profile</a>
+        <div id="container_button">
+            <form action="/account/logout" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <input type="submit" class="submit_red" value="Logout"/>
+            </form>
+            <form action="/account/delete" method="post" style="margin-left: 10px">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="submit" id="submit" style="visibility: hidden; width: 0; position: absolute;">
+                <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
+            </form>
+        </div>
+        {% if user.confirm_email == false %}
+        <p style="width: 100%; height: 3px"></p>
+        <div class="email">
+            <form action="/account/confirm" method="post" style="margin-top: 0">
+                <label for="confirm_code" style="margin-bottom: 10px">enter your email code:</label> <br>
+                <input id="confirm_code" type="text" name="confirm_code" value="{{code_confirm}}" size="10" maxlength="10" style="margin-top: 7px"/> <br>
+                <input type="submit"class="submit" id="submit_code" value="Submit"/>
+            </form>
+            <hr>
+            <form action="/account/send_code" method="post" >
+                <input type="hidden" name="_method" value="put" />
+                <label for="send_new">Don't receive a code ?</label> <br>
+                <input type="submit" id="send_new" class="submit" value="Send a new one" style="margin-top: 7px"/>
+            </form>
+        </div>
+        {% endif %}
     </div>
-    {% if user.confirm_email == false %}
-    <p style="width: 100%; height: 3px"></p>
-    <div class="email">
-        <form action="/account/confirm" method="post" style="margin-top: 0">
-            <label for="confirm_code" style="margin-bottom: 10px">enter your email code:</label> <br>
-            <input id="confirm_code" type="text" name="confirm_code" value="{{code_confirm}}" size="10" maxlength="10" style="margin-top: 7px"/> <br>
-            <input type="submit"class="submit" id="submit_code" value="Submit"/>
-        </form>
-        <hr>
-        <form action="/account/send_code" method="post" >
-            <input type="hidden" name="_method" value="put" />
-            <label for="send_new">Don't receive a code ?</label> <br>
-            <input type="submit" id="send_new" class="submit" value="Send a new one" style="margin-top: 7px"/>
-        </form>
+
+
+    <div class="container" id="todo_container">
+        <h3>To-Do
+        <a href="/to-do/create" id="create_todo"><span></span></a>
+        <img src="/static/image/add.png" onclick="create_todo()" class="button_image">
+        </h3>
     </div>
-    {% endif %}
+
 </div>
 
-
-<div class="container" id="todo_container">
-    <p>blablafhuzhufzhuhuzfhufzhuzfhufz</p>
-</div>
-
+<SCRIPT>
+    function create_todo() {
+        $('#create_todo span').trigger('click');
+    }
+</SCRIPT>
 
 {% if message != "" %}
 <div id="close_button">
