@@ -19,22 +19,33 @@
 </div>
 
 {% for todo in todos %}
-    <form method="post" action="/to-do/set_progress/{{todo.id}}/{% if todo.progress == 100%}0{% else %}100{% endif%}" style="float: left">
+    <form method="post" action="/to-do/set_progress/{{todo.id}}/{% if todo.progress == 100%}0{% else %}100{% endif%}" style="position:absolute;">
         <input type="hidden" name="_method" value="put"/>
-        <label class="container_check">
-            <input type="checkbox" class="check_done" id="check{{todo.id}}" onclick="handle_checkbox('check{{todo.id}}')">
-            <span class="checkmark"></span>
-        </label>
         <input type="submit" class="submit" value="Submit" id="check_sub{{todo.id}}" style="visibility: hidden; position: absolute"/>
     </form>
+
+    <form action="/to-do/delete/{{todo.id}}" method="post" style="position: absolute">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="submit" class="submit" value="Submit" id="remove{{todo.id}}" style="visibility: hidden; position: absolute"/>
+    </form>
+
+    <form action="/to-do/edit/{{todo.id}}" method="get" style="position: absolute">
+        <input type="submit" class="submit" value="Submit" id="edit{{todo.id}}" style="visibility: hidden; position: absolute"/>
+    </form>
+
     <div class="todo_line">
+
         <hr style="margin-bottom: 5px">
+        <input type="checkbox" class="check_done" id="check{{todo.id}}"
+               {% if todo.progress == 100%}
+               checked
+               {% endif %}
+               onclick="handle_checkbox('check_sub{{todo.id}}')">
         <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the To-Do', 'remove{{todo.id}}')" class="pic"></image>
         <image src="/static/image/edit.png" onclick="simClick('edit{{todo.id}}')" class="pic"></image>
         <h3 class="header_todo">
             <span class="date_todo">{{todo.date}}</span>
             <span class="title_todo">{{todo.title}}</span>
-            <span class="priority_todo"></span>
             <span class="
             {% if todo.priority == 0 %}min{% elif todo.priority < 4%}low{% elif todo.priority < 7%}medium{%
             elif todo.priority < 10 %}high{% else %}max{% endif %}
@@ -42,15 +53,7 @@
             >{{todo.progress}}%</span>
         </h3>
         <p class="content_todo">{{todo.content}}</p>
-        <form action="/to-do/delete/{{todo.id}}" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <input type="submit" class="submit" value="Submit" id="remove{{todo.id}}" style="visibility: hidden; position: absolute"/>
-        </form>
-
-        <form action="/to-do/edit/{{todo.id}}" method="get">
-            <input type="submit" class="submit" value="Submit" id="edit{{todo.id}}" style="visibility: hidden; position: absolute"/>
-        </form>
-
+        <br>
     </div>
 {% endfor %}
 <hr style="margin-bottom: 3px">

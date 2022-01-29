@@ -4,8 +4,13 @@
     height: 80px;
 }
 
+#content {
+    width: 800px;
+}
+
 .todo_line {
     width: 100%;
+    height: fit-content;
     font-size: var(--small-txt);
 }
 
@@ -16,7 +21,8 @@
 .title_todo {
     margin-left: 15px;
     margin-top: 1px;
-    width: 50%;
+    width: 55%;
+    font-size: var(--small-txt);
     display: inline-block;
     color: var(--primary_color);
     word-break: break-word;
@@ -57,6 +63,7 @@
 .progress_todo {
     float: right;
     border-radius: 7px;
+    font-size: var(--small-txt);
 }
 
 
@@ -103,5 +110,11 @@
 @media (max-width: 700px) {
     .title_todo {
         font-size: var(--small-txt);
+    }
+}
+
+@media (max-width: 900px) {
+    #content {
+        width: fit-content;
     }
 }
