@@ -2,9 +2,11 @@
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="/static/js/script.js" type="text/javascript"></script>
+<script src="/static/js/todo/simClick.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="/static/css/todo/todo.css">
 <link rel="stylesheet" href="/static/css/todo/home.css">
+<link rel="stylesheet" href="/static/css/todo/custom_check_box.css">
 
 <h1> Your To-Do </h1>
 <div class="legend">
@@ -17,9 +19,18 @@
 </div>
 
 {% for todo in todos %}
+    <form method="post" action="/to-do/set_progress/{{todo.id}}/{% if todo.progress == 100%}0{% else %}100{% endif%}" style="float: left">
+        <input type="hidden" name="_method" value="put"/>
+        <label class="container_check">
+            <input type="checkbox" class="check_done" id="check{{todo.id}}" onclick="handle_checkbox('check{{todo.id}}')">
+            <span class="checkmark"></span>
+        </label>
+        <input type="submit" class="submit" value="Submit" id="check_sub{{todo.id}}" style="visibility: hidden; position: absolute"/>
+    </form>
     <div class="todo_line">
         <hr style="margin-bottom: 5px">
-        <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the To-Do', 'remove{{todo.id}}')" class="delete_pic"></image>
+        <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the To-Do', 'remove{{todo.id}}')" class="pic"></image>
+        <image src="/static/image/edit.png" onclick="simClick('edit{{todo.id}}')" class="pic"></image>
         <h3 class="header_todo">
             <span class="date_todo">{{todo.date}}</span>
             <span class="title_todo">{{todo.title}}</span>
@@ -36,12 +47,15 @@
             <input type="submit" class="submit" value="Submit" id="remove{{todo.id}}" style="visibility: hidden; position: absolute"/>
         </form>
 
+        <form action="/to-do/edit/{{todo.id}}" method="get">
+            <input type="submit" class="submit" value="Submit" id="edit{{todo.id}}" style="visibility: hidden; position: absolute"/>
+        </form>
+
     </div>
 {% endfor %}
 <hr style="margin-bottom: 3px">
 <a href="/to-do/create" id="create_todo"><span></span></a>
 <img src="/static/image/add.png" onclick="create_todo()" class="button_image">
-
 
 <SCRIPT>
     function create_todo() {

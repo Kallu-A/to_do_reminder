@@ -133,3 +133,11 @@ with a default password `password` (you can change it) and email value same as t
 - `PUT` : `/account/new_email` change the email and send a confirm code to enable the email
 
 ### To-Do
+
+- `GET` : [`/to-do/home`](http://0.0.0.0:8000/to-do/home) show the to-do in the ordre of creation with some action 
+- `GET` : [`/to-do/create`](http://0.0.0.0:8000/to-do/create) display form to create a to-do
+- `POST` : `/to-do/create` allow to create in the database the to-do
+- `DELETE` : `/to-do/owner/<id>` delete all the to-do of the account in <id>
+- `DELETE` : `/to-do/owner/done/<id>` delete all the to-do done of the account in <id>
+- `DELETE` : `/to-do/delete/<id>` delete the to-do with the <id>
+- 

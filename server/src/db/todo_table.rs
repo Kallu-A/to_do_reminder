@@ -3,6 +3,7 @@ use crate::schema::todo;
 use crate::schema::todo::dsl::*;
 use diesel::prelude::*;
 use rocket::serde::Serialize;
+use std::cmp::{max, min};
 
 /// Struct who represent a to-do
 #[derive(Queryable, Serialize, AsChangeset, Identifiable, Insertable)]
@@ -115,10 +116,20 @@ pub fn create_todo(
         .expect("Error saving new todo")
 }
 
+/// set the progress to the value normalise in [0; 100]
+pub fn set_progress(todo_x: &mut TodoEntity, progress_x: i32) -> bool {
+    let progress_x = max(min(100, progress_x), 0);
+    todo_x.progress = progress_x;
+
+    let con = &mut handler::establish_connection();
+    todo_x.save_changes::<TodoEntity>(con).is_ok()
+}
+
 #[cfg(test)]
 mod tests {
     use crate::db::todo_table::{
         create_todo, delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner,
+        set_progress,
     };
     use std::panic;
 
@@ -138,16 +149,24 @@ mod tests {
         assert_eq!(create_todo(-1, "test", "01/01/1001", 1, "welcome"), 1);
         assert_eq!(create_todo(-1, "test2", "02/02/1002", 2, "welcome2"), 1);
         assert_eq!(create_todo(-1, "test3", "03/03/3003", 3, "welcome3"), 1);
+        assert_eq!(create_todo(-1, "test4", "04/04/4004", 4, "welcome4"), 1);
 
-        let todos = get_by_owner(-1);
-        assert_eq!(todos.len(), 3);
+        let mut todos = get_by_owner(-1);
+        assert_eq!(todos.len(), 4);
 
         todos.iter().for_each(|t| {
             assert!(get_by_id(t.id).is_some());
         });
 
-        assert_eq!(delete_done_by_owner(-1), 0);
-        assert!(delete_by_id(todos[0].id));
+        assert_eq!(todos[0].progress, 0);
+        assert!(set_progress(&mut todos[0], 100));
+
+        let todo = get_by_id(todos[0].id).unwrap();
+        assert_eq!(todo.progress, 100);
+
+        assert_eq!(delete_done_by_owner(-1), 1);
+        assert_eq!(delete_by_id(todos[0].id), false);
+        assert!(delete_by_id(todos[1].id));
         assert_eq!(get_by_owner(-1).len(), 2);
         assert_eq!(delete_by_owner(-1), 2);
     }

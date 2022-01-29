@@ -1,7 +1,5 @@
 use crate::db::todo_table;
-use crate::db::todo_table::{
-    delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, CreateTodo,
-};
+use crate::db::todo_table::{delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, CreateTodo, set_progress};
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
@@ -57,12 +55,12 @@ pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<T
             Ok(Template::render(
                 "todo/create",
                 context!(
-                path: user.get_path(),
-                title: "Create To-Do",
-                        title_x,
-                        content_x,
-                        date_x,
-                        priority_x,
+                    path: user.get_path(),
+                    title: "Create To-Do",
+                    title_x,
+                    content_x,
+                    date_x,
+                    priority_x,
                     form_field,
                     message
                         ),
@@ -232,7 +230,65 @@ pub fn delete_todo_id(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, S
                 Err(Status::NotFound)
             }
         }
-
         Err(status) => Err(status),
+    }
+}
+
+/// get method who display the edit form for the to-do in <id>
+/// if get_token return a status show to the client
+#[get("/edit/<id>")]
+pub fn edit_to_do(jar: &CookieJar<'_>, flash: Option<FlashMessage>, id: i32) -> Result<Template, Status> {
+    let (form_field, message) = handler_flash(flash);
+    match get_token(jar) {
+        Ok(user) => {
+            let x = cookie_handler(jar, "x");
+
+            Ok(
+                Template::render(
+                    "todo/edit",
+                    context!(
+                        path: user.get_path(),
+                        title: "Edit To-Do",
+                        form_field,
+                        message
+                    )
+                )
+            )
+        }
+
+        Err(status) => Err(status)
+    }
+}
+
+
+/// Put method to set the progress of a to-do
+/// `id` is the id of the to-do
+/// `value` is the value it's will normalise the value to [0; 100]
+/// if the to-do doens't exist return code `404`
+/// if the id_owner  is not the value of the token return status 401 even if
+/// it's a admin
+#[put("/set_progress/<id>/<value>")]
+pub fn set_value_progress(
+    jar: &CookieJar<'_>,
+    id: i32,
+    value: i32
+) -> Result<Flash<Redirect>, Status> {
+    match get_token(jar) {
+        Ok(user) => {
+            if let Some(mut todo) = get_by_id(id) {
+                if user.id != todo.id_owner {
+                    return Err(Status::Unauthorized)
+                }
+                if set_progress(&mut todo, value) {
+                    Ok(Flash::success(Redirect::to("/to-do/home"), "gProgress save"))
+                } else {
+                    Ok(Flash::error(Redirect::to("/to-do/home"), "rOops. Something didn't work please try again"))
+                }
+            } else {
+                Err(Status::NotFound)
+            }
+        }
+
+        Err(status) => Err(status)
     }
 }

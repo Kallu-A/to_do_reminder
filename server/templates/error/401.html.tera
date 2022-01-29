@@ -2,7 +2,7 @@
 {% block content %}
 <link rel="stylesheet" href="/static/css/errors.css">
 
-<h1>Error 401: Only for admin</h1>
-<h3> The action: <b>{{uri}}</b> is not allowed for normal user</h3>
+<h1>Error 401: Refused</h1>
+<h3> The action: <b>{{uri}}</b> is not allowed </h3>
 
 {% endblock content %}

@@ -15,6 +15,7 @@ $(document).ready(function() {
 });
 
 
+/// Handle the input range
 function handle_selector() {
     const selector = document.getElementById("input_priority");
     const disp_selector = $('#display_priority');

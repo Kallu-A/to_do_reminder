@@ -15,7 +15,8 @@
 
 .title_todo {
     margin-left: 15px;
-    width: 60%;
+    margin-top: 1px;
+    width: 50%;
     display: inline-block;
     color: var(--primary_color);
     word-break: break-word;
@@ -46,7 +47,7 @@
     margin-bottom: 10px;
 }
 
-.delete_pic {
+.pic {
     float: left;
     width: 35px;
     height: 35px;
@@ -57,6 +58,7 @@
     float: right;
     border-radius: 7px;
 }
+
 
 .min {
     color: var(--mini);
