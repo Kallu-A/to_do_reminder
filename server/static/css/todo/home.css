@@ -5,16 +5,22 @@
 }
 
 .todo_line {
+    width: 100%;
     font-size: var(--small-txt);
-    margin-bottom: 7px;
 }
 
 .header_todo {
     text-align: left;
-    color: var(--primary_color)
+}
+
+.title_todo {
+    width: 100px;
+    color: var(--primary_color);
+    word-break: break-all;
 }
 
 .content_todo {
+    word-break: break-all;
     font-size: var(--mini-txt);
     color: var(--text_litle_color);
     text-align: left;
@@ -34,6 +40,13 @@
 .legend {
     font-size: var(--mini-txt);
     margin-bottom: 10px;
+}
+
+.delete_pic {
+    float: left;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
 }
 
 .progress_todo {

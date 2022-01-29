@@ -11,6 +11,7 @@ use crate::schema::user::dsl::*;
 use dotenv::dotenv;
 use pbkdf2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier};
 use pbkdf2::Pbkdf2;
+use crate::db::todo_table::delete_by_owner;
 
 pub const DEFAULT_PATH: &str = "/static/image/profil/default.png";
 
@@ -145,6 +146,7 @@ pub fn get_all() -> Vec<UserEntity> {
 /// Try to delete the username in args and return true if the delete was successful else false
 pub fn delete_user(username_delete: String) -> bool {
     let connection = &mut handler::establish_connection();
+    let user_x = get_by_username(username_delete.as_str()).unwrap();
     let num_deleted = diesel::delete(user.filter(username.eq(username_delete.clone())))
         .execute(connection)
         .expect("Error deleting user");
@@ -156,6 +158,8 @@ pub fn delete_user(username_delete: String) -> bool {
         if fs::remove_file(pa).is_ok() {
             println!("picture of {} deleted", username_delete);
         }
+        delete_by_owner(user_x.id);
+
         true
     } else {
         false

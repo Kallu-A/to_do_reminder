@@ -1,5 +1,5 @@
 use crate::db::todo_table;
-use crate::db::todo_table::{delete_by_owner, delete_done_by_owner, get_by_owner, CreateTodo};
+use crate::db::todo_table::{delete_by_owner, delete_done_by_owner, get_by_owner, CreateTodo, delete_by_id, get_by_id};
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::{context, get_token, handler_flash, Status};
@@ -203,7 +203,41 @@ pub fn delete_owner_done_todo(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redi
     }
 }
 
+/// delete method to remove one to-do
+/// if get_token return a status show to the client
+/// if to-do is not found in the databse return status code `404`
+/// else adapt the redirect if user is admin he can access to everyone
+/// try to delete the to-do then redirect with a appropriate message
 #[delete("/delete/<id>")]
 pub fn delete_todo_id(jar: &CookieJar<'_>, id: i32) -> Result<Flash<Redirect>, Status> {
-    Err(Status::NotImplemented)
+    match get_token(jar) {
+        Ok(user) => {
+            if let Some(todo) = get_by_id(id) {
+                let redirect = if user.perm && user.id != todo.id_owner {
+                    Redirect::to("/account/users")
+                } else {
+                    if user.id != todo.id_owner {
+                        return Err(Status::Unauthorized);
+                    }
+                    Redirect::to("/to-do/home")
+                };
+                if !delete_by_id(id) {
+                    Ok(Flash::error(
+                        redirect,
+                        "rThis to-do doesn't exist",
+                    ))
+                } else {
+                    Ok(Flash::success(
+                        redirect,
+                        "gSuccessfully remove the to-do",
+                    ))
+                }
+            } else {
+                Err(Status::NotFound)
+            }
+
+        }
+
+        Err(status) => Err(status),
+    }
 }

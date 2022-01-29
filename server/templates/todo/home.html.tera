@@ -1,9 +1,11 @@
 {% extends "common" %}
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="/static/css/todo/todo.css">
 <link rel="stylesheet" href="/static/css/todo/home.css">
+
 <h1> Your To-Do </h1>
 <div class="legend">
     The color represent the priority of the to-do: <br>
@@ -16,10 +18,11 @@
 
 {% for todo in todos %}
     <div class="todo_line">
-        <hr style="margin-bottom: 7px">
+        <hr style="margin-bottom: 5px">
+        <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the To-Do', 'remove{{todo.id}}')" class="delete_pic"></image>
         <h3 class="header_todo">
             <span class="date_todo">{{todo.date}}</span>
-            {{todo.title}}
+            <span class="title_todo">{{todo.title}}</span>
             <span class="priority_todo"></span>
             <span class="
             {% if todo.priority == 0 %}min{% elif todo.priority < 4%}low{% elif todo.priority < 7%}medium{%
@@ -28,7 +31,10 @@
             >{{todo.progress}}%</span>
         </h3>
         <p class="content_todo">{{todo.content}}</p>
-
+        <form action="/to-do/delete/{{todo.id}}" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" class="submit" value="Submit" id="remove{{todo.id}}" style="visibility: hidden; position: absolute"/>
+        </form>
 
     </div>
 {% endfor %}
