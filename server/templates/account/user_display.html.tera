@@ -30,11 +30,13 @@
                 <input type="hidden" name="_method" value="put" />
                 <input type="submit" class="submit_red" value="Logout"/>
             </form>
-            <form action="/account/delete" method="post" style="margin-left: 10px">
-                <input type="hidden" name="_method" value="delete"/>
-                <input type="submit" id="submit" style="visibility: hidden; width: 0; position: absolute;">
-                <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
-            </form>
+            {% if user.perm == false %}
+                <form action="/account/delete" method="post" style="margin-left: 10px">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <input type="submit" id="submit" style="visibility: hidden; width: 0; position: absolute;">
+                    <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
+                </form>
+            {% endif %}
         </div>
         {% if user.confirm_email == false %}
         <p style="width: 100%; height: 3px"></p>
