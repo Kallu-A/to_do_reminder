@@ -36,6 +36,7 @@ use crate::path::todo_list::{
 };
 use crate::utils::json::Data;
 use dotenv::dotenv;
+use crate::path::pref::preference_user;
 
 mod db;
 mod path;
@@ -177,6 +178,12 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 edit_put_todo
             ],
         )
+        .mount(
+            "/preference/",
+            routes![preference_user]
+        )
+
+
 }
 
 #[cfg(test)]

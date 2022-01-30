@@ -175,3 +175,7 @@ with a preferred setting like the sorting of the to-do**
 - `GET` : `/to-do/edit/<id>` show the forum to edit a to-do
 - `PUT` : `/to-do/edit/<id>` put to save the new data
 - `PUT` : `/to-do/set_progress/<id>/<value>` allow to just change the progress value
+
+
+### Preference
+- `GET` : `/preference/home` show the preference to the user and allow him to change them

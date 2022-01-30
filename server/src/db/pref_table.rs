@@ -1,5 +1,5 @@
 use crate::db::handler;
-use crate::db::pref_table::Mode::{Creation, Date, DatePriority, Priority};
+use crate::db::pref_table::Mode::{Creation, Date, DateDonePriorityProgress, DatePriority, DatePriorityDone, DatePriorityProgress, DatePriorityProgressDone, DateProgress, DoneNotDone, Priority};
 use crate::schema::pref;
 use crate::schema::pref::dsl::*;
 use diesel::prelude::*;
@@ -70,12 +70,20 @@ pub fn update_pref(pref_x: &PrefEntity) -> bool {
 
 pub const DEFAULT_MODE: i32 = 0;
 
+
 /// Contains all the different mode of sort & display
+/// `Creation` default mode display with the id in the database to the first created to the last
+/// `DatePriority` sort by date and if 2 have the same the more important will go before
+/// `DateProgress` sort by date and if 2 have the same the less advanced is show before
+/// `DoneNotDone` sort by progress first will be the less progress to the done sort by the progress value
+/// `DatePriorityProgress` sort by date and if 2 have the same date sort by priority and then progress
 pub enum Mode {
     Creation,
-    Date,
-    Priority,
     DatePriority,
+    DateProgress,
+    DoneNotDone,
+    DatePriorityDone,
+
 }
 
 impl Mode {
@@ -83,9 +91,10 @@ impl Mode {
     pub fn from_i32(value: i32) -> Result<Mode, i32> {
         match value {
             0 => Ok(Creation),
-            1 => Ok(Date),
-            2 => Ok(Priority),
-            3 => Ok(DatePriority),
+            1 => Ok(DatePriority),
+            2 => Ok(DateProgress),
+            3 => Ok(DoneNotDone),
+            4 => Ok(DatePriorityDone),
             x => Err(x),
         }
     }

@@ -22,6 +22,8 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
+use crate::db::pref_table::get_pref_from_owner;
+use crate::utils::pref::limit_display;
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
@@ -40,6 +42,8 @@ pub fn home(
             let to_do = get_by_owner(user.id);
             let number = to_do.len();
             let number_not_done = to_do.iter().filter(|c| c.progress != 100).count();
+            let pref = get_pref_from_owner(user.id).unwrap();
+            let to_do = limit_display(to_do, pref.display as usize);
 
             Ok(Template::render(
                 "account/user_display",
@@ -51,7 +55,9 @@ pub fn home(
                     user,
                     code_confirm,
                     number,
-                    number_not_done
+                    number_not_done,
+                    to_do,
+                    pref
                 ),
             ))
         }
