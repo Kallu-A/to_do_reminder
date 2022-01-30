@@ -68,7 +68,7 @@
 
  select#input_mode{
      cursor: pointer;
-     background: var(--background_first);
+     background: none;
      color: var(--text-color);
      box-shadow: var(--shadow);
      border-radius: 7px;
@@ -77,6 +77,21 @@
  }
 
 select#input_mode option{
-    color: var(--primary_color);
+    color: var(--text-color);
+    background: var(--background_first);
     font-size: var(--mini-txt);
+}
+
+@media (max-width: 700px) {
+    .selected_title {
+        font-size: var(--medium-txt);
+    }
+
+    .not_selected {
+        font-size: var(--medium-txt);
+    }
+
+    select#input_mode {
+        font-size: var(--mini-txt);
+    }
 }

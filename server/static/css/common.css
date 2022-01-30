@@ -140,8 +140,12 @@ input {
     background: none;
     color: var(--text-color);
     border-radius: 7px;
+    border-color: var(--text-color);
 }
 
+textarea {
+    border-color: var(--text-color);
+}
 
 #submit {
     padding: 10px;

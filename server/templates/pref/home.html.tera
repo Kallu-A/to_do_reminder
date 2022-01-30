@@ -72,7 +72,21 @@
                 </tr>
                 <tr class="separator"></tr>
             </table>
-            <input type="submit" class="submit" value="Update" id="submit_mode" />
+            <input type="submit" class="submit" value="Update" id="submit_mode" /> <br>
+            <div style="text-align: left">
+                <span class="long_txt" style="text-align: left">
+                    <br><span class="disp_color2">- Date of creation</span><br>
+                    The to-do will be shown from the oldest created to the newest
+                    <br><span class="disp_color2">- Date & Priority</span><br>
+                    Show in the chronological order of the limit date and their priority
+                    <br><span class="disp_color2">- Date & Progress</span><br>
+                    Show in the chronological order of the limit date and their progress
+                    <br><span class="disp_color2">- Done not done</span><br>
+                    Display first the to-do not done and then the done
+                    <br><span class="disp_color2">- Date & Priority & Done</span><br>
+                    Show in the chronological order of the limit date.<br>Then by priority and then separate the done from the not done
+                </span>
+            </div>
         </form>
     </div>
 </div>
