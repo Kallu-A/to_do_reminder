@@ -25,6 +25,7 @@
         <td class="td_header">Picture</td>
         <td class="td_header">Email</td>
         <td class="td_header">Confirm Email</td>
+        <td class="td_header">Number of Todo</td>
     </tr>
     {% for user in users %}
     <tr class="content_table">
@@ -56,6 +57,7 @@
         <td> {{ user.picture }}</td>
         <td> {{ user.email }}</td>
         <td> {{ user.confirm_email }}</td>
+        <td> {{ user.number }}</td>
     </tr>
     {% endfor %}
 </table>

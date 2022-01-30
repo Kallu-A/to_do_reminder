@@ -1,9 +1,6 @@
 use crate::db::pref_table::get_pref_from_owner;
 use crate::db::todo_table::get_by_owner;
-use crate::db::user_table::{
-    create_user, delete_user, get_all, get_by_id, is_password, set_confirm_email, set_email,
-    set_password, set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH,
-};
+use crate::db::user_table::{create_user, delete_user, get_all, get_by_id, is_password, set_confirm_email, set_email, set_password, set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH, get_all_display};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
 use crate::utils::json::{decr_members, incr_connexion, incr_members};
@@ -79,11 +76,11 @@ pub fn home(
 #[get("/users")]
 pub fn users(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
     let (color, message) = handler_flash(flash);
-    let users = get_all();
     let path;
     if let Ok(user) = get_token(jar) {
         path = user.get_path();
         if user.perm {
+            let users = get_all();
             return Template::render(
                 "account/users_admin",
                 context!(
@@ -98,6 +95,7 @@ pub fn users(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Template {
     } else {
         path = DEFAULT_PATH.to_string();
     }
+    let users = get_all_display();
     Template::render(
         "account/users",
         context!(

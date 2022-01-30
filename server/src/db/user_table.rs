@@ -7,7 +7,7 @@ use std::{env, fs};
 use crate::db::handler;
 use crate::db::handler::establish_connection;
 use crate::db::pref_table::{create_pref, delete_pref};
-use crate::db::todo_table::delete_by_owner;
+use crate::db::todo_table::{delete_by_owner, get_by_owner};
 use crate::schema::user;
 use crate::schema::user::dsl::*;
 use dotenv::dotenv;
@@ -27,6 +27,25 @@ pub struct UserEntity {
     pub picture: bool,
     pub email: String,
     pub confirm_email: bool,
+}
+
+/// Struct to be show in the member for admin
+#[derive(Serialize)]
+pub struct UserDisplayAdmin {
+    pub id: i32,
+    pub username: String,
+    pub picture: bool,
+    pub email: String,
+    pub confirm_email: bool,
+    pub perm: bool,
+    pub number: usize
+}
+
+#[derive(Serialize)]
+pub struct UserDisplay {
+    pub id: i32,
+    pub username: String,
+    pub picture: bool,
 }
 
 impl UserEntity {
@@ -122,6 +141,40 @@ pub fn get_by_username(username_find: &str) -> Option<UserEntity> {
     }
 }
 
+/// Return all the User on the Table `user` but with less data to be more secure
+pub fn get_all_display() -> Vec<UserDisplay> {
+    let connection = &mut handler::establish_connection();
+    let vec = user.load::<UserEntity>(connection)
+        .expect("Error loading user");
+
+    vec.into_iter().map(|u| {
+        UserDisplay {
+            id: u.id,
+            username: u.username,
+            picture: u.picture
+        }
+    }).collect()
+}
+
+/// Return all the user with special add data for the admin
+pub fn get_all() -> Vec<UserDisplayAdmin> {
+    let connection = &mut handler::establish_connection();
+    let vec = user.load::<UserEntity>(connection)
+        .expect("Error loading user");
+
+    vec.into_iter().map(|u| {
+        UserDisplayAdmin {
+            id: u.id,
+            username: u.username,
+            picture: u.picture,
+            email: u.email,
+            confirm_email:  u.confirm_email,
+            perm: u.perm,
+            number: get_by_owner(u.id).len()
+        }
+    }).collect()
+}
+
 /// Return the user with the id in param or None if he doesn't exist
 pub fn get_by_id(id_find: i32) -> Option<UserEntity> {
     let conn = &mut handler::establish_connection();
@@ -135,13 +188,6 @@ pub fn get_by_id(id_find: i32) -> Option<UserEntity> {
         }
         Err(_) => None,
     }
-}
-
-/// Return all the User on the Table `user`
-pub fn get_all() -> Vec<UserEntity> {
-    let connection = &mut handler::establish_connection();
-    user.load::<UserEntity>(connection)
-        .expect("Error loading user")
 }
 
 /// Try to delete the username in args and return true if the delete was successful else false
