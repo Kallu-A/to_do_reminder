@@ -38,7 +38,7 @@ pub struct UserDisplayAdmin {
     pub email: String,
     pub confirm_email: bool,
     pub perm: bool,
-    pub number: usize
+    pub number: usize,
 }
 
 #[derive(Serialize)]
@@ -144,35 +144,37 @@ pub fn get_by_username(username_find: &str) -> Option<UserEntity> {
 /// Return all the User on the Table `user` but with less data to be more secure
 pub fn get_all_display() -> Vec<UserDisplay> {
     let connection = &mut handler::establish_connection();
-    let vec = user.load::<UserEntity>(connection)
+    let vec = user
+        .load::<UserEntity>(connection)
         .expect("Error loading user");
 
-    vec.into_iter().map(|u| {
-        UserDisplay {
+    vec.into_iter()
+        .map(|u| UserDisplay {
             id: u.id,
             username: u.username,
-            picture: u.picture
-        }
-    }).collect()
+            picture: u.picture,
+        })
+        .collect()
 }
 
 /// Return all the user with special add data for the admin
 pub fn get_all() -> Vec<UserDisplayAdmin> {
     let connection = &mut handler::establish_connection();
-    let vec = user.load::<UserEntity>(connection)
+    let vec = user
+        .load::<UserEntity>(connection)
         .expect("Error loading user");
 
-    vec.into_iter().map(|u| {
-        UserDisplayAdmin {
+    vec.into_iter()
+        .map(|u| UserDisplayAdmin {
             id: u.id,
             username: u.username,
             picture: u.picture,
             email: u.email,
-            confirm_email:  u.confirm_email,
+            confirm_email: u.confirm_email,
             perm: u.perm,
-            number: get_by_owner(u.id).len()
-        }
-    }).collect()
+            number: get_by_owner(u.id).len(),
+        })
+        .collect()
 }
 
 /// Return the user with the id in param or None if he doesn't exist

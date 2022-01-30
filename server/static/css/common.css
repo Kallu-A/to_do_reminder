@@ -78,6 +78,7 @@ td {
     border: none;
     font-size: var(--medium-txt);
     background: var(--background);
+    #word-break: initial;
 }
 
 .message {

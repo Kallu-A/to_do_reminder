@@ -13,10 +13,15 @@
         border-left: 2px outset var(--background_transp);
     }
 
-</style>
+    #child_div {
+        overflow-x:auto;
+        width: 100%;
+        padding: 20px;
+    }
 
+</style>
 <h1> Database of users : </h1>
-<table id="users_container" class="message" style="display: flex">
+<table id="users_container" class="message" style="display: flex;">
     <tr style="border: 2px inset var(--background)">
         <td class="td_header"> </td>
         <td class="td_header">Picture</td>
@@ -47,7 +52,7 @@
                     </form>
                     <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove the picture of the user', 'remove_picture{{user.id}}')" class="remove_picture"></image>
                 {% endif %}
-            <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px"/>
+            <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}" style="border-radius: 10px;"/>
             {% else %}
                 <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
             {% endif %}

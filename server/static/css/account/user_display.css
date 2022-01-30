@@ -11,7 +11,7 @@
 
 .remove_picture {
     cursor: pointer;
-    position: absolute;
+    position: fixed;
     display: flex;
     margin-top: -20px;
     margin-left: -12px;

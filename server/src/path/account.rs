@@ -1,6 +1,10 @@
 use crate::db::pref_table::get_pref_from_owner;
 use crate::db::todo_table::get_by_owner;
-use crate::db::user_table::{create_user, delete_user, get_all, get_by_id, is_password, set_confirm_email, set_email, set_password, set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin, DEFAULT_PATH, get_all_display};
+use crate::db::user_table::{
+    create_user, delete_user, get_all, get_all_display, get_by_id, is_password, set_confirm_email,
+    set_email, set_password, set_picture, NewEmail, UserEditPassowrd, UserRegister, UsersLogin,
+    DEFAULT_PATH,
+};
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
 use crate::utils::json::{decr_members, incr_connexion, incr_members};
