@@ -61,3 +61,22 @@
     color: var(--primary_color);
     font-size: var(--small-txt);
 }
+
+.disp_color2 {
+    color: var(--primary_color);
+}
+
+ select#input_mode{
+     cursor: pointer;
+     background: var(--background_first);
+     color: var(--text-color);
+     box-shadow: var(--shadow);
+     border-radius: 7px;
+     padding: 5px;
+     font-size: var(--medium-txt);
+ }
+
+select#input_mode option{
+    color: var(--primary_color);
+    font-size: var(--mini-txt);
+}

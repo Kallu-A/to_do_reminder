@@ -27,14 +27,14 @@
     <div id="display_container">
         <form method="post" action="/preference/set/display" id="form_display" class="inactive">
             <input type="hidden" name="_method" value="put" />
-            Your current setting is: {{pref.display}}<br>
+            Your current limit is <span class="disp_color2">{{pref.display}}</span><br>
             <table>
                 <tr>
-                    <td>Limit of to-do</td><td><input id="input_display" class="fields" type="number" size="3" maxlength="3" min="0" max="10" name="display_x" value="{{display_x}}"/> <br>
+                    <td>Limit of to-do</td><td><input id="input_display" class="fields" type="number" size="3" maxlength="3" min="0" max="10" name="display_x" value="{{pref.display}}"/> <br>
                     <span class="error_form" id="error_display"></span> </td>
                 </tr>
-                <input type="submit" class="submit" value="Update" id="submit_pswd"/>
             </table>
+            <input type="submit" class="submit" value="Update" id="submit_pswd"/>
         </form>
     </div>
 
@@ -42,15 +42,37 @@
 
         <form method="post" action="/preference/set/mode" id="form_mode" class="inactive">
             <input type="hidden" name="_method" value="put" />
-            Your current setting is: {{pref.sort}}<br>
+            Your current setting is: <span class="disp_color2">
+            {% if pref.sort == 0 %}
+            Date of creation
+            {% elif pref.sort == 1 %}
+            Date & Priority
+            {% elif pref.sort == 2 %}
+            Date & Progress
+            {% elif pref.sort == 3 %}
+            Done not done
+            {% elif pref.sort == 4 %}
+            Date & Priority & Done
+            {% endif %}
+            </span>
+            <br>
             <table>
                 <tr>
-                    <td>Sorting by </td><td><input id="input_mode" class="fields" type="text" size="13" maxlength="50" name="mode_x" value="{{mode_x}}"/> <br>
-                    <span class="error_form" id="error_mode"></span> </td>
+                    <td>Sorting by </td>
+                    <td>
+                        <select name="mode_x" id="input_mode" required>
+                            <option value="0" >Date of creation</option>
+                            <option value="1" >Date & Priority</option>
+                            <option value="2">Date & Progress</option>
+                            <option value="3">Done not done</option>
+                            <option value="4">Date & Priority & Done</option>
+                        </select>
+                        <br><span class="error_form" id="error_mode"></span>
+                    </td>
                 </tr>
                 <tr class="separator"></tr>
-                <input type="submit" class="submit" value="Update" id="submit_mode" />
             </table>
+            <input type="submit" class="submit" value="Update" id="submit_mode" />
         </form>
     </div>
 </div>
