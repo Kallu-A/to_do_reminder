@@ -52,7 +52,7 @@
             progress_todo"
             >{{todo.progress}}%</span>
         </h3>
-        <p class="content_todo">{{todo.content}}</p>
+        <p class="content_todo">{% filter linebreaksbr %}{{todo.content}}{% endfilter %}</p>
         <br>
     </div>
 {% endfor %}

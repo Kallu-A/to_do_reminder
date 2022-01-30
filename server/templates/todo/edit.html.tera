@@ -27,7 +27,7 @@
         <tr>
             <td>Content</td>
             <td>
-                <input name="content_x" class="field" id="input_content" type="text" size="30" maxlength="300" value="{{content_x}}"> <br>
+                <label for="input_content"></label><textarea name="content_x" class="field" id="input_content" type="text" size="30" maxlength="300" >{{content_x}}</textarea> <br>
                 <span class="error_form" id="error_content"></span>
             </td>
         </tr>
@@ -53,7 +53,7 @@
         </tr>
     </table>
     <br>
-    <span style="font-size: var(--mini-txt)">field with a * are mandatory </span> <br>
+    <span style="font-size: var(--mini-txt)">field with * are mandatory </span> <br>
     <input type="submit" class="submit" value="Save Change"/>
 </form>
 

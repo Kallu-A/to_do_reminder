@@ -32,16 +32,26 @@
     alignment: center;
 }
 
+textarea {
+    box-shadow: var(--shadow);
+    background: none;
+    font-size: var(--mini-txt);
+    color: var(--text-color);
+    border-radius: 7px;
+    width: 440px;
+    height: 150px;
+}
+
 table {
     text-align: left;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 610px) {
     .field_short {
         max-width: 240px;
     }
 
     .field {
-        max-width: 280px;
+        max-width: 275px;
     }
 }
