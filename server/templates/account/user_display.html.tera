@@ -66,6 +66,13 @@
         <p>-<span class="disp_color">{{number}}</span> to-do </p>
         <p>-<span class="disp_color">{{number_not_done}}</span> to-do not done</p>
         <p>-<span class="disp_color">{{pref.display}}</span> to-do display maximum</p>
+        <p>-<span class="disp_color">{% if pref.sort == 0 %}Date of creation
+            {% elif pref.sort == 1 %}Date & Priority
+            {% elif pref.sort == 2 %}Date & Progress
+            {% elif pref.sort == 3 %}Done not done
+            {% elif pref.sort == 4 %}Date & Priority & Done
+            {% endif %}
+        </span> mode</p>
         <br><a href="/preference/home" class="edit">edit preferences</a>
 
         <div class="container_button">

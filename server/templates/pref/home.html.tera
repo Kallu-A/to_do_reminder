@@ -60,12 +60,12 @@
                 <tr>
                     <td>Sorting by </td>
                     <td>
-                        <select name="mode_x" id="input_mode" required>
-                            <option value="0" >Date of creation</option>
-                            <option value="1" >Date & Priority</option>
-                            <option value="2">Date & Progress</option>
-                            <option value="3">Done not done</option>
-                            <option value="4">Date & Priority & Done</option>
+                        <select name="mode_x" id="input_mode">
+                            <option value="0" {% if pref.sort == 0 %}selected{% endif %}>Date of creation</option>
+                            <option value="1" {% if pref.sort == 1 %}selected{% endif %}>Date & Priority</option>
+                            <option value="2" {% if pref.sort == 2 %}selected{% endif %}>Date & Progress</option>
+                            <option value="3" {% if pref.sort == 3 %}selected{% endif %}>Done not done</option>
+                            <option value="4" {% if pref.sort == 4 %}selected{% endif %}>Date & Priority & Done</option>
                         </select>
                         <br><span class="error_form" id="error_mode"></span>
                     </td>
