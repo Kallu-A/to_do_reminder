@@ -46,7 +46,7 @@ pub struct UpdateTodo<'a> {
     pub content_x: &'a str,
     pub date_x: &'a str,
     pub priority_x: i32,
-    pub progress_x: i32,
+    pub progress_x: Option<i32>,
 }
 
 /// Return the to-do of the id, none if he doesn't exist

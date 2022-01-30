@@ -30,7 +30,7 @@ use crate::utils::cookie::handler_flash;
 use crate::utils::email::verif_env;
 use crate::utils::token::get_token;
 
-use crate::path::pref::preference_user;
+use crate::path::pref::{pref_display_put, pref_mode_put, preference_user};
 use crate::path::todo_list::{
     create_todo, create_todo_post, delete_owner_done_todo, delete_owner_todo, delete_todo_id,
     edit_put_todo, edit_to_do, set_value_progress,
@@ -178,7 +178,13 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 edit_put_todo
             ],
         )
-        .mount("/preference/", routes![preference_user])
+        .mount("/preference/",
+               routes![
+                   preference_user,
+                   pref_display_put,
+                   pref_mode_put
+               ],
+        )
 }
 
 #[cfg(test)]

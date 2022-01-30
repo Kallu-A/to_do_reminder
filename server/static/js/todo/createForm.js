@@ -17,6 +17,7 @@ $(document).ready(function() {
         handle_selector();
     })
 
+
     $("#input_priority").mousemove(function(){
         handle_selector();
     })

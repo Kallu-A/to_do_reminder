@@ -79,10 +79,11 @@ pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>, callback: &
 /// if get_token return a status code send him to the client
 /// else try to see that every form is not empty and valid
 /// if everything is good create the to-do incremente the to-do json and redirect to home with message
-#[post("/create", data = "<form>")]
+#[post("/create/<callback>", data = "<form>")]
 pub fn create_todo_post(
     jar: &CookieJar<'_>,
     form: Form<CreateTodo>,
+    callback: &str
 ) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(user) => {
@@ -92,25 +93,26 @@ pub fn create_todo_post(
                 create_field_cookie(jar, "date_x", form.date_x);
                 create_field_cookie(jar, "priority_x", form.priority_x.to_string().as_str());
             };
+            let redirect = Redirect::to(format!("/to-do/create/{}", callback));
 
             if form.title_x.is_empty() {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("create"), "tneed a title"));
+                return Ok(Flash::error(redirect, "tneed a title"));
             }
 
             if form.date_x.is_empty() {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("create"), "dneed a date"));
+                return Ok(Flash::error(redirect, "dneed a date"));
             }
 
             if form.date_x.len() != 10 {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("create"), "dinvalid date"));
+                return Ok(Flash::error(redirect, "dinvalid date"));
             }
 
             if form.priority_x < 0 || form.priority_x > 10 {
                 create_cookie();
-                return Ok(Flash::error(Redirect::to("create"), "pinvalid value"));
+                return Ok(Flash::error(redirect, "pinvalid value"));
             }
 
             if todo_table::create_todo(
@@ -123,12 +125,12 @@ pub fn create_todo_post(
             {
                 incr_to_do();
                 Ok(Flash::success(
-                    Redirect::to("home"),
+                    Redirect::to(format!("/{}/home", callback)),
                     "gSuccessfully created",
                 ))
             } else {
                 Ok(Flash::error(
-                    Redirect::to("create"),
+                    redirect,
                     "rOops. Please try again",
                 ))
             }
@@ -324,7 +326,9 @@ pub fn edit_put_todo(
                     create_field_cookie(jar, "content_x", form.content_x);
                     create_field_cookie(jar, "date_x", form.date_x);
                     create_field_cookie(jar, "priority_x", form.priority_x.to_string().as_str());
-                    create_field_cookie(jar, "progress_x", form.progress_x.to_string().as_str());
+                    let val = form.progress_x.unwrap_or_else(|| -1).to_string();
+                    let val = if val == "-1" { "" } else { val.as_str() };
+                    create_field_cookie(jar, "progress_x", val);
                 };
                 let redirect = Redirect::to(format!("/to-do/edit/{}", id));
 
@@ -347,14 +351,19 @@ pub fn edit_put_todo(
                     create_cookie();
                     return Ok(Flash::error(redirect, "pinvalid value"));
                 }
+                if let None = form.progress_x {
+                    create_cookie();
+                    return Ok(Flash::error(redirect, "1need a percentage"));
+                }
+                let progress_x = form.progress_x.unwrap();
 
-                if form.progress_x < 0 || form.progress_x > 100 {
+                if progress_x < 0 || progress_x > 100 {
                     create_cookie();
                     return Ok(Flash::error(redirect, "1invalid percentage"));
                 }
 
                 todo.title = form.title_x.to_string();
-                todo.progress = form.progress_x;
+                todo.progress = progress_x;
                 todo.priority = form.priority_x;
                 todo.content = form.content_x.to_string();
                 todo.date = form.date_x.to_string();

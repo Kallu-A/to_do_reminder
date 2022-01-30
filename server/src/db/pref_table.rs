@@ -25,6 +25,20 @@ pub struct NewPrefEntity {
     pub display: i32,
 }
 
+/// struct for the form of upgrade of display
+#[derive(FromForm, Serialize)]
+pub struct NewDisplay {
+    pub display_x: Option<i32>
+}
+
+
+/// struct for the form of upgrade of display
+#[derive(FromForm, Serialize)]
+pub struct NewMode {
+    pub mode_x: Option<i32>
+}
+
+
 /// Return the pref of the id if one exist
 pub fn get_pref_from_owner(id_x: i32) -> Option<PrefEntity> {
     let con = &mut handler::establish_connection();

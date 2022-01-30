@@ -25,7 +25,7 @@
 
 <div style="display: flex; flex-direction: row; justify-content: center">
     <div id="display_container">
-        <form method="post" action="/preference/display" id="form_display" class="inactive">
+        <form method="post" action="/preference/set/display" id="form_display" class="inactive">
             <input type="hidden" name="_method" value="put" />
             Your current setting is: {{pref.display}}<br>
             <table>
@@ -40,7 +40,7 @@
 
     <div id="mode_container">
 
-        <form method="post" action="/preference/mode" id="form_mode" class="inactive">
+        <form method="post" action="/preference/set/mode" id="form_mode" class="inactive">
             <input type="hidden" name="_method" value="put" />
             Your current setting is: {{pref.sort}}<br>
             <table>
