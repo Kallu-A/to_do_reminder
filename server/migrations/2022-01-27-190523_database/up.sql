@@ -20,6 +20,7 @@ CREATE TABLE todo (
 
 CREATE TABLE pref (
     id INTEGER NOT NULL PRIMARY KEY,
+    id_owner INTEGER NOT NULL,
     sort INTEGER NOT NULL,
     display INTEGER NOT NULL
 

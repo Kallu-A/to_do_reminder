@@ -10,6 +10,15 @@ use rocket::serde::Serialize;
 #[table_name = "pref"]
 pub struct PrefEntity {
     pub id: i32,
+    pub id_owner: i32,
+    pub sort: i32,
+    pub display: i32,
+}
+
+#[derive(Insertable)]
+#[table_name = "pref"]
+pub struct NewPrefEntity {
+    pub id_owner: i32,
     pub sort: i32,
     pub display: i32,
 }
@@ -17,7 +26,7 @@ pub struct PrefEntity {
 /// Return the pref of the id if one exist
 pub fn get_pref_from_owner(id_x: i32) -> Option<PrefEntity> {
     let con = &mut handler::establish_connection();
-    match pref.filter(id.eq(id_x)).load::<PrefEntity>(con) {
+    match pref.filter(id_owner.eq(id_x)).load::<PrefEntity>(con) {
         Ok(mut res) => {
             if !res.is_empty() {
                 res.drain(0..1).next()
@@ -33,10 +42,10 @@ pub fn get_pref_from_owner(id_x: i32) -> Option<PrefEntity> {
 pub fn create_pref(id_x: i32) -> usize {
     let con = &mut handler::establish_connection();
 
-    let new_pref = PrefEntity {
-        id: id_x,
+    let new_pref = NewPrefEntity {
+        id_owner: id_x,
         sort: DEFAULT_MODE,
-        display: DEFAULT_MODE,
+        display: 3,
     };
 
     diesel::insert_into(pref::table)
@@ -48,7 +57,7 @@ pub fn create_pref(id_x: i32) -> usize {
 /// Try to the delete the pref of a user
 pub fn delete_pref(id_x: i32) -> usize {
     let con = &mut handler::establish_connection();
-    diesel::delete(pref.filter(id.eq(id_x)))
+    diesel::delete(pref.filter(id_owner.eq(id_x)))
         .execute(con)
         .expect("Error deleting pref")
 }
@@ -103,8 +112,8 @@ mod test {
         assert_eq!(create_pref(-2), 1);
         let pref = get_pref_from_owner(-2);
         let mut pref = pref.unwrap();
-        assert_eq!(pref.id, -2);
-        assert_eq!(pref.display, DEFAULT_MODE);
+        assert_eq!(pref.id_owner, -2);
+        assert_eq!(pref.display, 3);
         assert_eq!(pref.sort, DEFAULT_MODE);
         pref.display = 2;
         pref.sort = 3;

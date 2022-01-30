@@ -11,7 +11,7 @@ pub fn establish_connection() -> SqliteConnection {
     let con = SqliteConnection::establish(&database_url)
         .unwrap_or_else(|_| panic!("Error connecting to {}", database_url));
     // Add busy_timeout to handle multi thread request
-    if con.batch_execute("PRAGMA busy_timeout = 5000;").is_err() {
+    if con.batch_execute("PRAGMA busy_timeout = 8000;").is_err() {
         panic!("Error while setting busy_timeout !");
     };
     con

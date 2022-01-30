@@ -105,6 +105,38 @@ the token and as a `expire_date of 2 hours` and a cookie to set the expired_toke
 *First the server will always have an admin account 
 with a default password `password` (you can change it) and email value same as the smtp email*
 
+## Database
+The server use 3 table each one has a very specific utility
+
+### User
+**The utility of this table is the one that link the other and also
+let the user create an account have his own personal data**
+- `id` primary key of the table auto increment
+- `username`
+- `password`
+- `perm` boolean true if an admin
+- `picture` boolean true if the user a a picture upload
+- `email`
+- `confirm_email` if the user has confirm is email
+
+### todo
+**Contains the to-do, the principal functionality**
+- `id` primary key of the table auto increment
+- `progress` integer in [0; 100] show the % of the to-do
+- `id_owner` foreign key from user allow the link between the table
+- `title`
+- `date` limite-date of the to-do
+- `priority`
+- `content` extra description optional
+
+### pref
+**Some nice functionality who will make the life of the user far better. 
+with a preferred setting like the sorting of the to-do**
+- `id` the if is the primary key
+- `id_owner` foreign key of user
+- `sort` change the behavior of the sorting of the list of to-do
+- `display` behavior for the display in the home
+
 # Path 
 
 ### Home
