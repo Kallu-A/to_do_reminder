@@ -20,18 +20,7 @@ pub fn preference_user(
         Ok(user) => {
             let pref = get_pref_from_owner(user.id).unwrap();
             let display_x = cookie_handler(jar, "display_x");
-            let display_x = if display_x.is_empty() {
-                pref.display
-            } else {
-                display_x.parse::<i32>().unwrap()
-            };
-
             let mode_x = cookie_handler(jar, "mode_x");
-            let mode_x = if mode_x.is_empty() {
-                pref.sort
-            } else {
-                mode_x.parse::<i32>().unwrap()
-            };
 
             Ok(Template::render(
                 "pref/home",
@@ -128,7 +117,7 @@ pub fn pref_mode_put(
                 }
             } else {
                 create_cookie();
-                return Ok(Flash::error(redirect, "mneeed a mode"));
+                return Ok(Flash::error(redirect, "mneed a mode"));
             }
 
         }

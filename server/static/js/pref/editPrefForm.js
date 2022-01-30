@@ -10,9 +10,14 @@ $(document).ready(function() {
     });
 });
 
+function init_mode() {
+    toogle_mode();
+    isFill("#input_mode", "#error_mode", "need a mode");
+}
 
-function init_email() {
-    isEmail($('#input_email'), $('#error_email'));
+function init_display() {
+    toogle_display();
+    isFill("#input_display", "#error_display", "need a value");
 }
 
 function toogle_mode() {
