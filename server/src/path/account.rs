@@ -1,3 +1,4 @@
+use crate::db::pref_table::get_pref_from_owner;
 use crate::db::todo_table::get_by_owner;
 use crate::db::user_table::{
     create_user, delete_user, get_all, get_by_id, is_password, set_confirm_email, set_email,
@@ -6,6 +7,7 @@ use crate::db::user_table::{
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
 use crate::utils::json::{decr_members, incr_connexion, incr_members};
+use crate::utils::pref::limit_display;
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use rand::distributions::Alphanumeric;
@@ -22,8 +24,6 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
-use crate::db::pref_table::get_pref_from_owner;
-use crate::utils::pref::limit_display;
 
 ///The backbone of the account section
 /// handler the flash message if there is one,

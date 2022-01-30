@@ -56,7 +56,7 @@
 
     <div class="container" id="todo_container">
         <h3>To-Do
-        <a href="/to-do/create" id="create_todo"><span></span></a>
+        <a href="/to-do/create/account" id="create_todo"><span></span></a>
         <img src="/static/image/add.png" onclick="create_todo()" class="button_image">
         </h3>
         <hr style="margin-bottom: 10px">
@@ -64,6 +64,8 @@
         <p>-<span class="disp_color">{{number}}</span> to-do </p>
         <p>-<span class="disp_color">{{number_not_done}}</span> to-do not done</p>
         <p>-<span class="disp_color">{{pref.display}}</span> to-do display maximum</p>
+        <br><a href="/preference/home" class="edit">edit preferences</a>
+
         <div class="container_button">
             <form action="/to-do/delete/owner/{{user.id}}" method="post">
                 <input type="hidden" name="_method" value="delete"/>

@@ -55,6 +55,8 @@
     <span style="font-size: var(--mini-txt)">field with a * are mandatory </span> <br>
     <input type="submit" class="submit" value="Create"/>
 </form>
+<br>
+<a href="/{{callback}}/home" class="a_unstyled">Go back</a>
 
 <script type="text/javascript">
     $(document).ready(function(){

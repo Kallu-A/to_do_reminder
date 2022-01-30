@@ -1,5 +1,7 @@
 use crate::db::handler;
-use crate::db::pref_table::Mode::{Creation, Date, DateDonePriorityProgress, DatePriority, DatePriorityDone, DatePriorityProgress, DatePriorityProgressDone, DateProgress, DoneNotDone, Priority};
+use crate::db::pref_table::Mode::{
+    Creation, DatePriority, DatePriorityDone, DateProgress, DoneNotDone,
+};
 use crate::schema::pref;
 use crate::schema::pref::dsl::*;
 use diesel::prelude::*;
@@ -70,7 +72,6 @@ pub fn update_pref(pref_x: &PrefEntity) -> bool {
 
 pub const DEFAULT_MODE: i32 = 0;
 
-
 /// Contains all the different mode of sort & display
 /// `Creation` default mode display with the id in the database to the first created to the last
 /// `DatePriority` sort by date and if 2 have the same the more important will go before
@@ -83,7 +84,6 @@ pub enum Mode {
     DateProgress,
     DoneNotDone,
     DatePriorityDone,
-
 }
 
 impl Mode {

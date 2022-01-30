@@ -1,0 +1,60 @@
+{% extends "common" %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script src="/static/js/commonForm.js" type="text/javascript"></script>
+<script src="/static/js/pref/editPrefForm.js" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="/static/css/account/account.css">
+<link rel="stylesheet" href="/static/css/pref/home.css">
+<link rel="stylesheet" href="/static/css/common_form.css">
+
+<h1>Edit preferences</h1>
+<hr style="margin-bottom: 20px">
+
+<div style="text-align: left">
+    <span class="long_txt"><span class="disp_color">- Limit the display </span><br> this setting allows you to choose the number of to-dos <wbr>who will be displayed in the account home</span><br>
+    <span class="long_txt"><span class="disp_color">- Sort by </span><br> this setting allows you to choose the method of sorting the to-dos</span>
+</div>
+<br>
+<div>
+    <button id="title_display" class="not_selected" onclick="toogle_display()">Limit the display</button>
+    <button id="title_mode" class="not_selected" style="margin-left: 10px;" onclick="toogle_mode()">Sort by</button>
+</div>
+
+<div style="display: flex; flex-direction: row; justify-content: center">
+    <div id="display_container">
+        <form method="post" action="/preference/display" id="form_display" class="inactive">
+            <input type="hidden" name="_method" value="put" />
+            Your current setting is: {{pref.display}}<br>
+            <table>
+                <tr>
+                    <td>Limit of to-do</td><td><input id="input_display" class="fields" type="number" size="3" maxlength="3" min="0" max="10" name="display_x" value="{{display_x}}"/> <br>
+                    <span class="error_form" id="error_display"></span> </td>
+                </tr>
+                <input type="submit" class="submit" value="Update" id="submit_pswd"/>
+            </table>
+        </form>
+    </div>
+
+    <div id="mode_container">
+
+        <form method="post" action="/preference/mode" id="form_mode" class="inactive">
+            <input type="hidden" name="_method" value="put" />
+            Your current setting is: {{pref.sort}}<br>
+            <table>
+                <tr>
+                    <td>Sorting by </td><td><input id="input_mode" class="fields" type="text" size="13" maxlength="50" name="mode_x" value="{{mode_x}}"/> <br>
+                    <span class="error_form" id="error_mode"></span> </td>
+                </tr>
+                <tr class="separator"></tr>
+                <input type="submit" class="submit" value="Update" id="submit_mode" />
+            </table>
+        </form>
+    </div>
+</div>
+<br>
+
+<a href="/account/home">Go back</a>
+{% endblock content %}

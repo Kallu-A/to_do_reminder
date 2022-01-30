@@ -40,8 +40,8 @@ pub fn home_t(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templa
 
 /// get method th show the form to create a to-do
 /// return the status code if get_token send one else show the template to-do create
-#[get("/create")]
-pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Template, Status> {
+#[get("/create/<callback>")]
+pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>, callback: &str) -> Result<Template, Status> {
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => {
@@ -58,14 +58,15 @@ pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<T
             Ok(Template::render(
                 "todo/create",
                 context!(
-                path: user.get_path(),
-                title: "Create To-Do",
-                title_x,
-                content_x,
-                date_x,
-                priority_x,
-                form_field,
-                message
+                    path: user.get_path(),
+                    title: "Create To-Do",
+                    title_x,
+                    content_x,
+                    date_x,
+                    priority_x,
+                    form_field,
+                    message,
+                    callback
                     ),
             ))
         }

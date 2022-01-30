@@ -8,3 +8,15 @@
 #input_priority {
     width: 320px;
 }
+
+.a_unstyled {
+    all: unset;
+    color: var(--link_color);
+    cursor: pointer;
+}
+
+.a_unstyled:hover {
+    all: unset;
+    color: var(--link_color);
+    cursor: pointer;
+}

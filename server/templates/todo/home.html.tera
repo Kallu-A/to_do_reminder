@@ -57,7 +57,7 @@
     </div>
 {% endfor %}
 <hr style="margin-bottom: 3px">
-<a href="/to-do/create" id="create_todo"><span></span></a>
+<a href="/to-do/create/to-do" id="create_todo"><span></span></a>
 <img src="/static/image/add.png" onclick="create_todo()" class="button_image">
 
 <SCRIPT>

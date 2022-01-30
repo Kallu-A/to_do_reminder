@@ -66,6 +66,7 @@
 .remove_picture:hover {
     cursor: pointer;
 }
+
 #form_password {
     border: 1px inset var(--link_secondary_color);
     border-radius: 14px;

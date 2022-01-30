@@ -167,7 +167,7 @@ with a preferred setting like the sorting of the to-do**
 ### To-Do
 
 - `GET` : [`/to-do/home`](http://0.0.0.0:8000/to-do/home) show the to-do in the ordre of creation with some action 
-- `GET` : [`/to-do/create`](http://0.0.0.0:8000/to-do/create) display form to create a to-do
+- `GET` : `/to-do/create/<callback>` display form to create a to-do the callback is useful for the go back <a>
 - `POST` : `/to-do/create` allow to create in the database the to-do
 - `DELETE` : `/to-do/owner/<id>` delete all the to-do of the account in <id>
 - `DELETE` : `/to-do/owner/done/<id>` delete all the to-do done of the account in <id>
