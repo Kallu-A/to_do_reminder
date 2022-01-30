@@ -353,13 +353,13 @@ pub fn edit_put_todo(
                 }
                 if let None = form.progress_x {
                     create_cookie();
-                    return Ok(Flash::error(redirect, "1need a percentage"));
+                    return Ok(Flash::error(redirect, "aneed a percentage"));
                 }
                 let progress_x = form.progress_x.unwrap();
 
                 if progress_x < 0 || progress_x > 100 {
                     create_cookie();
-                    return Ok(Flash::error(redirect, "1invalid percentage"));
+                    return Ok(Flash::error(redirect, "ainvalid percentage"));
                 }
 
                 todo.title = form.title_x.to_string();
