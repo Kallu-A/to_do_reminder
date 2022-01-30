@@ -41,7 +41,11 @@ pub fn home_t(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templa
 /// get method th show the form to create a to-do
 /// return the status code if get_token send one else show the template to-do create
 #[get("/create/<callback>")]
-pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>, callback: &str) -> Result<Template, Status> {
+pub fn create_todo(
+    jar: &CookieJar<'_>,
+    flash: Option<FlashMessage>,
+    callback: &str,
+) -> Result<Template, Status> {
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => {
@@ -58,16 +62,16 @@ pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>, callback: &
             Ok(Template::render(
                 "todo/create",
                 context!(
-                    path: user.get_path(),
-                    title: "Create To-Do",
-                    title_x,
-                    content_x,
-                    date_x,
-                    priority_x,
-                    form_field,
-                    message,
-                    callback
-                    ),
+                path: user.get_path(),
+                title: "Create To-Do",
+                title_x,
+                content_x,
+                date_x,
+                priority_x,
+                form_field,
+                message,
+                callback
+                ),
             ))
         }
 
@@ -83,7 +87,7 @@ pub fn create_todo(jar: &CookieJar<'_>, flash: Option<FlashMessage>, callback: &
 pub fn create_todo_post(
     jar: &CookieJar<'_>,
     form: Form<CreateTodo>,
-    callback: &str
+    callback: &str,
 ) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(user) => {
@@ -129,10 +133,7 @@ pub fn create_todo_post(
                     "gSuccessfully created",
                 ))
             } else {
-                Ok(Flash::error(
-                    redirect,
-                    "rOops. Please try again",
-                ))
+                Ok(Flash::error(redirect, "rOops. Please try again"))
             }
         }
         Err(status) => Err(status),
@@ -326,7 +327,7 @@ pub fn edit_put_todo(
                     create_field_cookie(jar, "content_x", form.content_x);
                     create_field_cookie(jar, "date_x", form.date_x);
                     create_field_cookie(jar, "priority_x", form.priority_x.to_string().as_str());
-                    let val = form.progress_x.unwrap_or_else(|| -1).to_string();
+                    let val = form.progress_x.unwrap_or(-1).to_string();
                     let val = if val == "-1" { "" } else { val.as_str() };
                     create_field_cookie(jar, "progress_x", val);
                 };
@@ -351,13 +352,13 @@ pub fn edit_put_todo(
                     create_cookie();
                     return Ok(Flash::error(redirect, "pinvalid value"));
                 }
-                if let None = form.progress_x {
+                if form.progress_x.is_none() {
                     create_cookie();
                     return Ok(Flash::error(redirect, "aneed a percentage"));
                 }
                 let progress_x = form.progress_x.unwrap();
 
-                if progress_x < 0 || progress_x > 100 {
+                if !(0..=100).contains(&progress_x) {
                     create_cookie();
                     return Ok(Flash::error(redirect, "ainvalid percentage"));
                 }

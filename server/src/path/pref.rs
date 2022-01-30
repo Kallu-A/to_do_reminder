@@ -1,11 +1,11 @@
-use rocket::form::Form;
-use crate::db::pref_table::{get_pref_from_owner, Mode, NewDisplay, NewMode, update_pref};
+use crate::db::pref_table::{get_pref_from_owner, update_pref, Mode, NewDisplay, NewMode};
+use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::{context, get_token, handler_flash, Status};
+use rocket::form::Form;
 use rocket::http::CookieJar;
 use rocket::request::FlashMessage;
 use rocket::response::{Flash, Redirect};
 use rocket_dyn_templates::Template;
-use crate::utils::cookie::{cookie_handler, create_field_cookie};
 
 /// get home page
 /// here the user as accessed to all is preference and can change them
@@ -25,27 +25,26 @@ pub fn preference_user(
             Ok(Template::render(
                 "pref/home",
                 context!(
-                    title: "Preferences",
-                    path: user.get_path(),
-                    form_field,
-                    message,
-                    pref,
-                    display_x,
-                    mode_x
-            ),
+                        title: "Preferences",
+                        path: user.get_path(),
+                        form_field,
+                        message,
+                        pref,
+                        display_x,
+                        mode_x
+                ),
             ))
-        },
+        }
 
         Err(status) => Err(status),
     }
 }
 
-
 /// Put methode to update the value of the user pref
 /// if get_token return a status show to the client
 /// make sur the form is valid else redirect with error message
 /// try to update the value then redirect with message
-#[put("/set/display",  data = "<form>")]
+#[put("/set/display", data = "<form>")]
 pub fn pref_display_put(
     jar: &CookieJar<'_>,
     form: Form<NewDisplay>,
@@ -53,7 +52,7 @@ pub fn pref_display_put(
     match get_token(jar) {
         Ok(user) => {
             let create_cookie = || {
-                let val = form.display_x.unwrap_or_else(|| -1).to_string();
+                let val = form.display_x.unwrap_or(-1).to_string();
                 let val = if val == "-1" { "" } else { val.as_str() };
                 create_field_cookie(jar, "display_x", val);
             };
@@ -75,12 +74,11 @@ pub fn pref_display_put(
                 }
             } else {
                 create_cookie();
-                return Ok(Flash::error(redirect, "dneed a value"));
+                Ok(Flash::error(redirect, "dneed a value"))
             }
-
         }
 
-        Err(status) => Err(status)
+        Err(status) => Err(status),
     }
 }
 
@@ -88,15 +86,12 @@ pub fn pref_display_put(
 /// if get_token return a status show to the client
 /// make sur the form is valid else redirect with error message
 /// try to update the value then redirect with message
-#[put("/set/mode",  data = "<form>")]
-pub fn pref_mode_put(
-    jar: &CookieJar<'_>,
-    form: Form<NewMode>,
-) -> Result<Flash<Redirect>, Status> {
+#[put("/set/mode", data = "<form>")]
+pub fn pref_mode_put(jar: &CookieJar<'_>, form: Form<NewMode>) -> Result<Flash<Redirect>, Status> {
     match get_token(jar) {
         Ok(user) => {
             let create_cookie = || {
-                let val = form.mode_x.unwrap_or_else(|| -1).to_string();
+                let val = form.mode_x.unwrap_or(-1).to_string();
                 let val = if val == "-1" { "" } else { val.as_str() };
                 create_field_cookie(jar, "mode_x", val);
             };
@@ -117,11 +112,10 @@ pub fn pref_mode_put(
                 }
             } else {
                 create_cookie();
-                return Ok(Flash::error(redirect, "mneed a mode"));
+                Ok(Flash::error(redirect, "mneed a mode"))
             }
-
         }
 
-        Err(status) => Err(status)
+        Err(status) => Err(status),
     }
 }

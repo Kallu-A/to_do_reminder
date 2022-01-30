@@ -178,12 +178,9 @@ pub fn rocket(test: bool) -> Rocket<Build> {
                 edit_put_todo
             ],
         )
-        .mount("/preference/",
-               routes![
-                   preference_user,
-                   pref_display_put,
-                   pref_mode_put
-               ],
+        .mount(
+            "/preference/",
+            routes![preference_user, pref_display_put, pref_mode_put],
         )
 }
 
