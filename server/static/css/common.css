@@ -191,6 +191,7 @@ textarea {
     background: none;
     box-shadow: var(--shadow);
     border-radius: 7px;
+    cursor: text;
 }
 
 table {
@@ -266,4 +267,10 @@ hr {
 
 .highlight_important {
     color: var(--important_color);
+}
+
+@media (max-width: 700px) {
+    .container_lite {
+        box-shadow: none;
+    }
 }

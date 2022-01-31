@@ -8,40 +8,41 @@
 <link rel="stylesheet" href="/static/css/common_form.css">
 <link rel="stylesheet" href="/static/css/path/account.css">
 
-<h1>Create your account</h1>
-<form method="post" enctype="multipart/form-data">
-    <table class="center">
-        <tr>
-            <div class="space">
-                <td>Username</td>
-                <td style="text-align: left;"><input id="input_username" class="field_short" type="text" size="15" maxlength="15" name="username_x" value="{{username_x}}"/>  <br>
-                <span class="error_form" id="error_username"></span></td>
-            </div>
-        </tr>
-        <tr class="separator"></tr>
-        <tr>
-            <td>Email</td>
-            <td><input id="input_email" class="field_short" type="text" size="15" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
-            <span class="error_form" id="error_email"></span></td>
-        </tr>
-        <tr class="separator"></tr>
-        <tr>
-            <td>Password</td>
-            <td><input id="input_passwordFirst" class="field_short" type="password" size="15" maxlength="20" name="password_x.first" value="{{password_first}}"/>  <br>
-            <span class="error_form" id="error_passwordFirst"></span></td>
-        </tr>
-        <tr class="separator"></tr>
-        <tr>
-            <td>Confirm</td>
-            <td><input id="input_passwordSecond" class="field_short" type="password" size="15" maxlength="20" name="password_x.second" value="{{password_second}}"/>  <br>
-            <span class="error_form" id="error_passwordSecond"></span></td>
-        </tr>
-        <tr class="separator"></tr>
-        <td class="center" colspan="2"><input type="submit" id="submit" value="Submit"/></td>
-    </table>
-</form>
-<h5 style="margin-top: 20px"> Already have an account ? <br> Click here :  <a href="/account/login">Login</a> </h5>
-
+<div class="container_lite center pad" style="width: fit-content">
+    <h1>Create your account</h1>
+    <form method="post" enctype="multipart/form-data">
+        <table class="center">
+            <tr>
+                <div class="space">
+                    <td>Username</td>
+                    <td style="text-align: left;"><input id="input_username" class="field_short" type="text" size="15" maxlength="15" name="username_x" value="{{username_x}}"/>  <br>
+                    <span class="error_form" id="error_username"></span></td>
+                </div>
+            </tr>
+            <tr class="separator"></tr>
+            <tr>
+                <td>Email</td>
+                <td><input id="input_email" class="field_short" type="text" size="15" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
+                <span class="error_form" id="error_email"></span></td>
+            </tr>
+            <tr class="separator"></tr>
+            <tr>
+                <td>Password</td>
+                <td><input id="input_passwordFirst" class="field_short" type="password" size="15" maxlength="20" name="password_x.first" value="{{password_first}}"/>  <br>
+                <span class="error_form" id="error_passwordFirst"></span></td>
+            </tr>
+            <tr class="separator"></tr>
+            <tr>
+                <td>Confirm</td>
+                <td><input id="input_passwordSecond" class="field_short" type="password" size="15" maxlength="20" name="password_x.second" value="{{password_second}}"/>  <br>
+                <span class="error_form" id="error_passwordSecond"></span></td>
+            </tr>
+            <tr class="separator"></tr>
+            <td class="center" colspan="2"><input type="submit" id="submit" value="Submit"/></td>
+        </table>
+    </form>
+    <h5 style="margin-top: 20px"> Already have an account ? <br> Click here :  <a href="/account/login">Login</a> </h5>
+</div>
 <p id="message">{{message}}</p>
 {% if form_field == 'u' %}
 <script>

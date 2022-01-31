@@ -8,34 +8,34 @@
 <link rel="stylesheet" href="/static/css/common_form.css">
 <link rel="stylesheet" href="/static/css/path/account.css">
 
-
-<form method="post" enctype="multipart/form-data">
-    <h1>Log into your account</h1>
-    <table>
-        <tr>
-            <td>Username</td>
-            <td style="text-align: left;">
-                <input id="input_username" type="text" size="10" maxlength="40" name="username_x" value="{{username_x}}"/> <br>
-                <span class="error_form" id="error_username"></span>
-            </td>
-        </tr>
-        <tr class="separator"></tr>
-        <tr>
-            <td>Password <br>
-                <a href="/account/code_password" style="font-size: var(--ultra-mini-txt); position: absolute; display: flex; margin-left: -20px; margin-top: -10px">Forgot Password?</a>
-            </td>
-            <td>
-                <input id="input_password" type="password" size="10" maxlength="20" name="password_x" value="{{password_x}}"/> <br>
-                <span class="error_form" id="error_password"></span>
-            </td>
-        </tr>
-        <tr class="separator"></tr>
-        <td class="center" colspan="2"><input type="submit" id="submit" value="Submit"/></td>
-    </table>
-    <br>
-    <span style="margin-top: 20px"> Don't have an account ? <br> Click here :  <a href="/account/register">Register</a> </span>
-</form>
-
+<div class="container_lite center pad" style="width: fit-content">
+    <form method="post" enctype="multipart/form-data">
+        <h1>Log into your account</h1>
+        <table>
+            <tr>
+                <td>Username</td>
+                <td style="text-align: left;">
+                    <input id="input_username" type="text" size="10" maxlength="40" name="username_x" value="{{username_x}}"/> <br>
+                    <span class="error_form" id="error_username"></span>
+                </td>
+            </tr>
+            <tr class="separator"></tr>
+            <tr>
+                <td>Password <br>
+                    <a href="/account/code_password" style="font-size: var(--ultra-mini-txt); position: absolute; display: flex; margin-left: -20px; margin-top: -10px">Forgot Password?</a>
+                </td>
+                <td>
+                    <input id="input_password" type="password" size="10" maxlength="20" name="password_x" value="{{password_x}}"/> <br>
+                    <span class="error_form" id="error_password"></span>
+                </td>
+            </tr>
+            <tr class="separator"></tr>
+            <td class="center" colspan="2"><input type="submit" id="submit" value="Submit"/></td>
+        </table>
+        <br>
+        <span style="margin-top: 20px"> Don't have an account ? <br> Click here :  <a href="/account/register">Register</a> </span>
+    </form>
+</div>
 <p id="message">{{message}}</p>
 {% if form_field == 'u' %}
 <script>
