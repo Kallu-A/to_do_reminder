@@ -55,10 +55,10 @@
         </h1>
         <hr>
         <h2>Controls</h2>
-        <p>-<span style="color: var(--medium)">{{number}}</span> to-do </p>
-        <p>-<span style="color: var(--medium)">{{number_not_done}}</span> to-do not done</p>
-        <p>-<span style="color: var(--medium)">{{pref.display}}</span> to-do display maximum</p>
-        <p>-<span style="color: var(--medium)">{% if pref.sort == 0 %}Date of creation
+        <p>-<span style="color: var(--important_color)">{{number}}</span> to-do </p>
+        <p>-<span style="color: var(--important_color)">{{number_not_done}}</span> to-do not done</p>
+        <p>-<span style="color: var(--important_color)">{{pref.display}}</span> to-do display maximum</p>
+        <p>-<span style="color: var(--important_color)">{% if pref.sort == 0 %}Date of creation
             {% elif pref.sort == 1 %}Date & Priority
             {% elif pref.sort == 2 %}Date & Progress
             {% elif pref.sort == 3 %}Done not done

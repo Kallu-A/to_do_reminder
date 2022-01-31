@@ -41,6 +41,7 @@
     --high: #c45baa;
     --max: #fc440F;
 
+    --important_color: #f6b327;
     --primary_color: rgba(210, 104, 57, 0.9);
     --value_color: #a69b95;
 }
@@ -249,6 +250,10 @@ hr {
     background: var(--background);
 }
 
+.pad {
+    padding: 30px;
+}
+
 #message {
     position: absolute;
     visibility: hidden;
@@ -260,5 +265,5 @@ hr {
 }
 
 .highlight_important {
-    color: red;
+    color: var(--important_color);
 }

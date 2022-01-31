@@ -13,8 +13,10 @@
 <script src="/static/js/todo/createForm.js" type="text/javascript"></script>
 <script src="/static/js/commonForm.js" type="text/javascript"></script>
 
-<h1>Create a To-Do</h1>
-<form method="post" action="/to-do/create/{{callback}}" enctype="multipart/form-data">
+
+<div class="container_lite center pad" style="width: fit-content">
+    <h1>Create a To-Do</h1>
+    <form method="post" action="/to-do/create/{{callback}}" enctype="multipart/form-data">
         <table>
             <tr>
                 <td>Title *</td>
@@ -51,11 +53,12 @@
             </tr>
             <tr class="separator"></tr>
         </table>
-    <span>field with * are mandatory </span> <br>
-    <input type="submit" class="submit" value="Create"/>
-</form>
-<br>
-<a href="/{{callback}}/home">Go back</a>
+        <span>field with * are mandatory </span> <br>
+        <input type="submit" class="submit" value="Create"/>
+    </form>
+    <br>
+    <a href="/{{callback}}/home">Go back</a>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
