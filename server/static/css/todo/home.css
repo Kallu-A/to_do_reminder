@@ -18,21 +18,26 @@
 
 .title_todo {
     margin-left: 15px;
-    margin-top: 1px;
     width: 55%;
     display: inline-block;
     word-break: break-word;
+    color: var(--important_color);
 }
 
 .content_todo {
+    margin-top: -20px;
+    margin-left: 30px;
     word-break: break-word;
+    line-height: 1em;
     text-align: left;
+    font-size: var(--mini-txt);
+    color: var(--value_color);
 }
 
 .date_todo {
     color: var(--value_color);
     font-size: var(--litle-txt);
-    margin-top: 5px;
+    margin-top: 10px;
     float: left;
 }
 

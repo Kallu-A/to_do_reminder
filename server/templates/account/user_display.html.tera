@@ -8,6 +8,12 @@
 <link rel="stylesheet" href="/static/css/path/account.css">
 <link rel="stylesheet" href="/static/css/todo/color_priority.css">
 
+<style>
+    .title_todo {
+        width: 45%;
+        font-size: var(--mini-txt);
+    }
+</style>
 
 <div class="handler_container">
 

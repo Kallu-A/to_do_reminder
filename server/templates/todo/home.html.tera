@@ -7,8 +7,9 @@
 <link rel="stylesheet" href="/static/css/path/todo.css">
 <link rel="stylesheet" href="/static/css/todo/home.css">
 <link rel="stylesheet" href="/static/css/todo/custom_check_box.css">
+<link rel="stylesheet" href="/static/css/todo/color_priority.css">
 
-<h1> Your To-Do </h1>
+<h1 style="margin-top: -20px"> Your To-Do </h1>
 <div class="legend">
     The color represent the priority of the to-do: <br>
     minimum:<span class="priority_todo" id="min"></span>
@@ -17,7 +18,7 @@
     high:<span class="priority_todo" id="high"></span>
     maximum:<span class="priority_todo" id="max"></span>
 </div>
-
+<div class="container_lite center pad" style="overflow-x: hidden; height: 500px">
 {% for todo in todos %}
     <form method="post" action="/to-do/set_progress/{{todo.id}}/{% if todo.progress == 100%}0{% else %}100{% endif%}" class="hidding">
         <input type="hidden" name="_method" value="put"/>
@@ -34,15 +35,14 @@
     </form>
 
     <div class="todo_line">
-
-        <hr style="margin-bottom: 5px">
-        <input type="checkbox" class="check_done" id="check{{todo.id}}"
+        <hr class="longer">
+        <input type="checkbox" class="check_done select_zoom_nav" id="check{{todo.id}}"
                {% if todo.progress == 100%}
                checked
                {% endif %}
                onclick="handle_checkbox('check_sub{{todo.id}}')">
-        <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the To-Do', 'remove{{todo.id}}')" class="pic"></image>
-        <image src="/static/image/edit.png" onclick="simClick('edit{{todo.id}}')" class="pic"></image>
+        <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the To-Do', 'remove{{todo.id}}')" class="pic select_zoom_nav"></image>
+        <image src="/static/image/edit.png" onclick="simClick('edit{{todo.id}}')" class="pic select_zoom_nav"></image>
         <h3 class="header_todo">
             <span class="date_todo">{{todo.date}}</span>
             <span class="title_todo">{{todo.title}}</span>
@@ -53,12 +53,11 @@
             >{{todo.progress}}%</span>
         </h3>
         <p class="content_todo">{% filter linebreaksbr %}{{todo.content}}{% endfilter %}</p>
-        <br>
     </div>
 {% endfor %}
-<hr style="margin-bottom: 3px">
+</div>
 <a href="/to-do/create/to-do" id="create_todo"><span></span></a>
-<img src="/static/image/add.png" onclick="create_todo()" class="button_image">
+<img src="/static/image/add.png" onclick="create_todo()" class="button_image select_zoom_nav">
 
 <SCRIPT>
     function create_todo() {
