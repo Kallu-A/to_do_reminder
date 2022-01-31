@@ -4,6 +4,7 @@
     color: var(--text-color);
     font-family: Segoe UI,SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: var(--medium-txt);
+    cursor: default;
 }
 
 :root {
@@ -26,6 +27,8 @@
     --border_light: #d9d5ce;
     --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
+
+    --ultra-mini-txt: 16px;
     --mini-txt: 18px;
     --litle-txt: 19px;
     --medium-txt: 24px;
@@ -68,6 +71,7 @@ body {
 
 a {
     color: var(--link);
+    cursor: pointer;
 }
 
 a:hover {
@@ -93,6 +97,7 @@ a:hover {
 
 input {
     background: none;
+    cursor: text;
     box-shadow: var(--shadow);
     border-radius: 14px;
     text-align: left;
@@ -112,6 +117,16 @@ button:hover {
 }
 
 input[type=submit] {
+    padding: 10px;
+    margin-top: 5px;
+    background: none;
+    box-shadow: var(--shadow);
+    border-radius: 14px;
+    text-align: left;
+    border: 2px inset var(--border_light);
+}
+
+input[type=submit]:hover {
     padding: 10px;
     margin-top: 5px;
     background: var(--button-darker);

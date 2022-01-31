@@ -18,11 +18,11 @@
     <title>{{ title }}</title>
     <nav>
         <a href="/account/home" class="logo select_zoom_nav" style="float: right;">
-            <img src="{{path}}" width="50px" height="50px" alt="Profil picture of the user" style="border-radius: 10px; margin-right: 40px;"/> <div id="path_img"></div>
+            <img src="{{path}}" width="50px" height="50px" alt="Profil picture of the user" style="border-radius: 10px; margin-right: 40px; cursor: pointer"/> <div id="path_img"></div>
         </a>
         <input type="checkbox" id="check">
         <label for="check" class="checkbox select_zoom_nav">
-            <i class="fas fa-bars"></i>
+            <i class="fas fa-bars" style="cursor: pointer"></i>
         </label>
         <a href="/" class="logo">
             <img src="/static/image/index.svg" class="select_zoom_nav" width="70px" height="70px" alt="Logo of the website" style="margin-top: 5px"/>
