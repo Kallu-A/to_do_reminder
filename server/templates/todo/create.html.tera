@@ -53,11 +53,11 @@
             </tr>
             <tr class="separator"></tr>
         </table>
-        <span>field with * are mandatory </span> <br>
+        <span style="font-size: var(--mini-txt)">field with * are mandatory </span> <br>
         <input type="submit" class="submit" value="Create"/>
     </form>
     <br>
-    <a href="/{{callback}}/home">Go back</a>
+    <a href="/{{callback}}/home" id="go_back">Go back</a>
 </div>
 
 <script type="text/javascript">

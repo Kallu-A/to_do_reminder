@@ -41,11 +41,10 @@
     --high: #c45baa;
     --max: #fc440F;
 
-    --important_color: #f6b327;
+    --important_color: #A663CC;
     --primary_color: rgba(210, 104, 57, 0.9);
     --value_color: #a69b95;
 }
-
 html {
     max-width: 100%;
     overflow-x: hidden;

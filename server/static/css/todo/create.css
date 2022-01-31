@@ -7,3 +7,7 @@
 #input_priority {
     width: 320px;
 }
+
+input[type=range] {
+    cursor: pointer;
+}
