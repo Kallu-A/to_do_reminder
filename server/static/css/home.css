@@ -33,6 +33,14 @@
     width: fit-content;
 }
 
+.reduce_size span {
+    font-size: var(--mini-txt);
+}
+
+.reduce_size h5 {
+    font-size: var(--large-txt);
+}
+
 @media (max-width: 760px) {
     #container_data {
         flex-direction: column;

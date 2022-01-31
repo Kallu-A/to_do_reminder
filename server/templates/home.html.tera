@@ -6,37 +6,46 @@
 
 <link rel="stylesheet" href="/static/css/home.css">
 
-<h1>To-Do Reminder </h1>
+<style>
+    @media (max-width: 700px) {
+        .container_lite {
+            box-shadow: var(--shadow);
+        }
+    }
+</style>
 
+<h1>To-Do Reminder </h1>
 Easily create <wbr>and manage<wbr> your to-do-list
 <hr>
 
 <div id="container_data">
-    <div>
-        <h5>{{count_user}} users</h5>
-        Already use this website
+    <div class="reduce_size">
+        <h5 style="margin-bottom: -7px"><span class="highlight_important" style="font-size: inherit">{{count_user}}</span> users</h5>
+        <span class="value">Already use this website</span>
     </div>
 
-    <div>
-        <h5>{{count_todo}} to-do </h5>
-        Create since the beginning
+    <div class="reduce_size">
+        <h5 style="margin-bottom: -7px"><span class="highlight_important" style="font-size: inherit">{{count_todo}}</span> to-do </h5>
+        <span class="value">Create since the beginning</span>
     </div>
 
-    <div>
-        <h5>{{connexion}} connexion</h5>
-        Since the day one
+    <div class="reduce_size">
+        <h5 style="margin-bottom: -7px"><span class="highlight_important" style="font-size: inherit">{{connexion}}</span> connexion</h5>
+        <span class="value">Since the day one</span>
     </div>
 </div>
 
 <div id="container_option">
-    <div id="log" class="opt_div">
-        <h4>Already logged</h4>
-        See your to-do:<br><a href="/to-do/home">To-Do</a><br><br>
+    <div id="log" class="opt_div container_lite">
+        <h2 style="margin-bottom: -10px">Already logged</h2>
+        <hr>
+        See your to-do:<br><a href="/to-do/home">To-Do</a><br>
         See your account:<br><a href="/account/home">Account</a>
     </div>
-    <div id="not_log" class="opt_div">
-        <h4>Still not logged</h4>
-        Log before you can start create your to-do-list<br><a href="/account/login">Log here</a><br><br>
+    <div id="not_log" class="opt_div container_lite">
+        <h2 style="margin-bottom: -10px">Still not logged</h2>
+        <hr>
+        Log before you can start create your to-do-list<br><a href="/account/login">Log here</a><br>
         Don't have an account ?<br> <a href="/account/register">Register here</a>
     </div>
 </div>

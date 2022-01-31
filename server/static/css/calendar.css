@@ -21,12 +21,12 @@
 }
 
 .datepicker table tr td.active.day {
-    background: var(--primary_color);
+    background: var(--link);
     color: var(--text-color);
 }
 
 .datepicker table tr td.active.day:hover {
-    background: var(--background);
+    background: var(--link_hover);
 }
 
 .datepicker table tr td.new.day {

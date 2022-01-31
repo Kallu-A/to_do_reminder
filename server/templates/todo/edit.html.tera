@@ -13,51 +13,55 @@
 <link rel="stylesheet" href="/static/css/todo/slider_range.css">
 <link rel="stylesheet" href="/static/css/todo/edit.css">
 
-<form method="post">
-    <input type="hidden" name="_method" value="put"/>
-    <table>
-        <tr>
-            <td>Title *</td>
-            <td>
-                <input name="title_x" class="field" id="input_title" type="text" size="30" value="{{title_x}}"> <br>
-                <span class="error_form" id="error_title"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Content</td>
-            <td>
-                <label for="input_content"></label><textarea name="content_x" class="field" id="input_content" type="text" size="30" maxlength="300" >{{content_x}}</textarea> <br>
-                <span class="error_form" id="error_content"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>Date * | Progress * </td>
-            <td>
-                <span>
-                    <input name="date_x" class="field" id="input_date" type= "text" readonly size="7" maxlength="7" data-provide= "datepicker" placeholder= "dd/mm/yyyy" value="{{date_x}}">
-                    <span class="error_form" id="error_date"></span>
-                </span>
-                <span>
-                    <input name="progress_x" class="field" id="input_progress" type="number" size="3" maxlength="3" min="0" max="100" value="{{progress_x}}">%
-                    <span class="error_form" id="error_progress"></span>
-                </span>
-            </td>
-        </tr>
-        <tr>
-            <td>Priority</td>
-            <td>
-                <input name="priority_x" class="field" id="input_priority" onchange="handle_selector()" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}"> <br>
-                <span id="display_priority" class="error_form"></span>
-            </td>
-        </tr>
-    </table>
+
+<div class="container_lite center pad" style="width: fit-content">
+    <h1>Edit</h1>
+    <hr style="margin-bottom: 20px">
+    <form method="post">
+        <input type="hidden" name="_method" value="put"/>
+        <table>
+            <tr>
+                <td>Title *</td>
+                <td>
+                    <input name="title_x" class="field" id="input_title" type="text" size="30" value="{{title_x}}"> <br>
+                    <span class="error_form" id="error_title"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Content</td>
+                <td>
+                    <label for="input_content"></label><textarea name="content_x" class="field" id="input_content" type="text" size="30" maxlength="300" >{{content_x}}</textarea> <br>
+                    <span class="error_form" id="error_content"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Date, Progress * </td>
+                <td>
+                    <span>
+                        <input name="date_x" class="field" id="input_date" type= "text" readonly size="7" maxlength="7" data-provide= "datepicker" placeholder= "dd/mm/yyyy" value="{{date_x}}">
+                        <span class="error_form" id="error_date"></span>
+                    </span>
+                    <span>
+                        <input name="progress_x" class="field" id="input_progress" type="number" size="3" maxlength="3" min="0" max="100" value="{{progress_x}}">%
+                        <span class="error_form" id="error_progress"></span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>Priority</td>
+                <td>
+                    <input name="priority_x" class="field" id="input_priority" onchange="handle_selector()" type="range" size="15" min="0" max="10" step="1" value="{{priority_x}}"> <br>
+                    <span id="display_priority" class="error_form"></span>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <span style="font-size: var(--mini-txt)">field with * are mandatory </span> <br>
+        <input type="submit" class="submit" value="Save Change"/>
+    </form>
     <br>
-    <span>field with * are mandatory </span> <br>
-    <input type="submit" class="submit" value="Save Change"/>
-</form>
-
-<a href="/to-do/home">Go back</a>
-
+    <a href="/to-do/home" id="go_back">Go back</a>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
