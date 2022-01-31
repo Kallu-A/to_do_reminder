@@ -2,6 +2,7 @@
     width: 50px;
     height: 50px;
     margin-left: -30px;
+    margin-top: 170px;
     border-radius: 20px;
 }
 
@@ -27,8 +28,8 @@
 
 .remove_picture {
     position: absolute;
-    margin-top: 45px;
-    margin-right: 200px;
+    margin-top: 55px;
+    margin-right: 180px;
     width: 50px;
     height: 50px;
 }
@@ -48,13 +49,4 @@
     width: fit-content;
     border-radius: 14px;
     padding: 10px;
-}
-
-.selected_title {
-    padding: 10px;
-}
-
-.not_selected {
-    padding: 10px;
-    border-radius: 7px;
 }

@@ -17,11 +17,11 @@
     position: absolute;
     display: flex;
     color: var(--error_color);
-    font-size: var(--litle-txt);
+    font-size: var(--mini-txt);
 }
 
-table {
-    text-align: left;
+.mid {
+    display: none;
 }
 
 @media (max-width: 610px) {

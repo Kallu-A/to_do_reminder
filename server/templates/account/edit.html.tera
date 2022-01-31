@@ -15,68 +15,66 @@
     <input type="submit" class="hidding" value="Submit" id="remove_picture"/>
 </form>
 <div class="container_remove_pic">
-    <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove your picture', 'remove_picture')" class="select_zoom"></image>
+    <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove your picture', 'remove_picture')" class="select_zoom remove_picture"></image>
 </div>
 {% endif %}
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
     <label for="file" class="sub_picture">
-        <img id="preview" class="select" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user"/>
-        <img src="/static/image/edit.png" class="edit_img select_zoom">
+        <img id="preview" class="select" style="border-radius: 40px" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user"/>
+        <img src="/static/image/edit.png" class="select_zoom edit_img">
     </label>
-    <p id="username">{{user.username}}</p>
+    <h2>{{user.username}}</h2>
     <input type="file" id="file" class="hidding" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png"/>
     <div style="margin: -35px auto 10px;">
         <input type="submit" id="save_change_btn" class="hidding" value="Save"/>
     </div>
 </form>
-
-<div>
+<div style="margin-top: 30px">
     <button id="title_password" class="nav_bar" onclick="toogle_password()">Password</button>
     <button id="title_email" class="nav_bar" style="margin-left: 10px;" onclick="toogle_email()">Email</button>
 </div>
 
-<div style="display: flex; flex-direction: row">
+<div style="display: flex; flex-direction: row; width: fit-content" class="center">
     <div id="password_container">
-
-        <form method="post" action="/account/edit" enctype="multipart/form-data" id="form_password" class="inactive">
+        <form method="post" action="/account/edit" enctype="multipart/form-data" id="form_password" class="mid">
             <input type="hidden" name="username_x" value="{{user.username}}">
             <table>
                 <tr>
-                    <td>New Password</td><td><input id="input_password1" class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> <br>
+                    <td>New Password</td> <td> <input id="input_password1" class="fields" type="password" size="10" maxlength="20" name="password_x.first" value="{{password_first}}"/> <br>
                     <span class="error_form" id="error_password1"></span> </td>
                 </tr>
                 <tr class="separator"></tr>
                 <tr>
-                    <td>Confirm</td><td><input id="input_password2" class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> <br>
+                    <td>Confirm </td><td><input id="input_password2" class="fields" type="password" size="10" maxlength="20" name="password_x.second" value="{{password_second}}"/> <br>
                     <span class="error_form" id="error_password2"></span></td>
                 </tr>
                 <tr class="separator"></tr>
                 <input type="submit" class="hidding" value="Submit" id="submit_pswd"/>
-                <td colspan="2" class="center"><input type="button" id="button_pswd" onclick="confirm_pop_up('This action will change your password', 'submit_pswd')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
+                <td colspan="2" class="center"><input type="button" id="button_pswd" onclick="confirm_pop_up('This action will change your password', 'submit_pswd')" class="submit" value="Submit" style="width: fit-content; padding: 10px"/></td>
             </table>
         </form>
     </div>
 
     <div id="email_container">
 
-        <form method="post" action="/account/new_email" id="form_email" class="inactive">
+        <form method="post" action="/account/new_email" id="form_email" class="mid">
             <input type="hidden" name="_method" value="put" />
             <span class="txt"> Current email is: <wbr> <span class="value"> {{user.email}} </span> </span>
             <table>
                 <tr>
-                    <td>New Email</td><td><input id="input_email" class="fields" type="text" size="13" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
+                    <td>New Email </td><td><input id="input_email" class="fields" type="text" size="13" maxlength="50" name="email_x" value="{{email_x}}"/> <br>
                     <span class="error_form" id="error_email"></span> </td>
                 </tr>
                 <tr class="separator"></tr>
                 <input type="submit" class="hidding" value="Submit" id="submit_email" />
-                <td colspan="2" class="center"><input type="button" id="button_email" onclick="confirm_pop_up('This action will change your email', 'submit_email')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
+                <td colspan="2" class="center"><input type="button" id="button_email" onclick="confirm_pop_up('This action will change your email', 'submit_email')" class="submit" value="Submit" style="width: fit-content; padding: 10px"/></td>
             </table>
         </form>
     </div>
 </div>
 <br>
-<a href="home">Go back</a>
+<a href="home" id="go_back">Go back</a>
 
 <p id="message">{{message}}</p>
 {% if form_field == '1' %}

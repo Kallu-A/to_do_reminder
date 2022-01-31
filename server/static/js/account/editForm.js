@@ -41,12 +41,11 @@ function toogle_email() {
         email.show("mid");
         password.hide("mid");
 
-        title_email.removeClass().addClass("selected_title");
-        title_password.removeClass().addClass("not_selected");
+        title_email.removeClass().addClass("nav_bar_select");
+        title_password.removeClass().addClass("nav_bar");
     } else {
         email.hide("mid");
-        //email.removeClass().addClass("inactive");
-        title_email.removeClass().addClass("not_selected");
+        title_email.removeClass().addClass("nav_bar");
     }
 
 }
@@ -58,18 +57,15 @@ function toogle_password() {
     const title_email = $('#title_email');
 
     if (password.is(":hidden")) {
-        //password.removeClass().addClass("active");
-        //email.removeClass().addClass("inactive");
         password.show("mid");
         email.hide("mid");
 
-        title_password.removeClass().addClass("selected_title");
-        title_email.removeClass().addClass("not_selected");
+        title_password.removeClass().addClass("nav_bar_select");
+        title_email.removeClass().addClass("nav_bar");
 
     } else {
         password.hide("mid");
-        //password.removeClass().addClass("inactive");
-        title_password.removeClass().addClass("not_selected");
+        title_password.removeClass().addClass("nav_bar");
     }
 
 }

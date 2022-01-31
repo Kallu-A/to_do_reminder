@@ -26,6 +26,7 @@
     --border_light: #d9d5ce;
     --shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
+    --mini-txt: 18px;
     --litle-txt: 19px;
     --medium-txt: 24px;
     --large-txt: 30px;
@@ -37,6 +38,12 @@
     --max: #fc440F;
 
     --primary_color: rgba(210, 104, 57, 0.9);
+    --value_color: #8A817C;
+}
+
+html {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -106,8 +113,13 @@ button:hover {
 
 input[type=submit] {
     padding: 10px;
+    margin-top: 5px;
     background: var(--button-darker);
     color: var(--text-color_dark);
+}
+
+.submit {
+    margin-top: 5px;
 }
 
 .submit:hover {
@@ -157,13 +169,64 @@ textarea {
     border-radius: 14px;
 }
 
+table {
+    text-align: left;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+td {
+    padding: 6px 6px;
+}
+
 h1 {
     text-decoration: 2px underline;
     color: var(--primary_color);
+}
+
+#go_back {
+    font-size: var(--large-txt);
+}
+
+.value {
+    color: var(--value_color);
 }
 
 hr {
     border: 1px inset var(--text-color_dark);
     width: 70%;
     margin: 5px auto 5px;
+}
+
+#close_button {
+    border: none;
+    position: absolute;
+    top: 70px;
+    font-size: var(--large-txt);
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+#display_red {
+    margin-top: 15px;
+    color: var(--error_color);
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px inset var(--error_color);
+    background: var(--background);
+}
+
+#display_green {
+    margin-top: 15px;
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px inset var(--ok_color);
+    background: var(--background);
+}
+
+#message {
+    position: absolute;
+    visibility: hidden;
 }
