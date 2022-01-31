@@ -6,81 +6,85 @@
 <link rel="stylesheet" href="/static/css/todo/home.css">
 <link rel="stylesheet" href="/static/css/account/user_personal.css">
 <link rel="stylesheet" href="/static/css/path/account.css">
+<link rel="stylesheet" href="/static/css/todo/color_priority.css">
 
 
 <div class="handler_container">
 
     <div class="container" id="user_container">
         <img src="{{path}}" width="200px" height="200px" alt="Profil picture of the user" style="border-radius: 40px;"/> <br>
-        <p id="username">{{ user.username}} </p>
+        <h2 style="margin-top: 10px">{{ user.username}} </h2>
         <a href="/account/edit" class="edit">edit profile</a>
         <div class="container_button">
             <form action="/account/logout" method="post">
                 <input type="hidden" name="_method" value="put" />
-                <input type="submit" class="submit_red" value="Logout"/>
+                <input type="submit" id="submit_logout" class="hidding">
+                <input type="button" onclick="document.getElementById('submit_logout').click()" class="submit highlight_red" value="Logout"/>
             </form>
             {% if user.perm == false %}
                 <form action="/account/delete" method="post" style="margin-left: 10px">
                     <input type="hidden" name="_method" value="delete"/>
                     <input type="submit" id="submit" class="hidding">
-                    <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
+                    <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit highlight_red" value="delete"/>
                 </form>
             {% endif %}
         </div>
+
         {% if user.confirm_email == false %}
-        <hr>
+        <hr style="margin-top: 30px">
         <div class="email">
-            <form action="/account/confirm" method="post" style="margin-top: 0">
-                <label for="confirm_code" style="margin-bottom: 10px">enter your email code:</label> <br>
-                <input id="confirm_code" type="text" name="confirm_code" value="{{code_confirm}}" size="10" maxlength="10" style="margin-top: 7px"/> <br>
-                <input type="submit"class="submit" id="submit_code" value="Submit"/>
+            <form action="/account/confirm" method="post" class="center value">
+                enter your email code:<br>
+                <input id="confirm_code" type="text" name="confirm_code" class="value" value="{{code_confirm}}" size="10" maxlength="10"/> <br>
+                <input type="submit" class="submit value" id="submit_code" value="Submit"/>
             </form>
-            <hr>
-            <form action="/account/send_code" method="post" >
+            <hr style="margin-top: 10px">
+            <form action="/account/send_code" method="post" class="center value">
                 <input type="hidden" name="_method" value="put" />
-                <label for="send_new">Don't receive a code ?</label> <br>
-                <input type="submit" id="send_new" class="submit" value="Send a new one" style="margin-top: 7px"/>
+                Don't receive a code ?<br>
+                <input type="submit" id="send_new" class="submit value" value="Send a new one"/>
             </form>
         </div>
         {% endif %}
     </div>
 
     <div class="container" id="todo_container">
-        <h3>To-Do
+        <h1>To-Do
         <a href="/to-do/create/account" id="create_todo"><span></span></a>
-        <img src="/static/image/add.png" onclick="create_todo()" class="button_image">
-        </h3>
-        <hr style="margin-bottom: 10px">
-        <h3>Control</h3>
-        <p>-<span class="disp_color">{{number}}</span> to-do </p>
-        <p>-<span class="disp_color">{{number_not_done}}</span> to-do not done</p>
-        <p>-<span class="disp_color">{{pref.display}}</span> to-do display maximum</p>
-        <p>-<span class="disp_color">{% if pref.sort == 0 %}Date of creation
+        <img src="/static/image/add.png" onclick="create_todo()" class="button_image select_zoom_nav">
+        </h1>
+        <hr>
+        <h2>Controls</h2>
+        <p>-<span style="color: var(--medium)">{{number}}</span> to-do </p>
+        <p>-<span style="color: var(--medium)">{{number_not_done}}</span> to-do not done</p>
+        <p>-<span style="color: var(--medium)">{{pref.display}}</span> to-do display maximum</p>
+        <p>-<span style="color: var(--medium)">{% if pref.sort == 0 %}Date of creation
             {% elif pref.sort == 1 %}Date & Priority
             {% elif pref.sort == 2 %}Date & Progress
             {% elif pref.sort == 3 %}Done not done
             {% elif pref.sort == 4 %}Date & Priority & Done
             {% endif %}
-        </span> mode</p>
-        <br><a href="/preference/home" class="edit">edit preferences</a>
+        </span> mode
+        </p>
+        <a href="/preference/home">edit preferences</a>
 
         <div class="container_button">
             <form action="/to-do/delete/owner/{{user.id}}" method="post">
                 <input type="hidden" name="_method" value="delete"/>
                 <input type="submit" id="delete_all_todo" class="hidding">
-                <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have.', 'delete_all_todo')" class="submit_red" value="delete all" style="width: fit-content"/>
+                <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have.', 'delete_all_todo')" class="submit highlight_red" value="delete all" style="width: fit-content"/>
             </form>
 
             <form action="/to-do/delete/owner/done/{{user.id}}" method="post" style="margin-left: 10px">
                 <input type="hidden" name="_method" value="delete"/>
                 <input type="submit" id="delete_todo_done" class="hidding">
-                <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have finish.', 'delete_todo_done')" class="submit_red" value="delete done" style="width: fit-content"/>
+                <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have finish.', 'delete_todo_done')" class="submit highlight_red" value="delete done" style="width: fit-content"/>
             </form>
         </div>
-        <hr style="margin-top: 15px; margin-bottom: 15px">
+        <hr style="margin-top: 15px;">
         <h3>Display</h3>
-        <div>
-            <div class="legend">
+        <div style="margin-top: -10px">
+            <div class="legend value" style="font-size: var(--mini-txt); line-height: 1.4em">
                 The color represent the priority of the to-do: <br>
                 minimum:<span class="priority_todo" id="min"></span>
                 low:<span class="priority_todo" id="low"></span>
@@ -89,6 +93,7 @@
                 maximum:<span class="priority_todo" id="max"></span>
             </div>
             {% for todo in to_do %}
+            <hr class="longer">
                 <div class="header_todo">
                     <span class="date_todo">{{todo.date}}</span>
                     <span class="title_todo">{{todo.title}}</span>
@@ -98,7 +103,6 @@
                 progress_todo"
                     >{{todo.progress}}%</span>
                 </div>
-            <br>
             {% endfor %}
         </div>
     </div>

@@ -20,7 +20,8 @@
     padding: 20px;
 }
 
-#todo_container {
+#todo_container p {
+    line-height: 0.7em;
     width: fit-content;
     height: fit-content;
     margin-left: 20px;
@@ -35,35 +36,39 @@
 }
 
 .container {
+    box-shadow: var(--shadow);
     width: fit-content;
     padding: 20px;
     border-radius: 15px;
 }
 
-#username {
-    margin-top: 25px;
-    font-size: var(--big-txt);
-}
 
 .img_align {
     vertical-align: middle;
 }
 
 .email {
-    margin-top: 40px;
     border-radius: 7px;
     padding: 10px;
     text-align: left;
 }
 
+.email form {
+    font-size: var(--mini-txt);
+}
+
 #submit_code {
-    padding: 5px;
-    margin: 10px 20%;
+    padding: 3px;
     width: 60%;
     border-radius: 7px;
     text-align: center;
 }
 
+#send_new {
+    padding: 3px;
+    border-radius: 7px;
+    text-align: center;
+}
 
 .handler_container {
     margin: 0 auto;
@@ -75,8 +80,8 @@
 .button_image {
     vertical-align: middle;
     margin-top: -10px;
-    width: 60px;
-    height: 60px;
+    width: 90px;
+    height: 90px;
 }
 
 @media (max-width: 1000px) {

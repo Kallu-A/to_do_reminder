@@ -41,7 +41,7 @@
     --max: #fc440F;
 
     --primary_color: rgba(210, 104, 57, 0.9);
-    --value_color: #8A817C;
+    --value_color: #a69b95;
 }
 
 html {
@@ -99,7 +99,7 @@ input {
     background: none;
     cursor: text;
     box-shadow: var(--shadow);
-    border-radius: 14px;
+    border-radius: 7px;
     text-align: left;
     border: 2px inset var(--border_light);
 }
@@ -107,7 +107,7 @@ input {
 button {
     background: none;
     box-shadow: var(--shadow);
-    border-radius: 14px;
+    border-radius: 7px;
     border: 2px inset var(--border_light);
 }
 
@@ -121,7 +121,7 @@ input[type=submit] {
     margin-top: 5px;
     background: none;
     box-shadow: var(--shadow);
-    border-radius: 14px;
+    border-radius: 7px;
     text-align: left;
     border: 2px inset var(--border_light);
 }
@@ -135,6 +135,7 @@ input[type=submit]:hover {
 
 .submit {
     margin-top: 5px;
+    padding: 10px;
 }
 
 .submit:hover {
@@ -181,7 +182,7 @@ textarea {
     height: 150px;
     background: none;
     box-shadow: var(--shadow);
-    border-radius: 14px;
+    border-radius: 7px;
 }
 
 table {
@@ -227,7 +228,7 @@ hr {
     margin-top: 15px;
     color: var(--error_color);
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 7px;
     border: 2px inset var(--error_color);
     background: var(--background);
 }
@@ -236,7 +237,7 @@ hr {
     margin-top: 15px;
     color: var(--text-color);
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 7px;
     border: 2px inset var(--ok_color);
     background: var(--background);
 }
@@ -244,4 +245,9 @@ hr {
 #message {
     position: absolute;
     visibility: hidden;
+}
+
+.highlight_red {
+    border-radius: 7px;
+    border: 2px inset var(--error_color);
 }

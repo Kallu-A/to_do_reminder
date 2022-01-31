@@ -26,9 +26,7 @@
     </label>
     <h2>{{user.username}}</h2>
     <input type="file" id="file" class="hidding" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png"/>
-    <div style="margin: -35px auto 10px;">
-        <input type="submit" id="save_change_btn" class="hidding" value="Save"/>
-    </div>
+    <input type="submit" id="save_change_btn" class="hidding" value="Save" style="margin-top: -20px"/>
 </form>
 <div style="margin-top: 30px">
     <button id="title_password" class="nav_bar" onclick="toogle_password()">Password</button>

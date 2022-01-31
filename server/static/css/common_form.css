@@ -4,12 +4,12 @@
 
 
 .form_err input {
-    border-radius: 14px;
+    border-radius: 7px;
     border: 2px inset var(--error_color);
 }
 
 .form_ok input {
-    border-radius: 14px;
+    border-radius: 7px;
     border: 2px inset var(--ok_color);
 }
 
