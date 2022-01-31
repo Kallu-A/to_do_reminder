@@ -370,7 +370,7 @@ pub fn edit_put_todo(
                 todo.date = form.date_x.to_string();
 
                 if set_update_value(&mut todo) {
-                    Ok(Flash::success(redirect, "gSuccessfully changed"))
+                    Ok(Flash::success(Redirect::to("/to-do/home"), "gSuccessfully changed"))
                 } else {
                     create_cookie();
                     Ok(Flash::error(redirect, "rOops. Please try again"))
