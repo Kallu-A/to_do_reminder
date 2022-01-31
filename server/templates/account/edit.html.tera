@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="/static/css/account/user_edit.css">
 <link rel="stylesheet" href="/static/css/common_form.css">
-<link rel="stylesheet" href="/static/css/account/account.css">
+<link rel="stylesheet" href="/static/css/path/account.css">
 
 {% if user.picture %}
 <form action="/account/edit/remove_picture/{{user.id}}" method="post">

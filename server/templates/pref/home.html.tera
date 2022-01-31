@@ -6,7 +6,7 @@
 <script src="/static/js/pref/editPrefForm.js" type="text/javascript"></script>
 
 
-<link rel="stylesheet" href="/static/css/account/account.css">
+<link rel="stylesheet" href="/static/css/path/account.css">
 <link rel="stylesheet" href="/static/css/pref/home.css">
 <link rel="stylesheet" href="/static/css/common_form.css">
 

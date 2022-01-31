@@ -4,7 +4,7 @@
 <script src="/static/js/script.js" type="text/javascript"></script>
 <script src="/static/js/todo/simClick.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="/static/css/todo/todo.css">
+<link rel="stylesheet" href="/static/css/path/todo.css">
 <link rel="stylesheet" href="/static/css/todo/home.css">
 <link rel="stylesheet" href="/static/css/todo/custom_check_box.css">
 

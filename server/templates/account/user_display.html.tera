@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="/static/css/todo/home.css">
 <link rel="stylesheet" href="/static/css/account/user_personal.css">
-<link rel="stylesheet" href="/static/css/account/account.css">
+<link rel="stylesheet" href="/static/css/path/account.css">
 
 
 <div class="handler_container">
