@@ -6,20 +6,17 @@
 }
 
 .remove_picture {
-    cursor: pointer;
-    position: fixed;
-    display: flex;
-    margin-top: -20px;
-    margin-left: -12px;
     width: 35px;
     height: 35px;
 }
 
-.remove_user {
-    cursor: pointer;
-    margin-top: -25px;
+table tr td {
+    border: 1px solid var(--background);
 }
 
+.td_header {
+    background: var(--background);
+}
 
 .img_align {
     vertical-align: middle;

@@ -15,7 +15,7 @@
     }
 </style>
 <h1> Database of users : </h1>
-<table id="users_container" class="message" style="display: flex;">
+<table id="users_container" style="display: flex;">
     <tr>
         <td class="td_header"> </td>
         <td class="td_header">Picture</td>
@@ -34,18 +34,11 @@
                     <input type="hidden" name="_method" value="delete" />
                     <input type="submit" class="hidding" value="Submit" id="remove{{user.id}}"/>
                 </form>
-                <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the user', 'remove{{user.id}}')" class="remove_user img_align"></image>
+                <image src="/static/image/delete.png" onclick="confirm_pop_up('This action will delete the user', 'remove{{user.id}}')" class="img_align select_zoom_nav"></image>
             {% endif %}
         </td>
         <td>
             {% if user.picture == true %}
-                {% if user.username != "admin" %}
-                    <form action="/account/edit/remove_picture/{{user.id}}" method="post">
-                        <input type="hidden" name="_method" value="delete" />
-                        <input type="submit" class="hidding" value="Submit" id="remove_picture{{user.id}}"/>
-                    </form>
-                    <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove the picture of the user', 'remove_picture{{user.id}}')" class="remove_picture"></image>
-                {% endif %}
             <img class="img_align" src="/static/image/profil/{{user.id}}" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
             {% else %}
                 <img class="img_align" src="/static/image/profil/default.png" width="80px" height="80px" alt="Logo of {{ user.username }}"/>
@@ -53,7 +46,21 @@
         </td>
         <td> <b>{{ user.username }}</b> </td>
         <td> {{ user.perm }}</td>
-        <td> {{ user.picture }}</td>
+        <td>
+            {% if user.picture == true %}
+                {% if user.username != "admin" %}
+                <form action="/account/edit/remove_picture/{{user.id}}" method="post">
+                    <input type="hidden" name="_method" value="delete" />
+                    <input type="submit" class="hidding" value="Submit" id="remove_picture{{user.id}}"/>
+                </form>
+                <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove the picture of the user', 'remove_picture{{user.id}}')" class="remove_picture select_zoom_nav"></image>
+                {% else %}
+                    {{ user.picture }}
+                {% endif %}
+            {% else %}
+                {{ user.picture }}
+            {% endif %}
+        </td>
         <td> {{ user.email }}</td>
         <td> {{ user.confirm_email }}</td>
         <td> {{ user.number }}</td>
