@@ -28,3 +28,33 @@
     text-align: left;
     word-break: break-word;
 }
+
+.container_txt {
+    text-align: left;
+}
+
+
+.container_txt span {
+    font-size: var(--litle_medium-txt);
+}
+
+.handler_txt {
+    font-size: var(--litle_medium-txt);
+}
+@media (max-width: 900px) {
+    .container_txt span {
+        font-size: var(--litle-txt);
+    }
+    .handler_txt {
+        font-size: var(--litle-txt);
+    }
+}
+
+@media (max-width: 700px) {
+    .container_txt span {
+        font-size: var(--mini-txt);
+    }
+    .handler_txt {
+        font-size: var(--mini-txt);
+    }
+}

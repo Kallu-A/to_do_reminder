@@ -13,9 +13,11 @@
 <h1>Edit preferences</h1>
 <hr style="margin-bottom: 20px">
 
-<div style="text-align: left">
-    <span class="long_txt"><span class="disp_color">- Limit the display </span><br> this setting allows you to choose the number of to-dos <wbr>who will be displayed in the account home</span><br>
-    <span class="long_txt"><span class="disp_color">- Sort by </span><br> this setting allows you to choose the method of sorting the to-dos</span>
+<div class="center" style="width: 70%">
+    <div class="container_txt">
+        <span class="long_txt"><span class="highlight_important">- Limit the display </span><br> this setting allows you to choose the number of to-dos <wbr>who will be displayed in the account home</span><br>
+        <span class="long_txt"><span class="highlight_important">- Sort by </span><br> this setting allows you to choose the method of sorting the to-dos</span>
+    </div>
 </div>
 <br>
 <div>
@@ -24,10 +26,10 @@
 </div>
 
 <div style="display: flex; flex-direction: row; justify-content: center">
-    <div id="display_container">
+    <div id="display_container" class="container_lite">
         <form method="post" action="/preference/set/display" id="form_display" class="inactive">
             <input type="hidden" name="_method" value="put" />
-            Your current limit is <span class="disp_color2">{{pref.display}}</span><br>
+            Your current limit is <span class="highlight_important">{{pref.display}}</span><br>
             <table>
                 <tr>
                     <td>Limit of to-do</td><td><input id="input_display" class="fields" type="number" size="3" maxlength="3" min="0" max="10" name="display_x" value="{{pref.display}}"/> <br>
@@ -38,11 +40,11 @@
         </form>
     </div>
 
-    <div id="mode_container">
+    <div id="mode_container" class="container_lite">
 
         <form method="post" action="/preference/set/mode" id="form_mode" class="inactive">
             <input type="hidden" name="_method" value="put" />
-            Your current setting is: <span class="disp_color2">
+            Your current setting is: <span class="highlight_important">
             {% if pref.sort == 0 %}
             Date of creation
             {% elif pref.sort == 1 %}
@@ -74,16 +76,16 @@
             </table>
             <input type="submit" class="submit" value="Update" id="submit_mode" /> <br>
             <div style="text-align: left">
-                <span class="long_txt" style="text-align: left">
-                    <br><span class="disp_color2">- Date of creation</span><br>
+                <span class="long_txt value handler_txt" style="text-align: left;">
+                    <br><span class="highlight_important">- Date of creation</span><br>
                     The to-do will be shown from the oldest created to the newest
-                    <br><span class="disp_color2">- Date & Priority</span><br>
+                    <br><span class="highlight_important">- Date & Priority</span><br>
                     Show in the chronological order of the limit date and their priority
-                    <br><span class="disp_color2">- Date & Progress</span><br>
+                    <br><span class="highlight_important">- Date & Progress</span><br>
                     Show in the chronological order of the limit date and their progress
-                    <br><span class="disp_color2">- Done not done</span><br>
+                    <br><span class="highlight_important">- Done not done</span><br>
                     Display first the to-do not done and then the done
-                    <br><span class="disp_color2">- Date & Priority & Done</span><br>
+                    <br><span class="highlight_important">- Date & Priority & Done</span><br>
                     Show in the chronological order of the limit date.<br>Then by priority and then separate the done from the not done
                 </span>
             </div>
@@ -92,7 +94,7 @@
 </div>
 <br>
 
-<a href="/account/home">Go back</a>
+<a href="/account/home" id="go_back">Go back</a>
 
 
 <p id="message">{{message}}</p>

@@ -34,7 +34,7 @@
 </div>
 
 <div style="display: flex; flex-direction: row; width: fit-content" class="center">
-    <div id="password_container">
+    <div id="password_container" class="container_lite">
         <form method="post" action="/account/edit" enctype="multipart/form-data" id="form_password" class="mid">
             <input type="hidden" name="username_x" value="{{user.username}}">
             <table>
@@ -54,7 +54,7 @@
         </form>
     </div>
 
-    <div id="email_container">
+    <div id="email_container" class="container_lite">
 
         <form method="post" action="/account/new_email" id="form_email" class="mid">
             <input type="hidden" name="_method" value="put" />

@@ -31,6 +31,7 @@
     --ultra-mini-txt: 16px;
     --mini-txt: 18px;
     --litle-txt: 19px;
+    --litle_medium-txt: 22px;
     --medium-txt: 24px;
     --large-txt: 30px;
 
@@ -62,6 +63,12 @@ body {
     text-align: center;
     margin: 20px auto 0;
     padding: 20px;
+}
+
+.container_lite {
+    margin-top: 20px;
+    box-shadow: var(--shadow);
+    border-radius: 14px;
 }
 
 .hidding {
@@ -250,4 +257,8 @@ hr {
 .highlight_red {
     border-radius: 7px;
     border: 2px inset var(--error_color);
+}
+
+.highlight_important {
+    color: red;
 }

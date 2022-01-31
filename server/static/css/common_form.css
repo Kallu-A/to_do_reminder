@@ -24,6 +24,23 @@
     display: none;
 }
 
+select#input_mode{
+    cursor: pointer;
+    background: none;
+    color: var(--text-color);
+    box-shadow: var(--shadow);
+    border-radius: 7px;
+    padding: 5px;
+    font-size: var(--medium-txt);
+}
+
+select#input_mode option{
+    color: var(--text-color);
+    background: var(--background_first);
+    font-size: var(--mini-txt);
+}
+
+
 @media (max-width: 610px) {
     .field_short {
         max-width: 240px;
