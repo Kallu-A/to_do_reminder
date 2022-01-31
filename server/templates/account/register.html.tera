@@ -10,7 +10,7 @@
 
 <h1>Create your account</h1>
 <form method="post" enctype="multipart/form-data">
-    <table class = row>
+    <table class="center">
         <tr>
             <div class="space">
                 <td>Username</td>
