@@ -19,18 +19,18 @@
 </div>
 
 {% for todo in todos %}
-    <form method="post" action="/to-do/set_progress/{{todo.id}}/{% if todo.progress == 100%}0{% else %}100{% endif%}" style="position:absolute;">
+    <form method="post" action="/to-do/set_progress/{{todo.id}}/{% if todo.progress == 100%}0{% else %}100{% endif%}" class="hidding">
         <input type="hidden" name="_method" value="put"/>
-        <input type="submit" class="submit" value="Submit" id="check_sub{{todo.id}}" style="visibility: hidden; position: absolute"/>
+        <input type="submit" class="hidding" value="Submit" id="check_sub{{todo.id}}"/>
     </form>
 
-    <form action="/to-do/delete/{{todo.id}}" method="post" style="position: absolute">
+    <form action="/to-do/delete/{{todo.id}}" method="post" class="hidding">
         <input type="hidden" name="_method" value="delete" />
-        <input type="submit" class="submit" value="Submit" id="remove{{todo.id}}" style="visibility: hidden; position: absolute"/>
+        <input type="submit" class="hidding" value="Submit" id="remove{{todo.id}}"/>
     </form>
 
-    <form action="/to-do/edit/{{todo.id}}" method="get" style="position: absolute">
-        <input type="submit" class="submit" value="Submit" id="edit{{todo.id}}" style="visibility: hidden; position: absolute"/>
+    <form action="/to-do/edit/{{todo.id}}" method="get" class="hidding">
+        <input type="submit" class="hidding" value="Submit" id="edit{{todo.id}}"/>
     </form>
 
     <div class="todo_line">

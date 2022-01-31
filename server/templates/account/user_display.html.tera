@@ -7,17 +7,6 @@
 <link rel="stylesheet" href="/static/css/account/user_personal.css">
 <link rel="stylesheet" href="/static/css/account/account.css">
 
-<style>
-    .email .submit {
-        border: none;
-        box-shadow: none;
-        color: var(--link_color);
-    }
-
-    .email .submit:hover {
-        cursor: pointer;
-    }
-</style>
 
 <div class="handler_container">
 
@@ -33,13 +22,13 @@
             {% if user.perm == false %}
                 <form action="/account/delete" method="post" style="margin-left: 10px">
                     <input type="hidden" name="_method" value="delete"/>
-                    <input type="submit" id="submit" style="visibility: hidden; width: 0; position: absolute;">
+                    <input type="submit" id="submit" class="hidding">
                     <input type="button" onclick="confirm_pop_up('This action will delete your account and all the data associate.', 'submit')" class="submit_red" value="delete" style="width: fit-content"/>
                 </form>
             {% endif %}
         </div>
         {% if user.confirm_email == false %}
-        <p style="width: 100%; height: 3px"></p>
+        <hr>
         <div class="email">
             <form action="/account/confirm" method="post" style="margin-top: 0">
                 <label for="confirm_code" style="margin-bottom: 10px">enter your email code:</label> <br>
@@ -78,13 +67,13 @@
         <div class="container_button">
             <form action="/to-do/delete/owner/{{user.id}}" method="post">
                 <input type="hidden" name="_method" value="delete"/>
-                <input type="submit" id="delete_all_todo" style="visibility: hidden; width: 0; position: absolute;">
+                <input type="submit" id="delete_all_todo" class="hidding">
                 <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have.', 'delete_all_todo')" class="submit_red" value="delete all" style="width: fit-content"/>
             </form>
 
             <form action="/to-do/delete/owner/done/{{user.id}}" method="post" style="margin-left: 10px">
                 <input type="hidden" name="_method" value="delete"/>
-                <input type="submit" id="delete_todo_done" style="visibility: hidden; width: 0; position: absolute;">
+                <input type="submit" id="delete_todo_done" class="hidding">
                 <input type="button" onclick="confirm_pop_up('This action will delete all the todo you have finish.', 'delete_todo_done')" class="submit_red" value="delete done" style="width: fit-content"/>
             </form>
         </div>

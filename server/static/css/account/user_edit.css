@@ -5,36 +5,11 @@
     border-radius: 20px;
 }
 
-.edit_img:hover {
-    cursor: pointer;
-}
 
-.profile_pic {
-    border-radius: 40px;
-}
-
-.profile_pic:hover {
-    cursor: pointer;
-}
 .sub_picture {
     margin-left: 20px;
 }
 
-.value {
-    color: var(--link_secondary_color);
-}
-
-.txt {
-    font-size: var(--medium-txt);
-}
-
-#button_email:hover {
-    cursor: pointer;
-}
-
-#button_pswd:hover {
-    cursor: pointer;
-}
 
 #password_container {
     margin: 5px auto 0;
@@ -63,58 +38,23 @@
     width: fit-content;
 }
 
-.remove_picture:hover {
-    cursor: pointer;
-}
-
 #form_password {
-    border: 1px inset var(--link_secondary_color);
     border-radius: 14px;
     width: fit-content;
     padding: 10px;
 }
 
 #form_email {
-    border: 1px inset var(--link_secondary_color);
     width: fit-content;
     border-radius: 14px;
     padding: 10px;
 }
 
-.inactive {
-    display: none;
-}
-
 .selected_title {
-    border: none;
-    border-bottom: 2px solid var(--primary_color);
-    font-size: var(--large-txt);
-    color: var(--link_color);
-    box-shadow: var(--shadow);
-    background: transparent;
     padding: 10px;
-    border-radius: 7px;
-}
-
-.selected_title:hover {
-    cursor: pointer;
 }
 
 .not_selected {
-    font-size: var(--large-txt);
-    border: none;
-    color: var(--link_color);
-    background: transparent;
-    box-shadow: var(--shadow);
     padding: 10px;
     border-radius: 7px;
-}
-
-.not_selected:hover {
-    cursor: pointer;
-}
-
-.hide {
-    position: absolute;
-    visibility: hidden;
 }

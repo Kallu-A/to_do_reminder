@@ -1,7 +1,3 @@
-#title {
-    color: var(--primary_color);
-}
-
 #container_data {
     margin-top: 30px;
     display: flex;
@@ -12,13 +8,6 @@
 #container_data div {
     margin-left: 30px;
     margin-right: 30px;
-    color: var(--text_litle_color);
-    font-size: var(--small-txt);
-}
-
-#container_data h5 {
-    font-size: var(--large-txt);
-    color: var(--text-color);
 }
 
 #container_option {
@@ -30,11 +19,9 @@
 
 #container_option div h4 {
     margin-bottom: 15px;
-    font-size: var(--large-txt);
 }
 
 #container_option div {
-    box-shadow: var(--shadow);
     padding: 10px;
     margin-left: 30px;
     margin-right: 30px;
@@ -44,7 +31,6 @@
 .opt_div {
     border-radius: 14px;
     width: fit-content;
-    font-size: var(--small-txt);
 }
 
 @media (max-width: 760px) {

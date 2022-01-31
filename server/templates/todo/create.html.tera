@@ -1,6 +1,5 @@
 {% extends "common" %}
 {% block content %}
-<link rel= "stylesheet" href= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel= "stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
 <link rel="stylesheet" href="/static/css/calendar.css">
 <link rel="stylesheet" href="/static/css/common_form.css">
@@ -52,11 +51,11 @@
             </tr>
             <tr class="separator"></tr>
         </table>
-    <span style="font-size: var(--mini-txt)">field with * are mandatory </span> <br>
+    <span>field with * are mandatory </span> <br>
     <input type="submit" class="submit" value="Create"/>
 </form>
 <br>
-<a href="/{{callback}}/home" class="a_unstyled">Go back</a>
+<a href="/{{callback}}/home">Go back</a>
 
 <script type="text/javascript">
     $(document).ready(function(){

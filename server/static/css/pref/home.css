@@ -1,15 +1,11 @@
 
 #form_display {
-    border: 1px inset var(--link_secondary_color);
-    border-radius: 14px;
     width: fit-content;
     padding: 10px;
 }
 
 #form_mode {
-    border: 1px inset var(--link_secondary_color);
     width: fit-content;
-    border-radius: 14px;
     padding: 10px;
 }
 
@@ -18,80 +14,17 @@
 }
 
 .selected_title {
-    border: none;
-    border-bottom: 2px solid var(--primary_color);
-    font-size: var(--large-txt);
-    color: var(--link_color);
-    box-shadow: var(--shadow);
-    background: transparent;
     padding: 10px;
     border-radius: 7px;
 }
 
-.selected_title:hover {
-    cursor: pointer;
-}
 
 .not_selected {
-    font-size: var(--large-txt);
-    border: none;
-    color: var(--link_color);
-    background: transparent;
-    box-shadow: var(--shadow);
     padding: 10px;
     border-radius: 7px;
-}
-
-.not_selected:hover {
-    cursor: pointer;
-}
-
-.hide {
-    position: absolute;
-    visibility: hidden;
 }
 
 .long_txt {
     text-align: left;
-    font-size: var(--mini-txt);
     word-break: break-word;
-}
-
-.disp_color {
-    color: var(--primary_color);
-    font-size: var(--small-txt);
-}
-
-.disp_color2 {
-    color: var(--primary_color);
-}
-
- select#input_mode{
-     cursor: pointer;
-     background: none;
-     color: var(--text-color);
-     box-shadow: var(--shadow);
-     border-radius: 7px;
-     padding: 5px;
-     font-size: var(--medium-txt);
- }
-
-select#input_mode option{
-    color: var(--text-color);
-    background: var(--background_first);
-    font-size: var(--mini-txt);
-}
-
-@media (max-width: 700px) {
-    .selected_title {
-        font-size: var(--medium-txt);
-    }
-
-    .not_selected {
-        font-size: var(--medium-txt);
-    }
-
-    select#input_mode {
-        font-size: var(--mini-txt);
-    }
 }

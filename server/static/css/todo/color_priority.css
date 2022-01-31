@@ -1,0 +1,40 @@
+
+.min {
+    color: var(--mini);
+}
+
+.low {
+    color: var(--low);
+}
+
+.medium {
+    color: var(--medium);
+}
+
+.high {
+    color: var(--high);
+}
+
+.max {
+    color: var(--max);
+}
+
+#min {
+    background: var(--mini);
+}
+
+#low {
+    background: var(--low);
+}
+
+#medium {
+    background: var(--medium);
+}
+
+#high {
+    background: var(--high);
+}
+
+#max {
+    background: var(--max);
+}

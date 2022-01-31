@@ -53,7 +53,7 @@ nav ul li a:hover {
 
 @media (max-width: 900px) {
     nav ul li a {
-        font-size: var(--mini-txt);
+        font-size: var(--litle-txt);
     }
 }
 

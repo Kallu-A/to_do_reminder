@@ -7,14 +7,13 @@
 <script src= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 
 <link rel="stylesheet" href="/static/css/todo/todo.css">
-<link rel= "stylesheet" href= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel= "stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
 <link rel="stylesheet" href="/static/css/calendar.css">
 <link rel="stylesheet" href="/static/css/common_form.css">
 <link rel="stylesheet" href="/static/css/todo/slider_range.css">
 <link rel="stylesheet" href="/static/css/todo/edit.css">
 
-<form method="post" style="margin-bottom: 30px">
+<form method="post">
     <input type="hidden" name="_method" value="put"/>
     <table>
         <tr>
@@ -53,11 +52,11 @@
         </tr>
     </table>
     <br>
-    <span style="font-size: var(--mini-txt)">field with * are mandatory </span> <br>
+    <span>field with * are mandatory </span> <br>
     <input type="submit" class="submit" value="Save Change"/>
 </form>
 
-<a class="a_unstyled" href="/to-do/home">Go back</a>
+<a href="/to-do/home">Go back</a>
 
 
 <script type="text/javascript">

@@ -6,10 +6,10 @@
 
 <link rel="stylesheet" href="/static/css/home.css">
 
-<h2 id="title">To-Do Reminder </h2>
+<h1>To-Do Reminder </h1>
 
 Easily create <wbr>and manage<wbr> your to-do-list
-<hr style="width: 80%; margin: 10px auto;">
+<hr>
 
 <div id="container_data">
     <div>
@@ -46,7 +46,7 @@ Easily create <wbr>and manage<wbr> your to-do-list
     $("#log").height($("#not_log").height());
     $("#log").width($("#not_log").width());
 </script>
-<span style="font-size: var(--small-txt)">Still have a question ?<wbr> Please let us know <a href="https://github.com/Kallu-A/to_do_reminder/issues">here</a></span>
+<span>Still have a question ?<wbr> Please let us know <a href="https://github.com/Kallu-A/to_do_reminder/issues">here</a></span>
 {% if message != "" %}
 <div id="close_button">
     <p class="message" id="{% if color == 'r' %}display_red{% elif color == 'g'%}display_green{% endif %}">

@@ -21,7 +21,7 @@
             <tr class="separator"></tr>
             <tr>
                 <td>Password <br>
-                    <a href="/account/code_password" style="font-size: var(--mini-txt); position:absolute; display: flex">Forgot Password?</a>
+                    <a href="/account/code_password">Forgot Password?</a>
                 </td>
                 <td>
                     <input id="input_password" type="password" size="10" maxlength="20" name="password_x" value="{{password_x}}"/> <br>

@@ -12,28 +12,28 @@
 {% if user.picture %}
 <form action="/account/edit/remove_picture/{{user.id}}" method="post">
     <input type="hidden" name="_method" value="delete" />
-    <input type="submit" class="submit" value="Submit" id="remove_picture" style="visibility: hidden; position: absolute"/>
+    <input type="submit" class="hidding" value="Submit" id="remove_picture"/>
 </form>
 <div class="container_remove_pic">
-    <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove your picture', 'remove_picture')" class="remove_picture"></image>
+    <image src="/static/image/remove.png" onclick="confirm_pop_up('This action will remove your picture', 'remove_picture')" class="select_zoom"></image>
 </div>
 {% endif %}
 
 <form action="/account/set/picture" method="post" enctype="multipart/form-data">
     <label for="file" class="sub_picture">
-        <img id="preview" class="profile_pic" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user"/>
-        <img src="/static/image/edit.png" class="edit_img">
+        <img id="preview" class="select" src="{{path}}" width="200px" height="200px" alt="Profil picture of the user"/>
+        <img src="/static/image/edit.png" class="edit_img select_zoom">
     </label>
     <p id="username">{{user.username}}</p>
-    <input type="file" id="file" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png" style="visibility: hidden"/>
+    <input type="file" id="file" class="hidding" onclick="preview_img()" name="picture" accept="image/x-png,image/jpeg,image/png"/>
     <div style="margin: -35px auto 10px;">
-        <input type="submit" id="save_change_btn" class="submit hide" value="Save"/>
+        <input type="submit" id="save_change_btn" class="hidding" value="Save"/>
     </div>
 </form>
 
 <div>
-    <button id="title_password" class="not_selected" onclick="toogle_password()">Password</button>
-    <button id="title_email" class="not_selected" style="margin-left: 10px;" onclick="toogle_email()">Email</button>
+    <button id="title_password" class="nav_bar" onclick="toogle_password()">Password</button>
+    <button id="title_email" class="nav_bar" style="margin-left: 10px;" onclick="toogle_email()">Email</button>
 </div>
 
 <div style="display: flex; flex-direction: row">
@@ -52,7 +52,7 @@
                     <span class="error_form" id="error_password2"></span></td>
                 </tr>
                 <tr class="separator"></tr>
-                <input type="submit" class="submit" value="Submit" id="submit_pswd" style="visibility: hidden; position: absolute"/>
+                <input type="submit" class="hidding" value="Submit" id="submit_pswd"/>
                 <td colspan="2" class="center"><input type="button" id="button_pswd" onclick="confirm_pop_up('This action will change your password', 'submit_pswd')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
             </table>
         </form>
@@ -69,7 +69,7 @@
                     <span class="error_form" id="error_email"></span> </td>
                 </tr>
                 <tr class="separator"></tr>
-                <input type="submit" class="submit" value="Submit" id="submit_email" style="visibility: hidden; position: absolute"/>
+                <input type="submit" class="hidding" value="Submit" id="submit_email" />
                 <td colspan="2" class="center"><input type="button" id="button_email" onclick="confirm_pop_up('This action will change your email', 'submit_email')" class="submit_red" value="Submit" style="width: fit-content; padding: 10px"/></td>
             </table>
         </form>
