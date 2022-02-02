@@ -3,6 +3,6 @@
 <link rel="stylesheet" href="/static/css/errors.css">
 
 <h1>Error 417: Expectation Failed</h1>
-<h3>Your token match no one, please <a href="/account/login"> login</a> again </h3>
+<h3>Your token match no one, please <a href="/account/login" style="font-size: inherit"> login</a> again </h3>
 
 {% endblock content %}

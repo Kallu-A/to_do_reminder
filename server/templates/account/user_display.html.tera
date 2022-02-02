@@ -12,6 +12,7 @@
     .title_todo {
         width: 45%;
         font-size: var(--mini-txt);
+        float: none;
     }
 </style>
 

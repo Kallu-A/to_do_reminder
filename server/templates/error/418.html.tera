@@ -3,6 +3,6 @@
 <link rel="stylesheet" href="/static/css/errors.css">
 
 <h1>Error 418: Expired Token </h1>
-<h3>Your session has expired, please <a href="/account/login"> login</a> again </h3>
+<h3>Your session has expired, please <a href="/account/login" style="font-size: inherit"> login</a> again </h3>
 
 {% endblock content %}

@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="/static/css/todo/custom_check_box.css">
 <link rel="stylesheet" href="/static/css/todo/color_priority.css">
 
+<style>
+</style>
+
 <h1 style="margin-top: -20px"> Your To-Do </h1>
 <div class="legend">
     The color represent the priority of the to-do: <br>
@@ -52,6 +55,8 @@
             progress_todo"
             >{{todo.progress}}%</span>
         </h3>
+        <br>
+        <br>
         <p class="content_todo">{% filter linebreaksbr %}{{todo.content}}{% endfilter %}</p>
     </div>
 {% endfor %}
