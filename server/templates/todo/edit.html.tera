@@ -13,6 +13,11 @@
 <link rel="stylesheet" href="/static/css/todo/color_priority.css">
 <link rel="stylesheet" href="/static/css/todo/edit.css">
 
+<style>
+    table tr {
+        justify-content: space-around;
+    }
+</style>
 
 <div class="container_lite center pad" style="width: fit-content">
     <h1>Edit</h1>
@@ -27,6 +32,7 @@
                     <span class="error_form" id="error_title"></span>
                 </td>
             </tr>
+            <tr><td></td></tr>
             <tr>
                 <td>Content</td>
                 <td>

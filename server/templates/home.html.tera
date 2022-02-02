@@ -14,7 +14,7 @@
     }
 </style>
 
-<h1>To-Do Reminder </h1>
+<h1 style="text-decoration: none">To-Do Reminder </h1>
 Easily create <wbr>and manage<wbr> your to-do-list
 <hr>
 
