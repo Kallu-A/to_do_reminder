@@ -13,13 +13,12 @@ pub fn handle_change_list_todo(
     pref: &PrefEntity,
     limit: bool,
 ) -> Vec<TodoEntity> {
-
     todos = match Mode::from_i32(pref.sort).unwrap() {
         Mode::Creation => todos,
         Mode::DatePriority => sort_date_priority(todos),
         Mode::DateProgress => sort_date_progress(todos),
         Mode::DoneNotDone => sort_done_not_done(todos),
-        Mode::DatePriorityDone => sort_date_priority_progress(todos)
+        Mode::DatePriorityDone => sort_date_priority_progress(todos),
     };
 
     if limit {
@@ -29,16 +28,23 @@ pub fn handle_change_list_todo(
     todos
 }
 
-
-/// Sort the vec by following the Mode::DatePriority rule
-fn sort_date_priority(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+/// Sort by date the vector
+fn sort_algorithm_date(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
     //TODO
     todos
 }
 
-/// Sort the vec by following the Mode::Progress rule
-fn sort_date_progress(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+/// Sort the vec by following the Mode::DatePriority rule
+fn sort_date_priority(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
     //TODO
+    todos = sort_algorithm_date(todos);
+    todos
+}
+
+/// Sort the vec by following the Mode::Progress rule
+fn sort_date_progress(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+    //TODO
+    todos = sort_algorithm_date(todos);
     todos
 }
 
@@ -49,16 +55,18 @@ fn sort_done_not_done(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
 }
 
 /// Sort the vec by following the Mode::DatePriorityDone rule
-fn sort_date_priority_progress(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+fn sort_date_priority_progress(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
     //TODO
+    todos = sort_algorithm_date(todos);
     todos
 }
 
-#[cfg!(test)]
+#[cfg(test)]
 mod test {
     use crate::db::todo_table::TodoEntity;
-    use crate::schema::todo::priority;
-    use crate::utils::pref::{sort_date_priority, sort_date_priority_progress, sort_date_progress, sort_done_not_done};
+    use crate::utils::pref::{
+        sort_date_priority, sort_date_priority_progress, sort_date_progress, sort_done_not_done,
+    };
 
     /// Create a TodoEntity for test purpose
     fn create_todo(id: i32, progress: i32, date: &str, priority: i32) -> TodoEntity {
@@ -69,7 +77,7 @@ mod test {
             title: " ".to_string(),
             date: date.to_string(),
             priority,
-            content: " ".to_string()
+            content: " ".to_string(),
         }
     }
 
