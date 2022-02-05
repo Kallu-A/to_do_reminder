@@ -8,7 +8,7 @@ use crate::db::user_table::{
 use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
 use crate::utils::json::{decr_members, incr_connexion, incr_members};
-use crate::utils::pref::limit_display;
+use crate::utils::pref::handle_change_list_todo;
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use rand::distributions::Alphanumeric;
@@ -44,7 +44,7 @@ pub fn home(
             let number = to_do.len();
             let number_not_done = to_do.iter().filter(|c| c.progress != 100).count();
             let pref = get_pref_from_owner(user.id).unwrap();
-            let to_do = limit_display(to_do, pref.display as usize);
+            let to_do = handle_change_list_todo(to_do, &pref, true);
 
             Ok(Template::render(
                 "account/user_display",

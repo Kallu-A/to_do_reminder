@@ -1,3 +1,4 @@
+use crate::db::pref_table::get_pref_from_owner;
 use crate::db::todo_table;
 use crate::db::todo_table::{
     delete_by_id, delete_by_owner, delete_done_by_owner, get_by_id, get_by_owner, set_progress,
@@ -5,6 +6,7 @@ use crate::db::todo_table::{
 };
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
+use crate::utils::pref::handle_change_list_todo;
 use crate::{context, get_token, handler_flash, Status};
 use rocket::form::Form;
 use rocket::http::CookieJar;
@@ -20,7 +22,11 @@ pub fn home_t(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templa
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => {
-            let todos = get_by_owner(user.id);
+            let todos = handle_change_list_todo(
+                get_by_owner(user.id),
+                &get_pref_from_owner(user.id).unwrap(),
+                false,
+            );
 
             Ok(Template::render(
                 "todo/home",
@@ -370,7 +376,10 @@ pub fn edit_put_todo(
                 todo.date = form.date_x.to_string();
 
                 if set_update_value(&mut todo) {
-                    Ok(Flash::success(Redirect::to("/to-do/home"), "gSuccessfully changed"))
+                    Ok(Flash::success(
+                        Redirect::to("/to-do/home"),
+                        "gSuccessfully changed",
+                    ))
                 } else {
                     create_cookie();
                     Ok(Flash::error(redirect, "rOops. Please try again"))
