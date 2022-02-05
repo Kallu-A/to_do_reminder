@@ -88,7 +88,7 @@ pub const DEFAULT_MODE: i32 = 0;
 /// `Creation` default mode display with the id in the database to the first created to the last
 /// `DatePriority` sort by date and if 2 have the same the more important will go before
 /// `DateProgress` sort by date and if 2 have the same the less advanced is show before
-/// `DoneNotDone` sort by progress first will be the less progress to the done sort by the progress value
+/// `DoneNotDone` sort by progress, first will be the less progress to the done sort by the progress value
 /// `DatePriorityProgress` sort by date and if 2 have the same date sort by priority and then progress
 pub enum Mode {
     Creation,
