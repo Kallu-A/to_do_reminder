@@ -60,5 +60,4 @@ function toogle_display() {
         //password.removeClass().addClass("inactive");
         title_display.removeClass().addClass("not_selected");
     }
-
 }

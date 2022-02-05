@@ -180,4 +180,4 @@ with a preferred setting like the sorting of the to-do**
 
 - `GET` : `/preference/home` show the preference to the user and allow him to change them
 - `PUT` : `/preference/set/display` put a new display value
-- `PUT` : `/preference/set/mode` put a new sorting mode 
+- `PUT` : `/preference/set/mode` put a new sorting mode
