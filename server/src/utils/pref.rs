@@ -18,8 +18,8 @@ pub fn handle_change_list_todo(
         Mode::Creation => todos,
         Mode::DatePriority => sort_date_priority(todos),
         Mode::DateProgress => sort_date_progress(todos),
-        Mode::DoneNotDone => sort_not_done(todos),
-        Mode::DatePriorityDone => sort_date_priority_done(todos)
+        Mode::DoneNotDone => sort_done_not_done(todos),
+        Mode::DatePriorityDone => sort_date_priority_progress(todos)
     };
 
     if limit {
@@ -43,13 +43,13 @@ fn sort_date_progress(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
 }
 
 /// Sort the vec by following the Mode::DoneNotDone rule
-fn sort_not_done(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+fn sort_done_not_done(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
     //TODO
     todos
 }
 
 /// Sort the vec by following the Mode::DatePriorityDone rule
-fn sort_date_priority_done(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+fn sort_date_priority_progress(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
     //TODO
     todos
 }
@@ -58,7 +58,7 @@ fn sort_date_priority_done(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
 mod test {
     use crate::db::todo_table::TodoEntity;
     use crate::schema::todo::priority;
-    use crate::utils::pref::sort_date_priority;
+    use crate::utils::pref::{sort_date_priority, sort_date_priority_progress, sort_date_progress, sort_done_not_done};
 
     /// Create a TodoEntity for test purpose
     fn create_todo(id: i32, progress: i32, date: &str, priority: i32) -> TodoEntity {
@@ -100,7 +100,7 @@ mod test {
 
     #[test]
     pub fn date_progress() {
-        let todos = sort_date_priority(create_vec());
+        let todos = sort_date_progress(create_vec());
         assert_eq!(todos[0].id, 4);
         assert_eq!(todos[1].id, 5);
         assert_eq!(todos[2].id, 6);
@@ -112,6 +112,7 @@ mod test {
 
     #[test]
     pub fn done_not_done() {
+        let todos = sort_done_not_done(create_vec());
         assert_eq!(todos[0].id, 1);
         assert_eq!(todos[1].id, 5);
         assert_eq!(todos[2].id, 0);
@@ -123,6 +124,7 @@ mod test {
 
     #[test]
     pub fn date_priority_progress() {
+        let todos = sort_date_priority_progress(create_vec());
         assert_eq!(todos[0].id, 4);
         assert_eq!(todos[1].id, 5);
         assert_eq!(todos[2].id, 6);
