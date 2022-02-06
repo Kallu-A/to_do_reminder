@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use crate::db::pref_table::{Mode, PrefEntity};
 use crate::db::todo_table::TodoEntity;
 
@@ -29,8 +30,19 @@ pub fn handle_change_list_todo(
 }
 
 /// Sort by date the vector
-fn sort_algorithm_date(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
-    //TODO
+fn sort_algorithm_date(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+    let mut len = todos.len();
+
+    while 1 < len  {
+        for i in 1..len {
+            if  NaiveDate::parse_from_str(todos[i - 1].date.as_str(), "%d/%m/%Y").unwrap() >
+                NaiveDate::parse_from_str(todos[i].date.as_str(), "%d/%m/%Y").unwrap() {
+                todos.swap(i - 1, i);
+            }
+        }
+        len -= 1;
+    }
+
     todos
 }
 
@@ -131,7 +143,7 @@ mod test {
     }
 
     #[test]
-    pub fn date_priority_progress() {
+    pub fn date_and_priority_progress() {
         let todos = sort_date_priority_progress(create_vec());
         assert_eq!(todos[0].id, 4);
         assert_eq!(todos[1].id, 5);

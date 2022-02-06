@@ -23,6 +23,7 @@ hmac = { version = "0.12", features = ["reset"] }
 sha2 = "0.10"
 lettre = "0.10.0-rc.4"
 rand = "0.8.4"
+chrono = "0.4.19"
 
 
 [dependencies.rocket_dyn_templates]

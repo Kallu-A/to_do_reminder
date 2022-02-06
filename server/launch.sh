@@ -6,6 +6,7 @@ echo "'r' -> release"
 echo "'a' -> all (fmt, clippy, test, release)"
 echo "'d' -> debug"
 echo "'t' -> test"
+echo "'ts' -> run a specific test"
 echo "'c' -> clippy (upgrade code)"
 echo "'f' -> fmt (syntax format)"
 echo "'rd' -> recreate the database"
@@ -35,6 +36,11 @@ case $LAUNCH_MODE in
 
   "t")  echo "Mode is: test 't'"
         cargo test
+        exit 0;;
+
+
+  "ts")  echo "Mode is: test specific 'ts'"
+        cargo test "$SELECTED_TEST"
         exit 0;;
 
         # mode for developers so not display

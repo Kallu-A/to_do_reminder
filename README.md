@@ -45,6 +45,7 @@ server_1  | 'r' -> release
 server_1  | 'a' -> all (fmt, clippy, test, release)
 server_1  | 'd' -> debug
 server_1  | 't' -> test
+server_1  | 'ts' -> run a specific test
 server_1  | 'c' -> clippy (upgrade code)
 server_1  | 'f' -> fmt (syntax format)
 server_1  | 'rd' -> recreate the database
@@ -55,6 +56,7 @@ Everything has been explain you just need to go to the `server/.env` file and ch
 - `'r' release` launch the test before to make sure everything should work: better performance in runtime, `log level is critical`, so only important message are displayed in the terminal
 - `'d' debug` use for full data display to the terminal `log level normal`
 - `'t' test` launch the test of the server
+- `'ts' specific test` launch a specific  test of the server
 - `'c' clippy` launch the clippy functionality of cargo *(test if their better syntax solution)*
 - `'f' fmt` launch the fmt functionality of cargo *(reformat the code with the rust convention)*
 - `'rd' diesel redo` recreate the database *(erase all data)* if you change the structure and also reset the value in the `data.json`
