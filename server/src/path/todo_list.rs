@@ -13,6 +13,7 @@ use rocket::http::CookieJar;
 use rocket::request::FlashMessage;
 use rocket::response::{Flash, Redirect};
 use rocket_dyn_templates::Template;
+use crate::utils::todo::calculate_date_state;
 
 /// get method to get the home of the to-do
 /// return the status code if get_token send one
@@ -22,11 +23,11 @@ pub fn home_t(jar: &CookieJar<'_>, flash: Option<FlashMessage>) -> Result<Templa
     let (form_field, message) = handler_flash(flash);
     match get_token(jar) {
         Ok(user) => {
-            let todos = handle_change_list_todo(
+            let todos = calculate_date_state(handle_change_list_todo(
                 get_by_owner(user.id),
                 &get_pref_from_owner(user.id).unwrap(),
                 false,
-            );
+            ));
 
             Ok(Template::render(
                 "todo/home",

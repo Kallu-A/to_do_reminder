@@ -58,6 +58,15 @@
         <br>
         <br>
         <p class="content_todo">{% filter linebreaksbr %}{{todo.content}}{% endfilter %}</p>
+        {% if todo.state == 0 %}
+            <p class="label_todo in_progress">In progress...</p>
+        {% elif todo.state == 1 %}
+            <p class="label_todo late">Late !</p>
+        {% elif todo.state == 2 %}
+            <p class="label_todo archive">Archive</p>
+        {% elif todo.state == 3 %}
+            <p class="label_todo done">Done</p>
+        {% endif %}
     </div>
 {% endfor %}
 </div>

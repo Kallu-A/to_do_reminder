@@ -25,6 +25,7 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
+use crate::utils::todo::calculate_date_state;
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
@@ -44,7 +45,7 @@ pub fn home(
             let number = to_do.len();
             let number_not_done = to_do.iter().filter(|c| c.progress != 100).count();
             let pref = get_pref_from_owner(user.id).unwrap();
-            let to_do = handle_change_list_todo(to_do, &pref, true);
+            let to_do = calculate_date_state(handle_change_list_todo(to_do, &pref, true));
 
             Ok(Template::render(
                 "account/user_display",

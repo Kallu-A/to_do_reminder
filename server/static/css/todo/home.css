@@ -68,6 +68,29 @@
     float: right;
 }
 
+.label_todo {
+    font-size: var(--mini-txt);
+    text-decoration: wavy underline;
+    margin-top: -20px;
+    margin-bottom: 0;
+}
+
+.late {
+    color: var(--max);
+}
+
+.archive {
+    color: var(--value_color);
+}
+
+.done {
+    color: var(--ok_color);
+}
+
+.in_progress {
+    color: var(--important_color);
+}
+
 @media (max-width: 700px) {
     .title_todo {
         font-size: var(--mini-txt);
