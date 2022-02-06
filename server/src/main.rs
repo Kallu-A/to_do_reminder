@@ -110,7 +110,6 @@ pub fn rocket(test: bool) -> Rocket<Build> {
         exit(1);
     }
 
-
     // Create a Admin account with perm if he doesn't exist
     if get_by_username("admin").is_none() && !test {
         println!("Admin doesn't exist ! Creation of it ");

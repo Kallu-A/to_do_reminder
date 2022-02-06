@@ -1,6 +1,6 @@
-use chrono::NaiveDate;
 use crate::db::pref_table::{Mode, PrefEntity};
 use crate::db::todo_table::TodoEntity;
+use chrono::NaiveDate;
 
 /// Return the vector of to-do but reduce by the size of the pref display fielc
 fn limit_display(todos: Vec<TodoEntity>, size: usize) -> Vec<TodoEntity> {
@@ -33,10 +33,11 @@ pub fn handle_change_list_todo(
 fn sort_algorithm_date(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
     let mut len = todos.len();
 
-    while 1 < len  {
+    while 1 < len {
         for i in 1..len {
-            if  NaiveDate::parse_from_str(todos[i - 1].date.as_str(), "%d/%m/%Y").unwrap() >
-                NaiveDate::parse_from_str(todos[i].date.as_str(), "%d/%m/%Y").unwrap() {
+            if NaiveDate::parse_from_str(todos[i - 1].date.as_str(), "%d/%m/%Y").unwrap()
+                > NaiveDate::parse_from_str(todos[i].date.as_str(), "%d/%m/%Y").unwrap()
+            {
                 todos.swap(i - 1, i);
             }
         }
@@ -48,28 +49,68 @@ fn sort_algorithm_date(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
 
 /// Sort the vec by following the Mode::DatePriority rule
 fn sort_date_priority(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
-    //TODO
     todos = sort_algorithm_date(todos);
+
+    let mut len = todos.len();
+    while 1 < len {
+        for i in 1..len {
+            if todos[i - 1].date == todos[i].date && todos[i - 1].priority < todos[i].priority {
+                todos.swap(i - 1, i);
+            }
+        }
+        len -= 1;
+    }
+
     todos
 }
 
 /// Sort the vec by following the Mode::Progress rule
 fn sort_date_progress(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
-    //TODO
     todos = sort_algorithm_date(todos);
+    let mut len = todos.len();
+    while 1 < len {
+        for i in 1..len {
+            if todos[i - 1].date == todos[i].date && todos[i - 1].progress > todos[i].progress {
+                todos.swap(i - 1, i);
+            }
+        }
+        len -= 1;
+    }
+
     todos
 }
 
 /// Sort the vec by following the Mode::DoneNotDone rule
-fn sort_done_not_done(todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
-    //TODO
+fn sort_done_not_done(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
+    let mut len = todos.len();
+
+    while 1 < len {
+        for i in 1..len {
+            if todos[i - 1].progress > todos[i].progress {
+                todos.swap(i - 1, i);
+            }
+        }
+        len -= 1;
+    }
+
     todos
 }
 
 /// Sort the vec by following the Mode::DatePriorityDone rule
 fn sort_date_priority_progress(mut todos: Vec<TodoEntity>) -> Vec<TodoEntity> {
-    //TODO
-    todos = sort_algorithm_date(todos);
+    todos = sort_date_priority(todos);
+    let mut len = todos.len();
+    while 1 < len {
+        for i in 1..len {
+            if todos[i - 1].date == todos[i].date
+                && todos[i - 1].priority == todos[i].priority
+                && todos[i - 1].progress > todos[i].progress
+            {
+                todos.swap(i - 1, i);
+            }
+        }
+        len -= 1;
+    }
     todos
 }
 
@@ -110,8 +151,8 @@ mod test {
     pub fn date_priority() {
         let todos = sort_date_priority(create_vec());
         assert_eq!(todos[0].id, 4);
-        assert_eq!(todos[1].id, 5);
-        assert_eq!(todos[2].id, 6);
+        assert_eq!(todos[1].id, 6);
+        assert_eq!(todos[2].id, 5);
         assert_eq!(todos[3].id, 1);
         assert_eq!(todos[4].id, 0);
         assert_eq!(todos[5].id, 2);
@@ -146,8 +187,8 @@ mod test {
     pub fn date_and_priority_progress() {
         let todos = sort_date_priority_progress(create_vec());
         assert_eq!(todos[0].id, 4);
-        assert_eq!(todos[1].id, 5);
-        assert_eq!(todos[2].id, 6);
+        assert_eq!(todos[1].id, 6);
+        assert_eq!(todos[2].id, 5);
         assert_eq!(todos[3].id, 1);
         assert_eq!(todos[4].id, 0);
         assert_eq!(todos[5].id, 3);

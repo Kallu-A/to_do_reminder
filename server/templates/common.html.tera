@@ -29,7 +29,6 @@
         </a>
         <ul class="nav_bar_member">
             <li><a id="nav-member" href="/account/users">Members</a></li>
-            <li><a id="nav-calendar" href="/to-do/home">Calendar</a></li>
             <li><a id="nav-todo" href="/to-do/home">To-Do</a></li>
         </ul>
     </nav>
