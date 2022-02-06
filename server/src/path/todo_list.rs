@@ -7,13 +7,13 @@ use crate::db::todo_table::{
 use crate::utils::cookie::{cookie_handler, create_field_cookie};
 use crate::utils::json::incr_to_do;
 use crate::utils::pref::handle_change_list_todo;
+use crate::utils::todo::calculate_date_state;
 use crate::{context, get_token, handler_flash, Status};
 use rocket::form::Form;
 use rocket::http::CookieJar;
 use rocket::request::FlashMessage;
 use rocket::response::{Flash, Redirect};
 use rocket_dyn_templates::Template;
-use crate::utils::todo::calculate_date_state;
 
 /// get method to get the home of the to-do
 /// return the status code if get_token send one

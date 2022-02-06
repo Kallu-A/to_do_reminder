@@ -1,16 +1,18 @@
-use chrono::NaiveDate;
 use crate::db::todo_table::TodoEntity;
+use chrono::NaiveDate;
 use rocket::serde::Serialize;
 use time::OffsetDateTime;
 
 /// Allow not only to select what information is send to the user
 /// but it also calculat the state of the to-do with the current date
-pub fn calculate_date_state(todos: Vec<TodoEntity>) -> Vec<TodoDisplay>{
+pub fn calculate_date_state(todos: Vec<TodoEntity>) -> Vec<TodoDisplay> {
     let mut res: Vec<TodoDisplay> = Vec::new();
     let current_date = NaiveDate::parse_from_str(
         OffsetDateTime::now_utc().date().to_string().as_str(),
-        "%Y-%m-%d").unwrap();
-    for todo in todos  {
+        "%Y-%m-%d",
+    )
+    .unwrap();
+    for todo in todos {
         let mut state = 0;
         if NaiveDate::parse_from_str(todo.date.as_str(), "%d/%m/%Y").unwrap() < current_date {
             //date is passed
@@ -19,17 +21,15 @@ pub fn calculate_date_state(todos: Vec<TodoEntity>) -> Vec<TodoDisplay>{
             state = if todo.progress == 100 { 3 } else { state };
         }
 
-        res.push(
-            TodoDisplay {
-                id: todo.id,
-                progress: todo.progress,
-                title: todo.title.to_owned(),
-                date: todo.date.to_owned(),
-                priority: todo.priority,
-                content: todo.content.to_owned(),
-                state,
-            }
-        )
+        res.push(TodoDisplay {
+            id: todo.id,
+            progress: todo.progress,
+            title: todo.title.to_owned(),
+            date: todo.date.to_owned(),
+            priority: todo.priority,
+            content: todo.content.to_owned(),
+            state,
+        })
     }
     res
 }
@@ -47,5 +47,5 @@ pub struct TodoDisplay {
     pub date: String,
     pub priority: i32,
     pub content: String,
-    pub state: i32
+    pub state: i32,
 }

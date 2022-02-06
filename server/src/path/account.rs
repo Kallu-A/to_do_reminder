@@ -9,6 +9,7 @@ use crate::utils::cookie::{cookie_handler, create_field_cookie, handler_flash};
 use crate::utils::email::{send_email_code, send_email_password, Code, ForgetPassword};
 use crate::utils::json::{decr_members, incr_connexion, incr_members};
 use crate::utils::pref::handle_change_list_todo;
+use crate::utils::todo::calculate_date_state;
 use crate::utils::token::{create_token, get_token, remove_token, TOKEN};
 use crate::{context, get_by_username};
 use rand::distributions::Alphanumeric;
@@ -25,7 +26,6 @@ use rocket_multipart_form_data::{
 };
 use std::fs;
 use std::path::Path;
-use crate::utils::todo::calculate_date_state;
 
 ///The backbone of the account section
 /// handler the flash message if there is one,
