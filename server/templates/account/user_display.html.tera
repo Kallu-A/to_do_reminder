@@ -109,7 +109,7 @@
                 elif todo.priority < 10 %}high{% else %}max{% endif %}
                 progress_todo"
                     >{{todo.progress}}%</span>
-                </div>
+                </div><br>
             {% if todo.state == 0 %}
             <p class="label_todo in_progress">In progress...</p>
             {% elif todo.state == 1 %}
